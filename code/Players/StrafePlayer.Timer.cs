@@ -30,7 +30,7 @@ internal partial class StrafePlayer
 	}
 
 	void Display( string message )
-	{
+	{ 
 		if ( IsServer ) return;
 		if ( !IsLocalPawn ) return;
 
