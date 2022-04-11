@@ -2,6 +2,7 @@
 using Sandbox;
 using Sandbox.UI;
 using Strafe.Map;
+using Strafe.UI;
 
 namespace Strafe.Players;
 
@@ -31,8 +32,9 @@ internal partial class StrafePlayer
 	void Display( string message )
 	{
 		if ( IsServer ) return;
+		if ( !IsLocalPawn ) return;
 
-		ChatBox.AddInformation( message );
+		Chat.AddChatEntry( "", message );
 	}
 
 }

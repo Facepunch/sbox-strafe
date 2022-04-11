@@ -1,0 +1,73 @@
+﻿
+@import "../Styles/_vars.scss";
+
+Chat {
+    position: absolute;
+    width: 550px;
+    height: 320px;
+    left: 128px;
+    bottom: 90px;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+    border-right: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    border-radius: $radius;
+
+    &.open {
+        pointer-events: all;
+        background-color: $bg;
+        border-color: $darkbg;
+
+        .input {
+            opacity: 1;
+        }
+
+        StrafeChatEntry {
+            opacity: 1;
+        }
+    }
+
+    .messages {
+        flex-direction: column;
+        overflow: scroll;
+        padding-bottom: 10px;
+    }
+
+    .input {
+        align-items: center;
+        background-color: $darkbg;
+        border-radius: $smallradius;
+        opacity: 0;
+        flex-shrink: 0;
+
+        textentry {
+            align-items: center;
+            flex-grow: 1;
+            padding: 8px;
+            cursor: text;
+        }
+    }
+}
+
+StrafeChatEntry {
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding: 2px;
+    text-shadow: 1px 1px 0 black;
+    align-items: center;
+
+    &.faded {
+        opacity: 0;
+    }
+
+    .name {
+        margin-right: 4px;
+        font-weight: 800;
+        color: $darkaccent;
+    }
+
+    .message {
+
+    }
+}

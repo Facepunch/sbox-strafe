@@ -1,8 +1,13 @@
 ﻿
+@import "Styles/_vars.scss";
+
 Hud {
     position: absolute;
     width: 100%;
     height: 100%;
+    color: white;
+    font-family: Tahoma;
+    font-size: 15px;
 
     .speedometer {
         position: absolute;
