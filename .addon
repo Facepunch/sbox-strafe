@@ -1,0 +1,20 @@
+{
+  "Title": "Strafe",
+  "Type": "game",
+  "Org": "facepunch",
+  "Ident": "strafe",
+  "Schema": 1,
+  "HasAssets": true,
+  "AssetsPath": "",
+  "ResourcePaths": null,
+  "HasCode": true,
+  "CodePath": "/code/",
+  "RootNamespace": "Strafe",
+  "Metadata": {
+    "MapList": [
+      "surf_map"
+    ],
+    "MinPlayers": 1,
+    "MapSelect": 0
+  }
+}
