@@ -12,7 +12,7 @@ internal partial class StrafeGame : Game
 	{
 		if ( IsServer )
 		{
-			Global.TickRate = 66;
+			Global.TickRate = 100;
 
 			_ = new UIEntity();
 		}

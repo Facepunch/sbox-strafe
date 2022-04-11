@@ -14,7 +14,7 @@ internal partial class StrafePlayer : Sandbox.Player
 
 		Controller = new StrafeController()
 		{
-			AirAcceleration = 150,
+			AirAcceleration = 1500,
 			WalkSpeed = 260,
 			SprintSpeed = 260,
 			DefaultSpeed = 260,
