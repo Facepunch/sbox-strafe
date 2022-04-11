@@ -1,5 +1,4 @@
 ﻿
-using Hammer;
 using Sandbox;
 using System.Linq;
 
@@ -49,16 +48,25 @@ internal partial class LinearEnd : BaseZone
 internal partial class LinearCheckpoint : BaseZone
 {
 
+	[Property]
+	public int Checkpoint { get; set; }
+
 }
 
 [Library( "strafe_stage_start", Description = "Where the timer will begin a stage" )]
 internal partial class StageStart : BaseZone 
 {
 
+	[Property]
+	public int Stage { get; set; }
+
 }
 
 [Library( "strafe_stage_end", Description = "Where the timer will end a stage" )]
 internal partial class StageEnd : BaseZone
 {
+
+	[Property]
+	public int Stage { get; set; }
 
 }
