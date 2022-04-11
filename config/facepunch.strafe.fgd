@@ -19,11 +19,9 @@
 @SolidClass base(BaseProperties_facepunch_strafe) tags( Trigger ) 
 metadata
 {
-	entity_tool_name = "test"
-	entity_tool_group = "test2"
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
-= surf_linear_start : "Where the timer will start"
+= strafe_linear_start : "Where the timer will start"
 [
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
 	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
@@ -59,7 +57,7 @@ metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
-= surf_linear_end : "Where the timer will end"
+= strafe_linear_end : "Where the timer will end"
 [
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
 	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
@@ -95,7 +93,7 @@ metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
-= surf_linear_checkpoint : "Where the timer will set a checkpoint (linear)"
+= strafe_linear_checkpoint : "Where the timer will set a checkpoint (linear)"
 [
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
 	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
@@ -131,7 +129,7 @@ metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
-= surf_stage_start : "Where the timer will begin a stage"
+= strafe_stage_start : "Where the timer will begin a stage"
 [
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
 	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
@@ -167,7 +165,7 @@ metadata
 {
 	auto_apply_material = "materials/tools/toolstrigger.vmat"
 }
-= surf_stage_end : "Where the timer will end a stage"
+= strafe_stage_end : "Where the timer will end a stage"
 [
 	startdisabled(boolean) : "Start Disabled" : 0 : "Should this entity start disabled?"
 	actvationtags(tags) : "Actvation Tags" :  : "Entities with these tags can activate this trigger."
