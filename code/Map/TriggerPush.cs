@@ -8,7 +8,7 @@ namespace Strafe.Map;
 
 [Library( "strafe_trigger_push" )]
 [Display( Name = "Push Trigger" )]
-internal partial class TriggerPush : BaseTrigger
+internal partial class TriggerPush : StrafeTrigger
 {
 
 	[Property, Net]
@@ -18,45 +18,33 @@ internal partial class TriggerPush : BaseTrigger
 	[Property, Net]
 	public float Speed { get; set; }
 
-	public override void Spawn()
+	public override void SimulatedStartTouch( StrafeController ctrl )
 	{
-		base.Spawn();
+		base.SimulatedStartTouch( ctrl );
 
-		Transmit = TransmitType.Always;
-		EnableTouchPersists = true;
+		if ( !Once ) return;
+
+		ctrl.Velocity += GetPushVector( ctrl );
 	}
 
-	public override void StartTouch( Entity other )
+	public override void SimulatedTouch( StrafeController ctrl )
 	{
-		base.StartTouch( other );
+		base.SimulatedTouch( ctrl );
 
-		if ( IsClient ) return;
-		if ( other is not StrafePlayer pl ) return;
-
-		pl.BaseVelocity = GetPushVector( pl );
-	}
-
-	public override void Touch( Entity other )
-	{
-		base.Touch( other );
-
-		if ( IsClient ) return;
-		if ( other is not StrafePlayer pl ) return;
 		if ( Once ) return;
 
-		var vecPush = GetPushVector( pl );
-		if ( pl.Momentum && !pl.GroundEntity.IsValid() )
+		var vecPush = GetPushVector( ctrl );
+		if ( ctrl.Momentum && !ctrl.GroundEntity.IsValid() )
 		{
-			//vecPush += pl.BaseVelocity * Time.Delta;
+			vecPush += ctrl.BaseVelocity;
 		}
-		pl.BaseVelocity = vecPush;
-		pl.Momentum = true; // kinda dumb, trying to be consistent with source 1 push
+		ctrl.BaseVelocity = vecPush;
+		ctrl.Momentum = true; // kinda dumb, trying to be consistent with source 1 push
 	}
 
-	private Vector3 GetPushVector( StrafePlayer pl )
+	private Vector3 GetPushVector( StrafeController ctrl )
 	{
 		var result = Direction.Normal * Speed;
-		var ctrl = pl.Controller as StrafeController;
 		var tr = ctrl.TraceBBox( Position, Position + Vector3.Down * 4f, 4 );
 		if ( !tr.Entity.IsValid() ) return result;
 

@@ -1,17 +1,25 @@
 ﻿
 using Sandbox;
+using Strafe.Map;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Strafe.Players;
 
 partial class StrafeController : WalkController
 {
 
+	[Net, Predicted]
+	public bool Momentum { get; set; }
+
+	private List<StrafeTrigger> TouchingTriggers = new();
+
 	public override void Simulate()
 	{
-		if ( Pawn is not StrafePlayer pl ) return;
+		DoTriggers();
 
 		var prevz = BaseVelocity.z;
-		var prevmomentum = pl.Momentum;
+		var prevmomentum = Momentum;
 
 		ApplyMomentum();
 
@@ -33,15 +41,42 @@ partial class StrafeController : WalkController
 
 	private void ApplyMomentum()
 	{
-		if ( Pawn is not StrafePlayer pl ) return;
-
-		if ( !pl.Momentum )
+		if ( !Momentum )
 		{
 			Velocity += (1.0f + (Time.Delta * 0.5f)) * BaseVelocity;
 			BaseVelocity = Vector3.Zero;
 		}
 
-		pl.Momentum = false;
+		Momentum = false;
+	}
+
+	private void DoTriggers()
+	{
+		var triggers = Entity.All.OfType<StrafeTrigger>().Where( x => x.WorldSpaceBounds.Overlaps( Pawn.WorldSpaceBounds ) );
+		var pl = Pawn as StrafePlayer;
+
+		foreach ( var trigger in triggers )
+		{
+			if ( !TouchingTriggers.Contains( trigger ) )
+			{
+				trigger.SimulatedStartTouch( this );
+			}
+			else
+			{
+				trigger.SimulatedTouch( this );
+			}
+		}
+
+		foreach( var trigger in TouchingTriggers )
+		{
+			if ( !triggers.Contains( trigger ) )
+			{
+				trigger.SimulatedEndTouch( this );
+			}
+		}
+
+		TouchingTriggers.Clear();
+		TouchingTriggers.AddRange( triggers );
 	}
 
 }

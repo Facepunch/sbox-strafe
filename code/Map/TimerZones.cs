@@ -1,10 +1,11 @@
 ﻿
 using Sandbox;
+using Strafe.Players;
 using System.Linq;
 
 namespace Strafe.Map;
 
-public partial class BaseZone : BaseTrigger 
+internal partial class BaseZone : StrafeTrigger 
 { 
 
 	public override void Spawn()
@@ -33,7 +34,7 @@ public partial class BaseZone : BaseTrigger
 }
 
 [Library( "strafe_linear_start", Description = "Where the timer will start" )]
-public partial class LinearStart : BaseZone
+internal partial class LinearStart : BaseZone
 {
 
 }

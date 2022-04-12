@@ -8,9 +8,6 @@ namespace Strafe.Players;
 internal partial class StrafePlayer : Sandbox.Player
 {
 
-	[Net, Predicted]
-	public bool Momentum { get; set; }
-
 	public override void Respawn()
 	{
 		base.Respawn();
