@@ -3,8 +3,13 @@ using Sandbox;
 
 namespace Strafe.Players;
 
+[Library]
+[Hammer.Skip]
 internal partial class StrafePlayer : Sandbox.Player
 {
+
+	[Net, Predicted]
+	public bool Momentum { get; set; }
 
 	public override void Respawn()
 	{
@@ -27,6 +32,12 @@ internal partial class StrafePlayer : Sandbox.Player
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
+	}
+
+	[ChatCommand("r")]
+	public static void DoRestart()
+	{
+		Log.Info( "Restart!" );
 	}
 
 }
