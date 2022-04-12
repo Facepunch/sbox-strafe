@@ -51,6 +51,8 @@ internal partial class TriggerPush : StrafeTrigger
 		return ClipVelocity( result, tr.Normal );
 	}
 
+	// also kinda dumb, hacking around movement controller to maintain
+	// direction of velocity on small slopes and whatnot
 	Vector3 ClipVelocity( Vector3 vel, Vector3 norm, float overbounce = 1.0f )
 	{
 		var backoff = Vector3.Dot( vel, norm ) * overbounce;

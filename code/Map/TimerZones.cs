@@ -31,6 +31,24 @@ internal partial class BaseZone : StrafeTrigger
 		}
 	}
 
+	public override void SimulatedStartTouch( StrafeController ctrl )
+	{
+		base.SimulatedStartTouch( ctrl );
+
+		if ( IsServer ) return;
+
+		UI.Chat.AddChatEntry( "", $"Entered {GetType()}" );
+	}
+
+	public override void SimulatedEndTouch( StrafeController ctrl )
+	{
+		base.SimulatedEndTouch( ctrl );
+
+		if ( IsServer ) return;
+
+		UI.Chat.AddChatEntry( "", $"Exited {GetType()}" );
+	}
+
 }
 
 [Library( "strafe_linear_start", Description = "Where the timer will start" )]
