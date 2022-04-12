@@ -27,20 +27,19 @@ internal partial class StrafeGame : Game
 		(client.Pawn as StrafePlayer).Respawn();
 	}
 
-	[ServerCmd]
-	public static void ServerCmd_ExecuteChatCommand( string command )
+	public static void ExecuteChatCommand( Client cl, string command )
 	{
-		Assert.True( ConsoleSystem.Caller.IsValid() );
+		Assert.True( cl.IsValid() );
 
 		if ( string.IsNullOrWhiteSpace( command ) ) return;
-		if ( command[0] != '/' ) return;
+		if ( command[0] != '!' ) return;
 
 		var args = command.Remove( 0, 1 ).Split( ' ' );
 		var cmdName = args[0].ToLower();
 
 		if( cmdName == "r" )
 		{
-			(ConsoleSystem.Caller.Pawn as Player).Respawn();
+			(cl.Pawn as Player).Respawn();
 		}
 	}
 

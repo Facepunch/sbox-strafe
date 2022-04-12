@@ -47,13 +47,8 @@ internal partial class Chat : Panel
 	{
 		var msg = Input.Text;
 
-		if ( string.IsNullOrWhiteSpace( msg ) ) return;
-
-		if ( msg[0] == '/' )
-		{
-			StrafeGame.ServerCmd_ExecuteChatCommand( msg );
+		if ( string.IsNullOrWhiteSpace( msg ) ) 
 			return;
-		}
 
 		ChatBox.Say( msg );
 	}
@@ -88,7 +83,17 @@ internal partial class Chat : Panel
 		if ( message.Contains( '\n' ) || message.Contains( '\r' ) )
 			return;
 
+		if ( string.IsNullOrWhiteSpace( message ) )
+			return;
+
 		Log.Info( $"{ConsoleSystem.Caller}: {message}" );
+
+		if ( message[0] == '!' )
+		{
+			StrafeGame.ExecuteChatCommand( ConsoleSystem.Caller, message );
+			return;
+		}
+
 		AddChatEntry( To.Everyone, ConsoleSystem.Caller.Name, message );
 	}
 
