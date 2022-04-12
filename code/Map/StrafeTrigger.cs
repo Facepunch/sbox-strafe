@@ -4,7 +4,7 @@ using Strafe.Players;
 
 namespace Strafe.Map;
 
-internal class StrafeTrigger : BaseTrigger
+internal partial class StrafeTrigger : BaseTrigger
 {
 
 	public override void Spawn()
@@ -15,6 +15,15 @@ internal class StrafeTrigger : BaseTrigger
 		EnableTouch = true;
 		EnableTouchPersists = true;
 		EnableDrawing = false;
+	}
+
+	[Net]
+	public bool IsEnabled { get; set; }
+
+	[Event.Tick.Server]
+	public void OnTick()
+	{
+		IsEnabled = Enabled;
 	}
 
 	public virtual void SimulatedStartTouch( StrafeController ctrl ) { }

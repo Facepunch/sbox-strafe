@@ -104,9 +104,25 @@ partial class StrafeController : WalkController
 		Momentum = false;
 	}
 
+	private List<StrafeTrigger> FindTouchingTriggers()
+	{
+		var result = new List<StrafeTrigger>();
+
+		foreach( var ent in Entity.All.OfType<StrafeTrigger>() )
+		{
+			var bounds = ent.Model.PhysicsBounds;
+			bounds.Mins += ent.Position;
+			bounds.Maxs += ent.Position;
+			if ( !bounds.Overlaps( Pawn.WorldSpaceBounds ) ) continue;
+			result.Add( ent );
+		}
+
+		return result;
+	}
+
 	private void DoTriggers()
 	{
-		var triggers = Entity.All.OfType<StrafeTrigger>().Where( x => x.WorldSpaceBounds.Overlaps( Pawn.WorldSpaceBounds ) );
+		var triggers = FindTouchingTriggers();
 		var pl = Pawn as StrafePlayer;
 
 		foreach ( var trigger in triggers )
