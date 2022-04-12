@@ -14,6 +14,7 @@ internal class StrafeTrigger : BaseTrigger
 		Transmit = TransmitType.Always;
 		EnableTouch = true;
 		EnableTouchPersists = true;
+		EnableDrawing = false;
 	}
 
 	public virtual void SimulatedStartTouch( StrafeController ctrl ) { }
