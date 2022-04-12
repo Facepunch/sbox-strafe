@@ -30,6 +30,7 @@ internal partial class TriggerPush : BaseTrigger
 	{
 		base.StartTouch( other );
 
+		if ( IsClient ) return;
 		if ( other is not StrafePlayer pl ) return;
 
 		pl.BaseVelocity = GetPushVector( pl );
@@ -39,13 +40,14 @@ internal partial class TriggerPush : BaseTrigger
 	{
 		base.Touch( other );
 
+		if ( IsClient ) return;
 		if ( other is not StrafePlayer pl ) return;
 		if ( Once ) return;
 
 		var vecPush = GetPushVector( pl );
 		if ( pl.Momentum && !pl.GroundEntity.IsValid() )
 		{
-			vecPush += pl.BaseVelocity;
+			//vecPush += pl.BaseVelocity * Time.Delta;
 		}
 		pl.BaseVelocity = vecPush;
 		pl.Momentum = true; // kinda dumb, trying to be consistent with source 1 push
