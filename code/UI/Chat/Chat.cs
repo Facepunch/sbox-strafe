@@ -47,10 +47,15 @@ internal partial class Chat : Panel
 	{
 		var msg = Input.Text;
 
-		if ( !string.IsNullOrWhiteSpace( msg ) )
+		if ( string.IsNullOrWhiteSpace( msg ) ) return;
+
+		if ( msg[0] == '/' )
 		{
-			ChatBox.Say( msg );
+			StrafeGame.ServerCmd_ExecuteChatCommand( msg );
+			return;
 		}
+
+		ChatBox.Say( msg );
 	}
 
 	public void AddEntry( string name, string message )

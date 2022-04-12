@@ -34,10 +34,4 @@ internal partial class StrafePlayer : Sandbox.Player
 		EnableShadowInFirstPerson = true;
 	}
 
-	[ChatCommand("r")]
-	public static void DoRestart()
-	{
-		Log.Info( "Restart!" );
-	}
-
 }
