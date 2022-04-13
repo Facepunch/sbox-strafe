@@ -55,6 +55,16 @@ internal partial class BaseZone : StrafeTrigger
 internal partial class LinearStart : BaseZone
 {
 
+	public override void SimulatedEndTouch( StrafeController ctrl )
+	{
+		base.SimulatedEndTouch( ctrl );
+
+		if ( ctrl.Pawn is not StrafePlayer pl ) return;
+
+		pl.Timer.State = TimerStates.Live;
+		pl.Timer.Time = 0;
+	}
+
 }
 
 [Library( "strafe_linear_end", Description = "Where the timer will end" )]

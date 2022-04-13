@@ -23,7 +23,7 @@ internal partial class Chat : Panel
 	{
 		Current = this;
 
-		Input.AddEventListener( "onsubmit", Submit );
+		Input.AddEventListener( "onsubmit", () => Submit( Input.Text ) );
 		Input.AddEventListener( "onblur", Close );
 		Sandbox.Hooks.Chat.OnOpenChat += OnOpenChat;
 
@@ -43,14 +43,18 @@ internal partial class Chat : Panel
 		Open = false;
 	}
 
-	private void Submit()
+	[ClientCmd( "say2" )]
+	public static void Submit( string msg )
 	{
-		var msg = Input.Text;
-
-		if ( string.IsNullOrWhiteSpace( msg ) ) 
+		if ( string.IsNullOrWhiteSpace( msg ) )
 			return;
 
-		ChatBox.Say( msg );
+		if ( msg[0] == '!' )
+		{
+			StrafeGame.ExecuteChatCommand( Local.Client, msg );
+		}
+
+		Say( msg );
 	}
 
 	public void AddEntry( string name, string message )

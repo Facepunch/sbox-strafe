@@ -2,6 +2,7 @@
 using Sandbox;
 using Strafe.Players;
 using Strafe.UI;
+using System;
 using System.Linq;
 
 namespace Strafe;
@@ -37,10 +38,19 @@ internal partial class StrafeGame : Game
 		var args = command.Remove( 0, 1 ).Split( ' ' );
 		var cmdName = args[0].ToLower();
 
-		if( cmdName == "r" )
+		if( cmdName == "r" && Host.IsClient )
 		{
-			(cl.Pawn as Player).Respawn();
+			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Reload; 
 		}
+	}
+
+	public override void MoveToSpawnpoint( Entity pawn )
+	{
+		base.MoveToSpawnpoint( pawn );
+
+		var pos = pawn.Position;
+		pos.z = (int)(pos.z + 1);
+		pawn.Position = pos;
 	}
 
 }

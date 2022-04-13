@@ -13,13 +13,13 @@ partial class StrafeController : WalkController
 	public bool Momentum { get; set; }
 
 	private List<StrafeTrigger> TouchingTriggers = new();
-	private Vector3 prevBaseVelocity;
+	private Vector3 LastBaseVelocity;
 
 	public override void Simulate()
 	{
 		DoTriggers();
 
-		prevBaseVelocity = BaseVelocity;
+		LastBaseVelocity = BaseVelocity;
 
 		ApplyMomentum();
 
@@ -50,8 +50,8 @@ partial class StrafeController : WalkController
 		//
 		//  Shooting up really fast.  Definitely not on ground trimed until ladder shit
 		//
-		bool bMovingUpRapidly = Velocity.z + prevBaseVelocity.z > MaxNonJumpVelocity;
-		bool bMovingUp = Velocity.z + prevBaseVelocity.z > 0;
+		bool bMovingUpRapidly = Velocity.z + LastBaseVelocity.z > MaxNonJumpVelocity;
+		bool bMovingUp = Velocity.z + LastBaseVelocity.z > 0;
 
 		bool bMoveToEndPos = false;
 
@@ -79,7 +79,7 @@ partial class StrafeController : WalkController
 			ClearGroundEntity();
 			bMoveToEndPos = false;
 
-			if ( Velocity.z + prevBaseVelocity.z > 0 )
+			if ( Velocity.z + LastBaseVelocity.z > 0 )
 				SurfaceFriction = 0.25f;
 		}
 		else
@@ -107,13 +107,17 @@ partial class StrafeController : WalkController
 	private List<StrafeTrigger> FindTouchingTriggers()
 	{
 		var result = new List<StrafeTrigger>();
+		var pl = Pawn as Player;
+		if ( !pl.IsValid() ) return result;
 
-		foreach( var ent in Entity.All.OfType<StrafeTrigger>() )
+		foreach ( var ent in Entity.All.OfType<StrafeTrigger>() )
 		{
-			var bounds = ent.Model.PhysicsBounds;
-			bounds.Mins += ent.Position;
-			bounds.Maxs += ent.Position;
-			if ( !bounds.Overlaps( Pawn.WorldSpaceBounds ) ) continue;
+			var bbox = ent.PhysicsBody.GetBounds();
+
+			var me = new BBox( Position + mins, Position + maxs );
+			if ( !bbox.Overlaps( me ) )
+				continue;
+
 			result.Add( ent );
 		}
 
@@ -122,31 +126,38 @@ partial class StrafeController : WalkController
 
 	private void DoTriggers()
 	{
-		var triggers = FindTouchingTriggers();
-		var pl = Pawn as StrafePlayer;
+		var touchingNow = FindTouchingTriggers();
 
-		foreach ( var trigger in triggers )
+		// try not to brick too hard yet
+		try
 		{
-			if ( !TouchingTriggers.Contains( trigger ) )
+			foreach ( var trigger in touchingNow )
 			{
-				trigger.SimulatedStartTouch( this );
+				if ( !TouchingTriggers.Contains( trigger ) )
+				{
+					trigger.SimulatedStartTouch( this );
+				}
+				else
+				{
+					trigger.SimulatedTouch( this );
+				}
 			}
-			else
+
+			foreach ( var trigger in TouchingTriggers )
 			{
-				trigger.SimulatedTouch( this );
+				if ( !touchingNow.Contains( trigger ) )
+				{
+					trigger.SimulatedEndTouch( this );
+				}
 			}
 		}
-
-		foreach ( var trigger in TouchingTriggers )
+		catch( System.Exception e )
 		{
-			if ( !triggers.Contains( trigger ) )
-			{
-				trigger.SimulatedEndTouch( this );
-			}
+			Log.Error( e );
 		}
 
 		TouchingTriggers.Clear();
-		TouchingTriggers.AddRange( triggers );
+		TouchingTriggers.AddRange( touchingNow );
 	}
 
 }
