@@ -11,7 +11,7 @@ internal class UIEntity : HudEntity<RootPanel>
 	{
 		if ( IsServer ) return;
 
-		RootPanel.StyleSheet.Load( "UI/Styles/_global.scss" );
+		RootPanel.StyleSheet.Load( "UI/Styles/_styles.scss" );
 
 		Rebuild();
 	}
