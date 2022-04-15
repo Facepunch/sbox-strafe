@@ -4,7 +4,7 @@ using Sandbox.UI;
 
 namespace Strafe.UI;
 
-[UseTemplate]
+[Hud, UseTemplate]
 internal partial class Chat : Panel
 {
 

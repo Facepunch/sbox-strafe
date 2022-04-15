@@ -1,0 +1,18 @@
+﻿
+TimerHud {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    .speedometer {
+        position: absolute;
+        bottom: 128px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: white;
+        font-size: 32px;
+        text-shadow: 1px 1px 1px black;
+    }
+}
