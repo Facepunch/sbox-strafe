@@ -18,6 +18,8 @@ internal class UIEntity : HudEntity<RootPanel>
 
 	private void Rebuild()
 	{
+		if ( IsServer ) return;
+
 		RootPanel.DeleteChildren();
 
 		var hudElements = Library.GetAttributes<HudAttribute>();
@@ -27,6 +29,8 @@ internal class UIEntity : HudEntity<RootPanel>
 			if ( instance == null ) continue;
 			RootPanel.AddChild( instance );
 		}
+
+		RootPanel.AddChild<Panel>( "crosshair" );
 	}
 
 	[Event.Hotload]

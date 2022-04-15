@@ -7,20 +7,36 @@ RootPanel {
 
 TimerHud {
     position: absolute;
-    left: 0;
-    top: 0;
     width: 100%;
     height: 100%;
+    font-weight: 700;
+    font-family: Tahoma;
+    font-size: 16px;
+    text-shadow: 1px 1px 1px black;
 
-    .speedometer {
+    .inner {
         position: absolute;
-        bottom: 128px;
+        bottom: 175px;
         left: 50%;
         transform: translateX(-50%);
-        color: white;
-        font-size: 32px;
-        text-shadow: 1px 1px 1px black;
+        padding: 20px;
+        min-width: 150px;
+        align-items: center;
+        background-color: rgba( $darkbg .5 );
+        border-radius: 20px;
+        flex-direction: column;
     }
+}
+
+Crosshair {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50% -50%);
+    width: 8px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: rgba(white .5);
 }
 
 Chat {
