@@ -21,7 +21,7 @@ internal class TimerHud : Panel
 			if ( pl.Timer.State == TimerStates.Live )
 				return pl.Timer.Time.ToTimeMs();
 
-			return "Idle";
+			return pl.Timer.State.ToString();
 		}
 	}
 
