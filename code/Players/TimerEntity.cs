@@ -28,6 +28,8 @@ internal partial class TimerEntity : Entity
 	public bool Current { get; set; }
 	[Net, Predicted]
 	public int Checkpoint { get; set; }
+	[Net, Predicted]
+	public int Jumps { get; set; }
 
 	public override void Spawn()
 	{
@@ -39,6 +41,7 @@ internal partial class TimerEntity : Entity
 	public void Start()
 	{
 		Timer = 0f;
+		Jumps = 0;
 		Checkpoint = 0;
 		State = States.Live;
 	}
@@ -46,6 +49,7 @@ internal partial class TimerEntity : Entity
 	public void Stop()
 	{
 		Timer = 0f;
+		Jumps = 0;
 		Checkpoint = 0;
 		State = States.Stopped;
 	}

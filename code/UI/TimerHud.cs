@@ -44,7 +44,16 @@ internal class TimerHud : Panel
 		}
 	}
 
+	public string Stats
+	{
+		get
+		{
+			return $"{Jumps} jumps";
+		}
+	}
+
 	public int Stage => (Local.Pawn as StrafePlayer)?.CurrentStage().Stage ?? 0;
 	public int Checkpoint => (Local.Pawn as StrafePlayer)?.CurrentStage().Checkpoint ?? 0;
+	public int Jumps => (Local.Pawn as StrafePlayer)?.Stage( 0 ).Jumps ?? 0;
 
 }

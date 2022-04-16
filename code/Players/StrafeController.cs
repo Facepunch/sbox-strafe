@@ -26,6 +26,21 @@ partial class StrafeController : WalkController
 		base.Simulate();
 	}
 
+	public override void OnEvent( string name )
+	{
+		base.OnEvent( name );
+
+		if ( name.Equals( "jump" ) )
+		{
+			foreach( var ent in Pawn.Children )
+			{
+				if ( ent is not TimerEntity t ) continue;
+				if ( t.State != TimerEntity.States.Live ) continue;
+				t.Jumps++;
+			}
+		}
+	}
+
 	public override void AirMove()
 	{
 		SurfaceFriction = 1f;
