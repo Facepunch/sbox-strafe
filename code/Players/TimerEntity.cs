@@ -30,6 +30,8 @@ internal partial class TimerEntity : Entity
 	public int Checkpoint { get; set; }
 	[Net, Predicted]
 	public int Jumps { get; set; }
+	[Net, Predicted]
+	public int Strafes { get; set; }
 
 	public override void Spawn()
 	{
@@ -38,19 +40,23 @@ internal partial class TimerEntity : Entity
 		Transmit = TransmitType.Owner;
 	}
 
-	public void Start()
+	private void Reset()
 	{
 		Timer = 0f;
 		Jumps = 0;
+		Strafes = 0;
 		Checkpoint = 0;
+	}
+
+	public void Start()
+	{
+		Reset();
 		State = States.Live;
 	}
 
 	public void Stop()
 	{
-		Timer = 0f;
-		Jumps = 0;
-		Checkpoint = 0;
+		Reset();
 		State = States.Stopped;
 	}
 

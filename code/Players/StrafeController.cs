@@ -1,6 +1,7 @@
 ﻿
 using Sandbox;
 using Strafe.Map;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,6 +15,7 @@ partial class StrafeController : WalkController
 
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
+	private float LastLeft;
 
 	public override void Simulate()
 	{
@@ -24,6 +26,14 @@ partial class StrafeController : WalkController
 		ApplyMomentum();
 
 		base.Simulate();
+
+		if( Input.Left != 0 )
+		{
+			if ( MathF.Sign( Input.Left ) != MathF.Sign( LastLeft ) )
+				AddEvent( "strafe" );
+		}
+
+		LastLeft = Input.Left;
 	}
 
 	public override void OnEvent( string name )
@@ -37,6 +47,16 @@ partial class StrafeController : WalkController
 				if ( ent is not TimerEntity t ) continue;
 				if ( t.State != TimerEntity.States.Live ) continue;
 				t.Jumps++;
+			}
+		}
+
+		if ( name.Equals( "strafe" ) )
+		{
+			foreach ( var ent in Pawn.Children )
+			{
+				if ( ent is not TimerEntity t ) continue;
+				if ( t.State != TimerEntity.States.Live ) continue;
+				t.Strafes++;
 			}
 		}
 	}
