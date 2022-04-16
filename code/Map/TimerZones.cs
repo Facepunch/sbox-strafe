@@ -111,6 +111,8 @@ internal partial class LinearCheckpoint : BaseZone
 		if ( StrafeGame.Current.CourseType != CourseTypes.Linear )
 			return;
 
+		pl.CurrentStage().SetCheckpoint( Checkpoint );
+
 		//pl.Timer.SetCheckpoint( Checkpoint );
 	}
 

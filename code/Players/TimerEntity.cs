@@ -39,12 +39,14 @@ internal partial class TimerEntity : Entity
 	public void Start()
 	{
 		Timer = 0f;
+		Checkpoint = 0;
 		State = States.Live;
 	}
 
 	public void Stop()
 	{
 		Timer = 0f;
+		Checkpoint = 0;
 		State = States.Stopped;
 	}
 
@@ -59,6 +61,19 @@ internal partial class TimerEntity : Entity
 				: $"stage {Stage}";
 
 			Chat.AddChatEntry( To.Everyone, "Server", $"{Owner.Client.Name} finished {thing} in {Timer.HumanReadable()}s" );
+		}
+	}
+
+	public void SetCheckpoint( int checkpoint )
+	{
+		if ( checkpoint <= Checkpoint ) 
+			return;
+
+		Checkpoint = checkpoint;
+
+		if ( IsServer )
+		{
+			Chat.AddChatEntry( To.Single( Owner.Client ), "Server", $"CP {checkpoint} in {Timer.HumanReadable()}s" );
 		}
 	}
 
