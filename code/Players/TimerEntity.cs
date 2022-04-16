@@ -1,6 +1,7 @@
 ﻿
 using Sandbox;
 using Strafe.Map;
+using Strafe.UI;
 using Strafe.Utility;
 using System.Linq;
 
@@ -51,7 +52,14 @@ internal partial class TimerEntity : Entity
 	{
 		State = States.Complete;
 
-		Log.Info( "COMPLETED IN: " + Timer.HumanReadable() );
+		if ( IsServer )
+		{
+			var thing = Stage == 0
+				? "the course"
+				: $"stage {Stage}";
+
+			Chat.AddChatEntry( To.Everyone, "Server", $"{Owner.Client.Name} finished {thing} in {Timer.HumanReadable()}s" );
+		}
 	}
 
 	public void SetCurrent()
