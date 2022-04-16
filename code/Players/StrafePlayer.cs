@@ -1,24 +1,17 @@
 ﻿
 using Sandbox;
+using System.Linq;
 
 namespace Strafe.Players;
 
 internal partial class StrafePlayer : Sandbox.Player
 {
 
-	[Net, Predicted]
-	public PlayerTimer Timer { get; set; }
-
 	public override void Respawn()
 	{
 		base.Respawn();
 
 		SetModel( "models/citizen/citizen.vmdl" );
-
-		Timer = new()
-		{
-			Player = this
-		};
 
 		Controller = new StrafeController()
 		{
@@ -36,11 +29,30 @@ internal partial class StrafePlayer : Sandbox.Player
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
+
+		// 0 = entire course
+		// 1, 2, 3 etc = per stage
+		for( int i = 0; i <= StrafeGame.Current.StageCount; i++ )
+		{
+			new TimerEntity()
+			{
+				Owner = this,
+				Parent = this,
+				Stage = i
+			};
+		}
 	}
 
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );
+
+		foreach( var child in Children )
+		{
+			child.Simulate( cl );
+		}
+
+		//Timer.Simulate( cl );
 
 		// HACK:should be setting ButtonToSet back to default in BuildInput
 		//		after adding it to this player's input but sometimes the button we
@@ -55,7 +67,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		
 		if ( Input.Pressed( InputButton.Reload ) )
 		{
-			Timer.Restart();
+			Restart();
 		}
 	}
 
@@ -69,6 +81,26 @@ internal partial class StrafePlayer : Sandbox.Player
 		if ( ButtonToSet == InputButton.Slot9 ) return;
 
 		input.SetButton( ButtonToSet, true );
+	}
+
+	public TimerEntity Stage( int stage )
+	{
+		return Children.First( x => x is TimerEntity t && t.Stage == stage ) as TimerEntity;
+	}
+
+	public TimerEntity CurrentStage()
+	{
+		return Children.FirstOrDefault( x => x is TimerEntity t && t.Current ) as TimerEntity;
+	}
+
+	public void Restart()
+	{
+		Velocity = 0;
+		BaseVelocity = 0;
+
+		Children.OfType<TimerEntity>().ToList().ForEach( x => x.Stop() );
+
+		Stage( 1 ).TeleportTo();
 	}
 
 }

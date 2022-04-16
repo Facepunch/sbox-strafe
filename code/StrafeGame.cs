@@ -2,16 +2,18 @@
 using Sandbox;
 using Strafe.Players;
 using Strafe.UI;
-using System;
-using System.Linq;
 
 namespace Strafe;
 
 internal partial class StrafeGame : Game
 {
 
+	public static new StrafeGame Current;
+
 	public StrafeGame()
 	{
+		Current = this;
+
 		if ( IsServer )
 		{
 			Global.TickRate = 100;

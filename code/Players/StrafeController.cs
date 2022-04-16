@@ -93,6 +93,14 @@ partial class StrafeController : WalkController
 		}
 	}
 
+	public void LimitSpeed()
+	{
+		var prevz = Velocity.z;
+		BaseVelocity = 0;
+		Velocity = Velocity.WithZ( 0 ).ClampLength( 290 );
+		Velocity = Velocity.WithZ( prevz );
+	}
+
 	private void ApplyMomentum()
 	{
 		if ( !Momentum )

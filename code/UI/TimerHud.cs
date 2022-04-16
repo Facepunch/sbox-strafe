@@ -15,14 +15,36 @@ internal class TimerHud : Panel
 	{
 		get
 		{
-			if ( Local.Pawn is not StrafePlayer pl ) 
+			if ( Local.Pawn is not StrafePlayer pl )
 				return "Disabled";
 
-			if ( pl.Timer.State == TimerStates.Live )
-				return pl.Timer.Time.ToTimeMs();
+			var stage = pl.Stage( 0 );
+			if ( stage.State != TimerEntity.States.Live )
+				return stage.State.ToString();
 
-			return pl.Timer.State.ToString();
+			return stage.Timer.HumanReadable();
 		}
 	}
+
+	public string Where
+	{
+		get
+		{
+			if ( StrafeGame.Current.CourseType == CourseTypes.Linear )
+			{
+				return $"CP {Checkpoint}";
+			}
+
+			if ( StrafeGame.Current.CourseType == CourseTypes.Staged )
+			{
+				return $"Stage {Stage}";
+			}
+
+			return "Map is invalid";
+		}
+	}
+
+	public int Stage => (Local.Pawn as StrafePlayer)?.CurrentStage().Stage ?? 0;
+	public int Checkpoint => (Local.Pawn as StrafePlayer)?.CurrentStage().Checkpoint ?? 0;
 
 }
