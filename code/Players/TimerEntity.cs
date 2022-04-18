@@ -119,7 +119,15 @@ internal partial class TimerEntity : Entity
 			return;
 
 		var start = All.First( x => x is StageStart s && s.Stage == Stage );
-		pl.Position = start.Position;
+		var pos = start.WorldSpaceBounds.Center;
+		var tr = Trace.Ray( pos, pos + Vector3.Down * 5000 )
+			.WorldOnly()
+			.Run();
+
+		if ( tr.Hit )
+			pos = tr.EndPosition + Vector3.Up;
+
+		pl.Position = pos;
 		pl.Rotation = start.Rotation;
 	}
 
