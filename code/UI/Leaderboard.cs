@@ -30,14 +30,14 @@ internal class Leaderboard : Panel
 
 	private async void Update()
 	{
-		DeleteChildren();
-
 		var q = await GameServices.Leaderboard.Query( Global.GameIdent, bucket: Global.MapName );
+
+		DeleteChildren( true );
 
 		var rank = 1;
 		foreach( var entry in q.Entries )
 		{
-			var lbl = Add.Label( $"#{rank}   {entry.DisplayName}           {entry.Rating.HumanReadable()}", q.PlayerPlace.ToString() );
+			Add.Label( $"#{rank}   {entry.DisplayName}           {entry.Rating.HumanReadable()}s", q.PlayerPlace.ToString() );
 			rank++;
 		}
 	}
