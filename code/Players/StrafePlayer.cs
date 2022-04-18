@@ -52,8 +52,6 @@ internal partial class StrafePlayer : Sandbox.Player
 			child.Simulate( cl );
 		}
 
-		//Timer.Simulate( cl );
-
 		// HACK:should be setting ButtonToSet back to default in BuildInput
 		//		after adding it to this player's input but sometimes the button we
 		//		want gets missed in simulate.. so just keep trying right here

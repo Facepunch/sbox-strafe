@@ -57,19 +57,20 @@ internal partial class Chat : Panel
 		Say( msg );
 	}
 
-	public void AddEntry( string name, string message )
+	public void AddEntry( string name, string message, string classes = default )
 	{
 		var msg = Canvas.AddChild<StrafeChatEntry>();
 		msg.Name = name;
 		msg.Message = message;
+		msg.AddClass( classes );
 
 		Canvas.TryScrollToBottom();
 	}
 
 	[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
-	public static void AddChatEntry( string name, string message )
+	public static void AddChatEntry( string name, string message, string classes = default )
 	{
-		Current?.AddEntry( name, message );
+		Current?.AddEntry( name, message, classes );
 
 		// Only log clientside if we're not the listen server host
 		if ( !Global.IsListenServer )

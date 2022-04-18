@@ -43,8 +43,8 @@ Chat {
     position: absolute;
     width: 550px;
     height: 320px;
-    left: 128px;
-    bottom: 90px;
+    left: 170px;
+    bottom: 150px;
     flex-direction: column;
     justify-content: flex-end;
     padding: 10px;
@@ -94,6 +94,7 @@ StrafeChatEntry {
     padding: 2px;
     text-shadow: 1px 1px 0 black;
     align-items: center;
+    font-weight: 600;
 
     &.faded {
         opacity: 0;
@@ -102,9 +103,21 @@ StrafeChatEntry {
     .name {
         margin-right: 4px;
         font-weight: 800;
-        color: $darkaccent;
+        color: $lightaccent;
     }
 
     .message {
+    }
+
+    &.bold {
+        .message {
+            font-weight: 800;
+        }
+    }
+
+    &.purple {
+        .message {
+            color: $purple;
+        }
     }
 }

@@ -60,7 +60,7 @@ internal partial class TimerEntity : Entity
 		State = States.Stopped;
 	}
 
-	public void Complete()
+	public async void Complete()
 	{
 		if ( State != States.Live )
 			return;
@@ -74,6 +74,10 @@ internal partial class TimerEntity : Entity
 				: $"stage {Stage}";
 
 			Chat.AddChatEntry( To.Everyone, "Server", $"{Owner.Client.Name} finished {thing} in {Timer.HumanReadable()}s" );
+
+			var result = await GameServices.SubmitScore( Owner.Client.PlayerId, Timer );
+
+			PrintResult( Owner.Client.PlayerId, result );
 		}
 	}
 
@@ -138,6 +142,19 @@ internal partial class TimerEntity : Entity
 
 		pl.Position = pos;
 		pl.Rotation = start.Rotation;
+	}
+
+	public static void PrintResult( long playerid, SubmitScoreResult result )
+	{
+		if ( result.ScoreDelta == 0 ) return;
+
+		if( result.NewRank == 1 )
+		{
+			Chat.AddChatEntry( To.Everyone, "Server", "WORLD RECORD!!", "bold purple" );
+			Chat.AddChatEntry( To.Everyone, "Server", "WORLD RECORD!!", "bold purple" );
+		}
+
+		Chat.AddChatEntry( To.Everyone, "Server", $"Old rank: {result.OldRank} - New rank: {result.NewRank} - Improvement: {result.ScoreDelta.HumanReadable()}s", "bold" );
 	}
 
 }
