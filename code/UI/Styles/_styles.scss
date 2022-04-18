@@ -121,3 +121,11 @@ StrafeChatEntry {
         }
     }
 }
+
+Leaderboard {
+    left: 32px;
+    top: 32px;
+    flex-direction: column;
+    text-shadow: 1px 1px 0px black;
+    font-weight: 700;
+}
