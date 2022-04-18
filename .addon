@@ -15,6 +15,9 @@
       "surf_map"
     ],
     "MinPlayers": 1,
-    "MapSelect": 0
+    "MapSelect": 0,
+    "RankType": 2,
+    "LeaderboardType": 2,
+    "PerMapRanking": true
   }
 }
