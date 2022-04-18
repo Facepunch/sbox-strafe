@@ -62,6 +62,9 @@ internal partial class TimerEntity : Entity
 
 	public void Complete()
 	{
+		if ( State != States.Live )
+			return;
+
 		State = States.Complete;
 
 		if ( IsServer )
@@ -77,6 +80,9 @@ internal partial class TimerEntity : Entity
 	public void SetCheckpoint( int checkpoint )
 	{
 		if ( checkpoint <= Checkpoint ) 
+			return;
+
+		if ( State != States.Live )
 			return;
 
 		Checkpoint = checkpoint;
@@ -106,6 +112,9 @@ internal partial class TimerEntity : Entity
 			Log.Error( "This shouldn't happen" );
 			return;
 		}
+
+		if( pl.GetActiveController() is not StrafeController )
+			Stop();
 
 		if ( State != States.Live ) 
 			return;
