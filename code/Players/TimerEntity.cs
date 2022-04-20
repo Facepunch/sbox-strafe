@@ -75,6 +75,8 @@ internal partial class TimerEntity : Entity
 
 			Chat.AddChatEntry( To.Everyone, "Server", $"{Owner.Client.Name} finished {thing} in {Timer.HumanReadable()}s" );
 
+			if ( Stage != 0 ) return;
+
 			var result = await GameServices.SubmitScore( Owner.Client.PlayerId, Timer );
 
 			PrintResult( Owner.Client.PlayerId, result );
