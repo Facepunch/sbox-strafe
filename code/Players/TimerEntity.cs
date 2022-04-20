@@ -133,8 +133,15 @@ internal partial class TimerEntity : Entity
 
 		var start = All.First( x => x is StageStart s && s.Stage == Stage );
 		var pos = start.WorldSpaceBounds.Center;
-		var tr = Trace.Ray( pos, pos + Vector3.Down * 5000 )
-			.WorldOnly()
+		var height = start.WorldSpaceBounds.Size.z;
+		var tr = Trace.Ray( pos, pos + Vector3.Down * height * .55f )
+			.HitLayer( CollisionLayer.All, false )
+			.HitLayer( CollisionLayer.Solid, true )
+			.HitLayer( CollisionLayer.GRATE, true )
+			.HitLayer( CollisionLayer.PLAYER_CLIP, true )
+			.HitLayer( CollisionLayer.WINDOW, true )
+			.HitLayer( CollisionLayer.NPC, true )
+			.WithoutTags( "player" )
 			.Run();
 
 		if ( tr.Hit )
