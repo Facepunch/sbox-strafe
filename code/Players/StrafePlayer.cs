@@ -47,6 +47,18 @@ internal partial class StrafePlayer : Sandbox.Player
 	{
 		base.Simulate( cl );
 
+		if( Controller is StrafeController ctrl ) 
+		{
+			if( ctrl.Activated && GetActiveController() != ctrl )
+			{
+				ctrl.OnDeactivate();
+			}
+			else if( !ctrl.Activated && GetActiveController() == ctrl )
+			{
+				ctrl.OnActivate();
+			}
+		}
+
 		foreach( var child in Children )
 		{
 			child.Simulate( cl );

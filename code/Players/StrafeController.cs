@@ -12,10 +12,24 @@ partial class StrafeController : WalkController
 
 	[Net, Predicted]
 	public bool Momentum { get; set; }
+	[Net, Predicted]
+	public bool Activated { get; set; }
 
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
 	private float LastLeft;
+
+	public void OnDeactivate()
+	{
+		Activated = false;
+
+		TouchingTriggers.Clear();
+	}
+
+	public void OnActivate()
+	{
+		Activated = true;
+	}
 
 	public override void Simulate()
 	{
