@@ -44,6 +44,11 @@ internal partial class StrafeGame : Game
 		{
 			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Reload; 
 		}
+
+		if( cmdName == "t" && Host.IsClient )
+		{
+			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Drop;
+		}
 	}
 
 	public override void MoveToSpawnpoint( Entity pawn )

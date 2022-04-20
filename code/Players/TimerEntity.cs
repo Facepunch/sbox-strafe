@@ -131,7 +131,9 @@ internal partial class TimerEntity : Entity
 		if ( Owner is not StrafePlayer pl ) 
 			return;
 
-		var start = All.First( x => x is StageStart s && s.Stage == Stage );
+		var targetStage = Stage == 0 ? 1 : Stage;
+
+		var start = All.First( x => x is StageStart s && s.Stage == targetStage );
 		var pos = start.WorldSpaceBounds.Center;
 		var height = start.WorldSpaceBounds.Size.z;
 		var tr = Trace.Ray( pos, pos + Vector3.Down * height * .55f )

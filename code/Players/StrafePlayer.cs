@@ -67,6 +67,11 @@ internal partial class StrafePlayer : Sandbox.Player
 		{
 			Restart();
 		}
+
+		if ( Input.Pressed( InputButton.Drop ) )
+		{
+			GoBack();
+		}
 	}
 
 	// Purpose: when typing a command like !r to restart let it run
@@ -99,6 +104,14 @@ internal partial class StrafePlayer : Sandbox.Player
 		Children.OfType<TimerEntity>().ToList().ForEach( x => x.Stop() );
 
 		Stage( 1 ).TeleportTo();
+	}
+
+	public void GoBack()
+	{
+		Velocity = 0;
+		BaseVelocity = 0;
+
+		CurrentStage()?.TeleportTo();
 	}
 
 }
