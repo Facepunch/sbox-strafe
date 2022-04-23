@@ -12,10 +12,14 @@
   "RootNamespace": "Strafe",
   "Metadata": {
     "MapList": [
-      "surf_map"
+      "surf_map",
+      "mml.strafe_mmillion",
+      "dogi.surf_esmdogi",
+      "rival.surf_egypt",
+      "rival.surf_combo"
     ],
     "MinPlayers": 1,
-    "MapSelect": 0,
+    "MapSelect": 3,
     "RankType": 2,
     "LeaderboardType": 2,
     "PerMapRanking": true
