@@ -12,7 +12,7 @@
   "RootNamespace": "Strafe",
   "Metadata": {
     "MapList": [
-      "surf_map",
+      "rival.surf_combo",
       "mml.strafe_mmillion",
       "dogi.surf_esmdogi",
       "rival.surf_egypt",
