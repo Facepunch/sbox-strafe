@@ -15,7 +15,7 @@ internal partial class StrafePlayer
 	private void OnDebug()
 	{
 		if ( !strafe_debug_buggyramp ) return;
-		if ( TimeSinceLastDebug < 1.5f ) return;
+		if ( TimeSinceLastDebug < 1.75f ) return;
 
 		Egypt_BugTest();
 		TimeSinceLastDebug = 0;

@@ -42,7 +42,7 @@ partial class StrafeController : WalkController
 		if( StrafePlayer.strafe_debug_buggyramp )
 			Input.Left = 1f;
 
-		base.Simulate();
+		BaseSimulate();
 
 		if( Input.Left != 0 )
 		{
@@ -53,15 +53,14 @@ partial class StrafeController : WalkController
 		LastLeft = Input.Left;
 	}
 
-	private Vector3 previousNormal;
 	public override void Move()
 	{
 		var mover = new MoveHelper( Position, Velocity );
 		mover.Trace = mover.Trace.Size( mins, maxs ).Ignore( Pawn );
+		mover.Mins = mins;
+		mover.Maxs = maxs;
 		mover.MaxStandableAngle = GroundAngle;
-
-		mover.TryMove( Time.Delta, previousNormal );
-		previousNormal = mover.WallNormal;
+		mover.TryMove( Time.Delta );
 
 		Position = mover.Position;
 		Velocity = mover.Velocity;
@@ -232,6 +231,89 @@ partial class StrafeController : WalkController
 
 		TouchingTriggers.Clear();
 		TouchingTriggers.AddRange( touchingNow );
+	}
+
+	private void BaseSimulate()
+	{
+		EyeLocalPosition = Vector3.Up * (EyeHeight * Pawn.Scale);
+		UpdateBBox();
+
+		EyeLocalPosition += TraceOffset;
+		EyeRotation = Input.Rotation;
+
+		CheckLadder();
+		Swimming = Pawn.WaterLevel > 0.6f;
+
+		if ( !Swimming /*&& !IsTouchingLadder */)
+		{
+			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+			Velocity += new Vector3( 0, 0, BaseVelocity.z ) * Time.Delta;
+
+			BaseVelocity = BaseVelocity.WithZ( 0 );
+		}
+
+		if ( AutoJump ? Input.Down( InputButton.Jump ) : Input.Pressed( InputButton.Jump ) )
+		{
+			CheckJumpButton();
+		}
+
+		bool bStartOnGround = GroundEntity != null;
+		if ( bStartOnGround )
+		{
+			Velocity = Velocity.WithZ( 0 );
+
+			if ( GroundEntity != null )
+			{
+				ApplyFriction( GroundFriction * SurfaceFriction );
+			}
+		}
+
+		WishVelocity = new Vector3( Input.Forward, Input.Left, 0 );
+		var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
+		WishVelocity *= Input.Rotation.Angles().WithPitch( 0 ).ToRotation();
+
+		if ( !Swimming/* && !IsTouchingLadder*/ )
+		{
+			WishVelocity = WishVelocity.WithZ( 0 );
+		}
+
+		WishVelocity = WishVelocity.Normal * inSpeed;
+		WishVelocity *= GetWishSpeed();
+
+		Duck.PreTick();
+
+		bool bStayOnGround = false;
+		if ( Swimming )
+		{
+			ApplyFriction( 1 );
+			WaterMove();
+		}
+		//else if ( IsTouchingLadder )
+		//{
+		//	LadderMove();
+		//}
+		else if ( GroundEntity != null )
+		{
+			bStayOnGround = true;
+			WalkMove();
+		}
+		else
+		{
+			AirMove();
+		}
+
+		CategorizePosition( bStayOnGround );
+
+		// FinishGravity
+		if ( !Swimming/* && !IsTouchingLadder*/ )
+		{
+			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+		}
+
+		if ( GroundEntity != null )
+		{
+			Velocity = Velocity.WithZ( 0 );
+		}
 	}
 
 }
