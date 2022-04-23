@@ -56,9 +56,8 @@ partial class StrafeController : WalkController
 	public override void Move()
 	{
 		var mover = new MoveHelper( Position, Velocity );
-		mover.Trace = mover.Trace.Size( mins, maxs ).Ignore( Pawn );
-		mover.Mins = mins;
-		mover.Maxs = maxs;
+		mover.SetSize( mins, maxs );
+		mover.Trace = mover.Trace.Ignore( Pawn );
 		mover.MaxStandableAngle = GroundAngle;
 		mover.TryMove( Time.Delta );
 

@@ -1,6 +1,5 @@
 ﻿
 using Sandbox;
-using System.Linq;
 
 namespace Strafe;
 
@@ -16,8 +15,8 @@ public struct MoveHelper
 	public float MaxStandableAngle;
 	public Trace Trace;
 
-	public Vector3 Mins;
-	public Vector3 Maxs;
+	private Vector3 Mins;
+	private Vector3 Maxs;
 
 	public MoveHelper( Vector3 position, Vector3 velocity ) : this()
 	{
@@ -35,6 +34,13 @@ public struct MoveHelper
 						.HitLayer( CollisionLayer.PLAYER_CLIP, true )
 						.HitLayer( CollisionLayer.WINDOW, true )
 						.HitLayer( CollisionLayer.NPC, true );
+	}
+
+	public void SetSize( Vector3 mins, Vector3 maxs )
+	{
+		Mins = mins;
+		Maxs = maxs;
+		Trace = Trace.Size( mins, maxs );
 	}
 
 	public TraceResult TraceFromTo( Vector3 start, Vector3 end )
@@ -64,9 +70,11 @@ public struct MoveHelper
 		return false;
 	}
 
-	private TraceResult FudgeTrace( TraceResult pm, float timeLeft )
+	private bool FudgeTrace( TraceResult pm, float timeLeft, out TraceResult result )
 	{
-		var original = pm;
+		var succeeded = false;
+
+		result = pm;
 
 		for( int attempts = 0; attempts < 100; attempts++ )
 		{
@@ -75,32 +83,31 @@ public struct MoveHelper
 
 			Trace = Trace.Size( Mins.WithZ( lift ), Maxs );
 
-			pm = TraceFromTo( altpos, altpos + (Velocity * timeLeft) + (Vector3.Down * lift) );
+			result = TraceFromTo( altpos, altpos + (Velocity * timeLeft) + (Vector3.Down * lift) );
 
-			if ( !TraceIsShit( pm ) ) break;
-		}
-
-		if ( TraceIsShit( pm ) )
-		{
-			pm = original;
-		}
-
-		if( BasePlayerController.Debug )
-		{
-			if ( TraceIsShit( pm ) )
+			if ( !TraceIsShit( result ) )
 			{
-				Log.Error( "Couldn't fudge trace to something acceptable" );
-			}
-			else
-			{
-				DebugOverlay.Text( original.EndPosition, "Dodged shit trace", Color.Yellow, 30f, 2000 );
-				DebugOverlay.Line( original.EndPosition, original.EndPosition + original.Normal * 100f, Color.Red, 30f );
+				succeeded = true;
+				break;
 			}
 		}
 
 		Trace = Trace.Size( Mins, Maxs );
 
-		return pm;
+		if ( BasePlayerController.Debug )
+		{
+			if ( TraceIsShit( pm ) )
+			{
+				//Log.Error( "Couldn't fudge trace to something acceptable" );
+			}
+			else
+			{
+				DebugOverlay.Text( pm.EndPosition, "Dodged shit trace", Color.Yellow, 30f, 2000 );
+				DebugOverlay.Line( pm.EndPosition, pm.EndPosition + pm.Normal * 100f, Color.Red, 30f );
+			}
+		}
+
+		return succeeded;
 	}
 
 	public float TryMove( float timestep )
@@ -111,7 +118,13 @@ public struct MoveHelper
 
 		using var moveplanes = new VelocityClipPlanes( Velocity, 5 );
 
-		var lastnormal = Vector3.Zero;
+		var fallback = TraceFromTo( Position, Position + Vector3.Down );
+		var fallbackNormal = fallback.Normal;
+
+		if ( TraceIsShit( fallback ) && FudgeTrace( fallback, timeLeft, out TraceResult fallbackFudge ) )
+		{
+			fallbackNormal = fallbackFudge.Normal;
+		}
 
 		for ( int bump = 0; bump < moveplanes.Max; bump++ )
 		{
@@ -121,11 +134,7 @@ public struct MoveHelper
 			var pm = TraceFromTo( Position, Position + Velocity * timeLeft );
 
 			if ( TraceIsShit( pm ) )
-			{
-				var altpm = FudgeTrace( pm, timeLeft );
-				pm.StartedSolid = altpm.StartedSolid;
-				pm.Normal = altpm.Normal;
-			}
+				pm.Normal = fallbackNormal;
 
 			Trace = Trace.Size( Mins, Maxs );
 
