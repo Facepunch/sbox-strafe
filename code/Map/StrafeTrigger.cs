@@ -7,6 +7,9 @@ namespace Strafe.Map;
 internal partial class StrafeTrigger : BaseTrigger
 {
 
+	[ConVar.Replicated]
+	public static bool strafe_disable_triggers { get; set; }
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -23,7 +26,7 @@ internal partial class StrafeTrigger : BaseTrigger
 	[Event.Tick.Server]
 	public void OnTick()
 	{
-		IsEnabled = Enabled;
+		IsEnabled = Enabled && !strafe_disable_triggers;
 	}
 
 	public virtual void SimulatedStartTouch( StrafeController ctrl ) { }
