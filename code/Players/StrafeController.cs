@@ -39,6 +39,9 @@ partial class StrafeController : WalkController
 
 		ApplyMomentum();
 
+		if( StrafePlayer.strafe_debug_buggyramp )
+			Input.Left = 1f;
+
 		base.Simulate();
 
 		if( Input.Left != 0 )
@@ -48,6 +51,20 @@ partial class StrafeController : WalkController
 		}
 
 		LastLeft = Input.Left;
+	}
+
+	private Vector3 previousNormal;
+	public override void Move()
+	{
+		var mover = new MoveHelper( Position, Velocity );
+		mover.Trace = mover.Trace.Size( mins, maxs ).Ignore( Pawn );
+		mover.MaxStandableAngle = GroundAngle;
+
+		mover.TryMove( Time.Delta, previousNormal );
+		previousNormal = mover.WallNormal;
+
+		Position = mover.Position;
+		Velocity = mover.Velocity;
 	}
 
 	public override void OnEvent( string name )
