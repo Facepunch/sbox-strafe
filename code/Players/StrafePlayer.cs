@@ -12,6 +12,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		base.Respawn();
 
 		SetModel( "models/citizen/citizen.vmdl" );
+		RemoveCollisionLayer( CollisionLayer.Solid );
 
 		Controller = new StrafeController()
 		{
