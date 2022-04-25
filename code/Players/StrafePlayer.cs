@@ -33,7 +33,7 @@ internal partial class StrafePlayer : Sandbox.Player
 
 		// 0 = entire course
 		// 1, 2, 3 etc = per stage
-		for( int i = 0; i <= StrafeGame.Current.StageCount; i++ )
+		for ( int i = 0; i <= StrafeGame.Current.StageCount; i++ )
 		{
 			new TimerEntity()
 			{
@@ -48,19 +48,19 @@ internal partial class StrafePlayer : Sandbox.Player
 	{
 		base.Simulate( cl );
 
-		if( Controller is StrafeController ctrl ) 
+		if ( Controller is StrafeController ctrl )
 		{
-			if( ctrl.Activated && GetActiveController() != ctrl )
+			if ( ctrl.Activated && GetActiveController() != ctrl )
 			{
 				ctrl.OnDeactivate();
 			}
-			else if( !ctrl.Activated && GetActiveController() == ctrl )
+			else if ( !ctrl.Activated && GetActiveController() == ctrl )
 			{
 				ctrl.OnActivate();
 			}
 		}
 
-		foreach( var child in Children )
+		foreach ( var child in Children )
 		{
 			child.Simulate( cl );
 		}
@@ -75,7 +75,7 @@ internal partial class StrafePlayer : Sandbox.Player
 				ButtonToSet = InputButton.Slot9;
 			}
 		}
-		
+
 		if ( Input.Pressed( InputButton.Reload ) )
 		{
 			Restart();
@@ -87,12 +87,18 @@ internal partial class StrafePlayer : Sandbox.Player
 		}
 	}
 
+	private float YawSpeed;
 	// Purpose: when typing a command like !r to restart let it run
 	//			through simulate to get properly predicted.
 	public InputButton ButtonToSet { get; set; } = InputButton.Slot9;
 	public override void BuildInput( InputBuilder input )
 	{
 		base.BuildInput( input );
+
+		if( YawSpeed != 0 )
+		{
+			input.ViewAngles = input.ViewAngles.WithYaw( input.ViewAngles.yaw + YawSpeed * Time.Delta );
+		}
 
 		if ( ButtonToSet == InputButton.Slot9 ) return;
 
@@ -125,6 +131,22 @@ internal partial class StrafePlayer : Sandbox.Player
 		BaseVelocity = 0;
 
 		CurrentStage()?.TeleportTo();
+	}
+
+	[ClientCmd( "+yaw", CanBeCalledFromServer = false )]
+	public static void OnYaw( float spd = 0 )
+	{
+		if ( Local.Pawn is not StrafePlayer pl ) return;
+
+		pl.YawSpeed = spd;
+	}
+
+	[ClientCmd( "-yaw", CanBeCalledFromServer = false )]
+	public static void OnYawRelease()
+	{
+		if ( Local.Pawn is not StrafePlayer pl ) return;
+
+		pl.YawSpeed = 0;
 	}
 
 }
