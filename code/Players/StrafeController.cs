@@ -39,9 +39,6 @@ partial class StrafeController : WalkController
 
 		ApplyMomentum();
 
-		if( StrafePlayer.strafe_debug_buggyramp )
-			Input.Left = 1f;
-
 		BaseSimulate();
 
 		if( Input.Left != 0 )
