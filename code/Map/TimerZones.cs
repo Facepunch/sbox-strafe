@@ -14,6 +14,7 @@ internal partial class StageStart : BaseZone
 
 	public bool IsFirstStage => Stage <= 1;
 
+
 	public override void SimulatedStartTouch( StrafeController ctrl )
 	{
 		base.SimulatedStartTouch( ctrl );
@@ -120,6 +121,8 @@ internal partial class LinearCheckpoint : BaseZone
 
 internal partial class BaseZone : StrafeTrigger
 {
+	[Property]
+	public bool EffectEdge { get; set; } = false;
 
 	public override void Spawn()
 	{
@@ -134,13 +137,16 @@ internal partial class BaseZone : StrafeTrigger
 	{
 		base.ClientSpawn();
 
-		var particle = Particles.Create( "particles/gameplay/checkpoint/checkpoint.vpcf" );
-
-		for ( int i = 0; i < 4; i++ )
+		if ( EffectEdge )
 		{
-			var corner = Position + Model.PhysicsBounds.Corners.ElementAt( i );
-			corner.z += 1;
-			particle.SetPosition( i + 1, corner );
+			var particle = Particles.Create( "particles/gameplay/checkpoint/checkpoint.vpcf" );
+
+			for ( int i = 0; i < 4; i++ )
+			{
+				var corner = Position + Model.PhysicsBounds.Corners.ElementAt( i );
+				corner.z += 1;
+				particle.SetPosition( i + 1, corner );
+			}
 		}
 	}
 
