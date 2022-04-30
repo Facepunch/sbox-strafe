@@ -102,6 +102,10 @@ StrafeChatEntry {
     font-weight: 600;
     transition: all .15s ease-out;
 
+    &:hover {
+        transform: scale(.98);
+    }
+
     &.faded {
         opacity: 0;
     }
@@ -110,9 +114,11 @@ StrafeChatEntry {
         margin-right: 4px;
         font-weight: 800;
         color: $lightaccent;
+        cursor: text;
     }
 
     .message {
+        cursor: text;
     }
 
     &.bold {

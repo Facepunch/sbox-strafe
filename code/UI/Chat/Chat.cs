@@ -28,6 +28,7 @@ internal partial class Chat : Panel
 		Sandbox.Hooks.Chat.OnOpenChat += OnOpenChat;
 
 		Canvas.PreferScrollToBottom = true;
+		AllowChildSelection = true;
 	}
 
 	private void OnOpenChat()
