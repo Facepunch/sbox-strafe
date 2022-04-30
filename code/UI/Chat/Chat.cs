@@ -71,6 +71,8 @@ internal partial class Chat : Panel
 		msg.AddClass( classes );
 
 		Canvas.TryScrollToBottom();
+
+		Sound.FromScreen( "ui.button.over" );
 	}
 
 	[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
