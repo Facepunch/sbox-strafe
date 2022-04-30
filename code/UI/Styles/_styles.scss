@@ -25,6 +25,11 @@ TimerHud {
         background-color: rgba( $darkbg .5 );
         border-radius: 10px;
         flex-direction: column;
+        background-image: url( ui/border.png );
+        background-repeat:no-repeat;
+        background-position: center center;
+        background-size: 100%;
+        background-tint: cyan;
     }
 }
 
