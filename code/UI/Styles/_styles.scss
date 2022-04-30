@@ -122,6 +122,7 @@ StrafeChatEntry {
         font-weight: 800;
         color: $lightaccent;
         cursor: text;
+        flex-shrink: 0;
     }
 
     .message {
