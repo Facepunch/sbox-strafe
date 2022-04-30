@@ -3,6 +3,7 @@
 
 RootPanel {
     color: white;
+    font-family: Ubuntu;
 }
 
 TimerHud {
@@ -10,7 +11,6 @@ TimerHud {
     width: 100%;
     height: 100%;
     font-weight: 700;
-    font-family: Tahoma;
     font-size: 16px;
     text-shadow: 1px 1px 1px black;
 
@@ -23,7 +23,7 @@ TimerHud {
         min-width: 200px;
         align-items: center;
         background-color: rgba( $darkbg .5 );
-        border-radius: 10px;
+        border-radius: $largeradius;
         flex-direction: column;
         background-image: url( ui/border.png );
         background-repeat:no-repeat;
@@ -100,6 +100,7 @@ StrafeChatEntry {
     text-shadow: 1px 1px 0 black;
     align-items: center;
     font-weight: 600;
+    transition: all .15s ease-out;
 
     &.faded {
         opacity: 0;
@@ -132,5 +133,5 @@ Leaderboard {
     top: 32px;
     flex-direction: column;
     text-shadow: 1px 1px 0px black;
-    font-weight: 700;
+    font-weight: 600;
 }
