@@ -42,6 +42,11 @@ internal partial class Chat : Panel
 	{
 		Input.Text = string.Empty;
 		Open = false;
+
+		foreach ( var child in Children )
+		{
+			Unselect( child );
+		}
 	}
 
 	[ClientCmd( "say2" )]
@@ -77,6 +82,30 @@ internal partial class Chat : Panel
 		if ( !Global.IsListenServer )
 		{
 			Log.Info( $"{name}: {message}" );
+		}
+	}
+
+	protected override void OnMouseDown( MousePanelEvent e )
+	{
+		base.OnMouseDown( e );
+
+		foreach( var child in Children )
+		{
+			Unselect( child );
+		}
+	}
+
+	private void Unselect( Panel p )
+	{
+		if( p is Label l )
+		{
+			l.ShouldDrawSelection = false;
+			return;
+		}
+
+		foreach( var child in p.Children )
+		{
+			Unselect( child );
 		}
 	}
 
