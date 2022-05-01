@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using Strafe.Api;
 using Strafe.Players;
 using Strafe.UI;
 
@@ -30,7 +31,7 @@ internal partial class StrafeGame : Game
 		(client.Pawn as StrafePlayer).Respawn();
 	}
 
-	public static void ExecuteChatCommand( Client cl, string command )
+	public static async void ExecuteChatCommand( Client cl, string command )
 	{
 		Assert.True( cl.IsValid() );
 
@@ -48,6 +49,12 @@ internal partial class StrafeGame : Game
 		if( cmdName == "t" && Host.IsClient )
 		{
 			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Drop;
+		}
+
+		if( cmdName == "ping" && Host.IsClient )
+		{
+			var result = await StrafeApi.Fetch<string>( "ping" );
+			Chat.AddChatEntry( "Response", result );
 		}
 	}
 
