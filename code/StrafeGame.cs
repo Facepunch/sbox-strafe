@@ -54,7 +54,7 @@ internal partial class StrafeGame : Game
 		if( cmdName == "ping" && Host.IsClient )
 		{
 			var result = await StrafeApi.Fetch<string>( "ping" );
-			Chat.AddChatEntry( "Response", result );
+			Chat.AddChatEntry( "Response", result ); 
 		}
 	}
 
