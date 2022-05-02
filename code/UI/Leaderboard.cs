@@ -32,6 +32,8 @@ internal class Leaderboard : Panel
 	{
 		var q = await GameServices.Leaderboard.Query( Global.GameIdent, bucket: Global.MapName );
 
+		if ( q?.Entries == null ) return;
+
 		DeleteChildren( true );
 
 		var rank = 1;
