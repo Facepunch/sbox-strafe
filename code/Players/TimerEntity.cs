@@ -29,13 +29,9 @@ internal partial class TimerEntity : Entity
 	[Net, Predicted]
 	public bool Current { get; set; }
 	[Net, Predicted]
-	public int Checkpoint { get; set; }
-	[Net, Predicted]
 	public int Jumps { get; set; }
 	[Net, Predicted]
 	public int Strafes { get; set; }
-	[Net, Predicted]
-	public TimerFrame Snapshot { get; set; }
 
 
 	private List<TimerFrame> Frames = new( 360000 ); 
@@ -52,7 +48,6 @@ internal partial class TimerEntity : Entity
 		Timer = 0f;
 		Jumps = 0;
 		Strafes = 0;
-		Checkpoint = 0;
 		Frames.Clear();
 	}
 
@@ -74,13 +69,18 @@ internal partial class TimerEntity : Entity
 			return;
 
 		State = States.Complete;
-		Snapshot = GrabFrame();
 
 		if ( IsServer )
 		{
+			// todo: we want linear checkpoints to be based off of overall time
+			// and stats rather than offset like stages
+			var term = StrafeGame.Current.CourseType == CourseTypes.Linear
+				? "cp"
+				: "stage";
+
 			var thing = Stage == 0
 				? "the course"
-				: $"stage {Stage}";
+				: $"{term} {Stage}";
 
 			Chat.AddChatEntry( To.Everyone, "Server", $"{Owner.Client.Name} finished {thing} in {Timer.HumanReadable()}s" );
 
@@ -96,23 +96,6 @@ internal partial class TimerEntity : Entity
 
 				ReplayEntity.Play( replay, 5 );
 			}
-		}
-	}
-
-	public void SetCheckpoint( int checkpoint )
-	{
-		if ( checkpoint <= Checkpoint ) 
-			return;
-
-		if ( State != States.Live )
-			return;
-
-		Checkpoint = checkpoint;
-		Snapshot = GrabFrame();
-
-		if ( IsServer )
-		{
-			Chat.AddChatEntry( To.Single( Owner.Client ), "Server", $"CP {checkpoint} in {Timer.HumanReadable()}s" );
 		}
 	}
 

@@ -48,6 +48,7 @@ internal partial class StageStart : BaseZone
 		if ( StrafeGame.Current.CourseType == CourseTypes.Linear )
 		{
 			pl.Stage( 0 ).Start();
+			pl.Stage( 1 )?.Start();
 		}
 
 		if( StrafeGame.Current.CourseType == CourseTypes.Staged )
@@ -112,9 +113,10 @@ internal partial class LinearCheckpoint : BaseZone
 		if ( StrafeGame.Current.CourseType != CourseTypes.Linear )
 			return;
 
-		pl.CurrentStage().SetCheckpoint( Checkpoint );
-
-		//pl.Timer.SetCheckpoint( Checkpoint );
+		//pl.Stage( 0 ).SetCheckpoint( Checkpoint );
+		pl.Stage( Checkpoint ).Complete();
+		pl.Stage( Checkpoint ).SetCurrent();
+		pl.Stage( Checkpoint + 1 )?.Start();
 	}
 
 }

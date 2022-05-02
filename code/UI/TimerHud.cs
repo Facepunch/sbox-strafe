@@ -53,7 +53,7 @@ internal class TimerHud : Panel
 	}
 
 	public int Stage => (Local.Pawn as StrafePlayer)?.CurrentStage().Stage ?? 0;
-	public int Checkpoint => (Local.Pawn as StrafePlayer)?.CurrentStage().Checkpoint ?? 0;
+	public int Checkpoint => (Local.Pawn as StrafePlayer)?.CurrentStage().Stage ?? 0;
 	public int Jumps => (Local.Pawn as StrafePlayer)?.Stage( 0 ).Jumps ?? 0;
 	public int Strafes => (Local.Pawn as StrafePlayer)?.Stage( 0 ).Strafes ?? 0;
 

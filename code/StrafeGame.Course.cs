@@ -48,10 +48,16 @@ internal partial class StrafeGame
 			}
 		}
 
-		StageCount = stageStarts.Count();
-		CourseType = StageCount == 1 
-			? CourseTypes.Linear 
-			: CourseTypes.Staged;
+		if( stageStarts.Count() == 1 )
+		{
+			CourseType = CourseTypes.Linear;
+			StageCount = All.OfType<LinearCheckpoint>().Count();
+		}
+		else
+		{
+			CourseType = CourseTypes.Staged;
+			StageCount = stageStarts.Count();
+		}
 	}
 
 	private void Invalidate( string reason )
