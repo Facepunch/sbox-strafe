@@ -1,8 +1,10 @@
 ﻿
 using Sandbox;
 using Strafe.Map;
+using Strafe.Replays;
 using Strafe.UI;
 using Strafe.Utility;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Strafe.Players;
@@ -33,6 +35,8 @@ internal partial class TimerEntity : Entity
 	[Net, Predicted]
 	public int Strafes { get; set; }
 
+	private List<TimerFrame> Frames = new( 360000 ); 
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -46,6 +50,7 @@ internal partial class TimerEntity : Entity
 		Jumps = 0;
 		Strafes = 0;
 		Checkpoint = 0;
+		Frames.Clear();
 	}
 
 	public void Start()
@@ -80,6 +85,13 @@ internal partial class TimerEntity : Entity
 			var result = await GameServices.SubmitScore( Owner.Client.PlayerId, Timer );
 
 			PrintResult( Owner.Client.PlayerId, result );
+
+			if( Stage == 0 )
+			{
+				var replay = Replay.Create( Frames, Owner.Client.PlayerId );
+
+				ReplayEntity.Play( replay, 5 );
+			}
 		}
 	}
 
@@ -126,6 +138,8 @@ internal partial class TimerEntity : Entity
 			return;
 
 		Timer += Time.Delta;
+
+		Frames.Add( GrabFrame() );
 	}
 
 	public void TeleportTo()
@@ -166,6 +180,19 @@ internal partial class TimerEntity : Entity
 		}
 
 		Chat.AddChatEntry( To.Everyone, "Server", $"Old rank: {result.OldRank} - New rank: {result.NewRank} - Improvement: {result.ScoreDelta.HumanReadable()}s", "bold" );
+	}
+
+	private TimerFrame GrabFrame()
+	{
+		return new TimerFrame()
+		{
+			Velocity = Owner.Velocity,
+			Position = Owner.Position,
+			Angles = Owner.Rotation.Angles(),
+			Time = Timer,
+			Jumps = Jumps,
+			Strafes = Strafes
+		};
 	}
 
 }
