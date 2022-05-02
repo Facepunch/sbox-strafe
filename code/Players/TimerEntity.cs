@@ -34,6 +34,9 @@ internal partial class TimerEntity : Entity
 	public int Jumps { get; set; }
 	[Net, Predicted]
 	public int Strafes { get; set; }
+	[Net, Predicted]
+	public TimerFrame Snapshot { get; set; }
+
 
 	private List<TimerFrame> Frames = new( 360000 ); 
 
@@ -71,6 +74,7 @@ internal partial class TimerEntity : Entity
 			return;
 
 		State = States.Complete;
+		Snapshot = GrabFrame();
 
 		if ( IsServer )
 		{
@@ -104,6 +108,7 @@ internal partial class TimerEntity : Entity
 			return;
 
 		Checkpoint = checkpoint;
+		Snapshot = GrabFrame();
 
 		if ( IsServer )
 		{

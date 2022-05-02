@@ -149,3 +149,28 @@ Leaderboard {
     text-shadow: 1px 1px 0px black;
     font-weight: 600;
 }
+
+CheckpointHud {
+    position: absolute;
+    bottom: 128px;
+    right: 128px;
+    flex-direction: column;
+    font-size: 18px;
+    font-weight: 400;
+    align-items: flex-end;
+    text-shadow: 1px 1px 1px black;
+    transition: all .15s ease-in;
+
+    .row {
+        min-width: 200px;
+        padding: 8px;
+        background-color: rgba( $darkbg .5 );
+        margin-bottom: 4px;
+        border-radius: $smallradius;
+        background-image: url( ui/border.png );
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 98%;
+        text-align: center;
+    }
+}
