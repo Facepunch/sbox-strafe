@@ -4,7 +4,6 @@ using Sandbox.UI;
 using Sandbox.UI.Construct;
 using Strafe.Players;
 using Strafe.Utility;
-using System;
 
 namespace Strafe.UI;
 
@@ -12,52 +11,50 @@ namespace Strafe.UI;
 internal class CheckpointHud : Panel
 {
 
-	private int currenthash = -69420;
+	private TimeSince TimeSinceShown;
 
 	public override void Tick()
 	{
-		if ( !TryGetFrame( out var timer ) )
+		if( TimeSinceShown > 8f )
 		{
 			Style.Opacity = 0;
-			return;
 		}
-
-		Style.Opacity = 1;
-
-		var hash = HashCode.Combine( timer.Stage, timer.Timer );
-		if ( hash == currenthash ) return;
-
-		currenthash = hash;
-		Rebuild( timer );
 	}
 
-	private void Rebuild( TimerEntity timer )
+	private void Rebuild( int stage, TimerEntity timer )
 	{
 		DeleteChildren( true );
 
-		if( StrafeGame.Current.CourseType == CourseTypes.Linear )
+		if( stage == 0 )
 		{
-			Add.Label( $"CP #{timer.Stage}", "row" );
+			Add.Label( "Map", "row" );
 		}
 		else
 		{
-			Add.Label( $"Stage #{timer.Stage}", "row" );
+			if ( StrafeGame.Current.CourseType == CourseTypes.Linear )
+			{
+				Add.Label( $"CP #{stage}", "row" );
+			}
+			else
+			{
+				Add.Label( $"Stage #{stage}", "row" );
+			}
 		}
-		
+
 		Add.Label( $"Time {timer.Timer.HumanReadable()}s", "row" );
 		Add.Label( $"Jumps {timer.Jumps}", "row" );
 		Add.Label( $"Strafes {timer.Strafes}", "row" );
 	}
 
-	private bool TryGetFrame( out TimerEntity timer )
+	[Events.Timer.OnStage]
+	public void OnStage( TimerEntity timer )
 	{
-		timer = null;
+		if ( timer.Owner is not StrafePlayer pl ) return;
+		if ( !pl.IsLocalPawn ) return;
 
-		if ( Local.Pawn is not StrafePlayer pl ) return false;
-
-		timer = pl.PreviousStage();
-
-		return timer.IsValid();
+		Rebuild( timer.Stage, pl.Stage( 0 ) );
+		Style.Opacity = 1;
+		TimeSinceShown = 0;
 	}
 
 }

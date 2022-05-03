@@ -115,13 +115,6 @@ internal partial class StrafePlayer : Sandbox.Player
 		return Children.FirstOrDefault( x => x is TimerEntity t && t.Current ) as TimerEntity;
 	}
 
-	public TimerEntity PreviousStage()
-	{
-		// todo: make this return previous stage if current stage is not complete
-		// and we're beyond stage 1
-		return CurrentStage();
-	}
-
 	public void Restart()
 	{
 		Velocity = 0;

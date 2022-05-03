@@ -70,6 +70,8 @@ internal partial class TimerEntity : Entity
 
 		State = States.Complete;
 
+		Events.Timer.OnStage.Run( this );
+
 		if ( IsServer )
 		{
 			// todo: we want linear checkpoints to be based off of overall time
