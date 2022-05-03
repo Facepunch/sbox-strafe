@@ -3,6 +3,8 @@ using Sandbox.Internal;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Sandbox;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Strafe.Api;
 
@@ -14,6 +16,7 @@ internal class StrafeApi
 
 	private static WebSocket WebSocket;
 	private static int MessageIdAccumulator;
+	private static List<GameMessage> Responses = new();
 
 	public static async Task<T> Fetch<T>( string controller )
 	{
@@ -32,16 +35,36 @@ internal class StrafeApi
 			return default;
 		}
 
-		var msg = new TwoWayMessage()
+		var msg = new GameMessage()
 		{
-			MessageId = ++MessageIdAccumulator,
+			Id = ++MessageIdAccumulator,
 			Controller = controller,
 			Message = jsonData,
 		};
 
 		await WebSocket.Send( JsonSerializer.Serialize( msg ) );
+		var response = await WaitForResponse( msg.Id );
 
-		return default;
+		if( response == null )
+		{
+			Log.Error( $"WebSocket response failed: {controller}" );
+			return default;
+		}
+
+		return JsonSerializer.Deserialize<T>( response.Message );
+	}
+
+	private static async Task<GameMessage> WaitForResponse( int messageid, float timeout = 7f )
+	{
+		RealTimeUntil tu = timeout;
+		while( tu > 0 )
+		{
+			var response = Responses.FirstOrDefault( x => x.Id == messageid );
+			if ( response != null ) return response;
+
+			await Task.Delay( 100 );
+		}
+		return null;
 	}
 
 	private static async Task<bool> EnsureWebSocket()
@@ -50,29 +73,45 @@ internal class StrafeApi
 
 		WebSocket?.Dispose();
 		WebSocket = new();
-		WebSocket.OnDataReceived += WebSocket_OnDataReceived;
 		WebSocket.OnMessageReceived += WebSocket_OnMessageReceived;
 		await WebSocket.Connect( WebSocketEndpoint );
 
 		return WebSocket.IsConnected;
 	}
 
+	[Event.Tick]
+	public static void OnTick()
+	{
+		for ( int i = Responses.Count - 1; i >= 0; i-- )
+		{
+			if ( (Responses[i]?.TimeSinceReceived ?? 0) > 30 )
+			{
+				Responses.RemoveAt( i );
+			}
+		}
+	}
+
 	private static void WebSocket_OnMessageReceived( string message )
 	{
-		Log.Error( "Recieved message: " + message );
+		try
+		{
+			var msg = JsonSerializer.Deserialize<GameMessage>( message );
+			msg.TimeSinceReceived = 0;
+			Responses.Add( msg );
+		}
+		catch( System.Exception e )
+		{
+			Log.Error( e.Message );
+		}
 	}
 
-	private static void WebSocket_OnDataReceived( System.Span<byte> data )
+	public class GameMessage
 	{
-		Log.Error( "Received data: " + data.Length );
-	}
-
-	public class TwoWayMessage
-	{
-		public int MessageId { get; set; }
+		public int Id { get; set; }
 		public string Controller { get; set; }
 		public string Message { get; set; }
-		public string Response { get; set; }
+
+		public TimeSince TimeSinceReceived;
 	}
 
 }
