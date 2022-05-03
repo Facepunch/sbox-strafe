@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using Strafe.Api;
 using Strafe.Players;
 using Strafe.Replays;
 using Strafe.UI;
@@ -45,8 +46,10 @@ internal class RunSubmitter : Entity
 		var replay = Replay.Create( timer.Frames, client.PlayerId );
 		ReplayEntity.Play( replay, 5 );
 
-		var result = await GameServices.SubmitScore( client.PlayerId, timer.Timer );
-		PrintResult( client.PlayerId, result );
+		var jsonData = System.Text.Json.JsonSerializer.Serialize( replay );
+		var result = await StrafeApi.Send<string>( "run", jsonData );
+
+		Chat.AddChatEntry( "Response", result );
 	}
 
 	public static void PrintResult( long playerid, SubmitScoreResult result )

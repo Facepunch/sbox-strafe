@@ -58,6 +58,12 @@ internal partial class StrafeGame : Game
 			var result = await StrafeApi.Fetch<string>( "ping" );
 			Chat.AddChatEntry( "Response", result ); 
 		}
+
+		if(cmdName == "wsping" && Host.IsClient )
+		{
+			var result = await StrafeApi.Send<string>( "wsping", "ping" );
+			Chat.AddChatEntry( "Response", result );
+		}
 	}
 
 	public override void MoveToSpawnpoint( Entity pawn )
