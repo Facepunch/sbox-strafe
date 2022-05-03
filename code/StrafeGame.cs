@@ -1,6 +1,7 @@
 ﻿
 using Sandbox;
 using Strafe.Api;
+using Strafe.Leaderboards;
 using Strafe.Players;
 using Strafe.UI;
 
@@ -20,6 +21,7 @@ internal partial class StrafeGame : Game
 			Global.TickRate = 100;
 
 			_ = new UIEntity();
+			_ = new RunSubmitter();
 		}
 	}
 

@@ -34,7 +34,8 @@ internal partial class TimerEntity : Entity
 	public int Strafes { get; set; }
 
 
-	private List<TimerFrame> Frames = new( 360000 ); 
+	private List<TimerFrame> frames = new( 360000 );
+	public IReadOnlyList<TimerFrame> Frames => frames;
 
 	public override void Spawn()
 	{
@@ -48,7 +49,7 @@ internal partial class TimerEntity : Entity
 		Timer = 0f;
 		Jumps = 0;
 		Strafes = 0;
-		Frames.Clear();
+		frames.Clear();
 	}
 
 	public void Start()
@@ -63,7 +64,7 @@ internal partial class TimerEntity : Entity
 		State = States.Stopped;
 	}
 
-	public async void Complete()
+	public void Complete()
 	{
 		if ( State != States.Live )
 			return;
@@ -71,34 +72,6 @@ internal partial class TimerEntity : Entity
 		State = States.Complete;
 
 		Events.Timer.OnStage.Run( this );
-
-		if ( IsServer )
-		{
-			// todo: we want linear checkpoints to be based off of overall time
-			// and stats rather than offset like stages
-			var term = StrafeGame.Current.CourseType == CourseTypes.Linear
-				? "cp"
-				: "stage";
-
-			var thing = Stage == 0
-				? "the course"
-				: $"{term} {Stage}";
-
-			Chat.AddChatEntry( To.Everyone, "Server", $"{Owner.Client.Name} finished {thing} in {Timer.HumanReadable()}s" );
-
-			if ( Stage != 0 ) return;
-
-			var result = await GameServices.SubmitScore( Owner.Client.PlayerId, Timer );
-
-			PrintResult( Owner.Client.PlayerId, result );
-
-			if( Stage == 0 )
-			{
-				var replay = Replay.Create( Frames, Owner.Client.PlayerId );
-
-				ReplayEntity.Play( replay, 5 );
-			}
-		}
 	}
 
 	public void SetCurrent()
@@ -129,7 +102,7 @@ internal partial class TimerEntity : Entity
 
 		Timer += Time.Delta;
 
-		Frames.Add( GrabFrame() );
+		frames.Add( GrabFrame() );
 	}
 
 	public void TeleportTo()
@@ -157,19 +130,6 @@ internal partial class TimerEntity : Entity
 
 		pl.Position = pos;
 		pl.Rotation = start.Rotation;
-	}
-
-	public static void PrintResult( long playerid, SubmitScoreResult result )
-	{
-		if ( result.ScoreDelta == 0 ) return;
-
-		if( result.NewRank == 1 )
-		{
-			Chat.AddChatEntry( To.Everyone, "Server", "WORLD RECORD!!", "bold purple" );
-			Chat.AddChatEntry( To.Everyone, "Server", "WORLD RECORD!!", "bold purple" );
-		}
-
-		Chat.AddChatEntry( To.Everyone, "Server", $"Old rank: {result.OldRank} - New rank: {result.NewRank} - Improvement: {result.ScoreDelta.HumanReadable()}s", "bold" );
 	}
 
 	private TimerFrame GrabFrame()

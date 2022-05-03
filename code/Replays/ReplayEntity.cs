@@ -36,7 +36,7 @@ internal class ReplayEntity : AnimEntity
 			CurrentLoop++;
 			ResetInterpolation();
 
-			if( NumberOfLoops > 0 && CurrentLoop >= NumberOfLoops )
+			if ( NumberOfLoops > 0 && CurrentLoop >= NumberOfLoops )
 			{
 				Delete();
 			}
