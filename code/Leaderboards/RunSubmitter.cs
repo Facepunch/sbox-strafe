@@ -49,7 +49,7 @@ internal class RunSubmitter : Entity
 		var replayJson = System.Text.Json.JsonSerializer.Serialize( replay );
 		var result = await StrafeApi.Post<string>( "run/submit", replayJson );
 
-		Chat.AddChatEntry( "Response", result );
+		Chat.AddChatEntry( To.Everyone, "Response", result );
 	}
 
 	public static void PrintResult( long playerid, SubmitScoreResult result )
