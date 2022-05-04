@@ -18,7 +18,7 @@ internal class StrafeApi
 	private static int MessageIdAccumulator;
 	private static List<GameMessage> Responses = new();
 
-	public static async Task<T> Fetch<T>( string controller )
+	public static async Task<T> Get<T>( string controller )
 	{
 		var http = new Http( new System.Uri( $"{Endpoint}/{controller}" ) );
 		var result = await http.GetStringAsync();
@@ -27,13 +27,15 @@ internal class StrafeApi
 		return JsonSerializer.Deserialize<T>( result );
 	}
 
-	public static async Task<T> Send<T>( string controller, string jsonData )
+	public static async Task<T> Post<T>( string controller, string jsonData )
 	{
 		if( !await EnsureWebSocket() )
 		{
 			Log.Error( "WebSocket failed to connect" );
 			return default;
 		}
+
+		jsonData ??= string.Empty;
 
 		var msg = new GameMessage()
 		{

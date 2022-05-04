@@ -55,13 +55,13 @@ internal partial class StrafeGame : Game
 
 		if( cmdName == "ping" && Host.IsClient )
 		{
-			var result = await StrafeApi.Fetch<string>( "ping" );
+			var result = await StrafeApi.Get<string>( "ping" );
 			Chat.AddChatEntry( "Response", result ); 
 		}
 
-		if(cmdName == "wsping" && Host.IsClient )
+		if( cmdName == "wsping" && Host.IsClient )
 		{
-			var result = await StrafeApi.Send<string>( "wsping", "ping" );
+			var result = await StrafeApi.Post<string>( "ping", "someData" );
 			Chat.AddChatEntry( "Response", result );
 		}
 	}
