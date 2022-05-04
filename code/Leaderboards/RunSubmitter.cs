@@ -46,8 +46,8 @@ internal class RunSubmitter : Entity
 		var replay = Replay.Create( timer.Frames, client.PlayerId );
 		ReplayEntity.Play( replay, 5 );
 
-		var jsonData = System.Text.Json.JsonSerializer.Serialize( replay );
-		var result = await StrafeApi.Post<string>( "run", jsonData );
+		var replayJson = System.Text.Json.JsonSerializer.Serialize( replay );
+		var result = await StrafeApi.Post<string>( "run/submit", replayJson );
 
 		Chat.AddChatEntry( "Response", result );
 	}
