@@ -30,7 +30,10 @@ internal partial class TimerEntity : Entity
 	[Net, Predicted]
 	public int Strafes { get; set; }
 
+	public TimerFrame Snapshot { get; private set; }
 
+
+	private bool Linear => StrafeGame.Current.CourseType == CourseTypes.Linear;
 	private List<TimerFrame> frames = new( 360000 );
 	public IReadOnlyList<TimerFrame> Frames => frames;
 
@@ -67,6 +70,7 @@ internal partial class TimerEntity : Entity
 			return;
 
 		State = States.Complete;
+		Snapshot = Linear ? (Owner as StrafePlayer).Stage( 0 ).GrabFrame() : GrabFrame();
 
 		Events.Timer.OnStage.Run( this );
 	}
