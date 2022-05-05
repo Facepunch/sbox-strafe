@@ -39,7 +39,7 @@ internal class Leaderboard : Panel
 		var rank = 1;
 		foreach( var entry in q.Entries )
 		{
-			Add.Label( $"#{rank}   {entry.DisplayName}           {entry.Rating.HumanReadable()}s", q.PlayerPlace.ToString() );
+			Add.Label( $"#{rank}   {entry.DisplayName}           {entry.Rating.ToTime()}s", q.PlayerPlace.ToString() );
 			rank++;
 		}
 	}

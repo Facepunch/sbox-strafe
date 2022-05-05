@@ -39,7 +39,7 @@ internal class RunSubmitter : Entity
 			? "the course"
 			: $"{term} {timer.Stage}";
 
-		Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} finished {thing} in {timer.Timer.HumanReadable()}s" );
+		Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} finished {thing} in {timer.Timer.ToTime()}s" );
 
 		if ( timer.Stage != 0 ) return;
 
@@ -62,7 +62,7 @@ internal class RunSubmitter : Entity
 			Chat.AddChatEntry( To.Everyone, "Server", "WORLD RECORD!!", "bold purple" );
 		}
 
-		Chat.AddChatEntry( To.Everyone, "Server", $"Old rank: {result.OldRank} - New rank: {result.NewRank} - Improvement: {result.ScoreDelta.HumanReadable()}s", "bold" );
+		Chat.AddChatEntry( To.Everyone, "Server", $"Old rank: {result.OldRank} - New rank: {result.NewRank} - Improvement: {result.ScoreDelta.ToTime()}s", "bold" );
 	}
 
 }

@@ -22,7 +22,7 @@ internal class TimerHud : Panel
 			if ( stage.State != TimerEntity.States.Live )
 				return stage.State.ToString();
 
-			return stage.Timer.HumanReadable();
+			return stage.Timer.ToTime();
 		}
 	}
 

@@ -41,7 +41,7 @@ internal class CheckpointHud : Panel
 			}
 		}
 
-		Add.Label( $"Time {timer.Timer.HumanReadable()}s", "row" );
+		Add.Label( $"Time {timer.Timer.ToTime()}s", "row" );
 		Add.Label( $"Jumps {timer.Jumps}", "row" );
 		Add.Label( $"Strafes {timer.Strafes}", "row" );
 	}
