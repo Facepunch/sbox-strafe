@@ -23,6 +23,8 @@ internal partial class StrafeGame : Game
 
 			_ = new UIEntity();
 			_ = new RunSubmitter();
+
+			NetworkMapBump();
 		}
 	}
 
