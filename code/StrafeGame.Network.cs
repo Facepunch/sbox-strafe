@@ -29,7 +29,8 @@ internal partial class StrafeGame
 		{
 			Host = Global.ServerSteamId.ToString(),
 			Name = client.Name,
-			PlayerId = client.PlayerId
+			PlayerId = client.PlayerId,
+			MapIdent = Global.MapName
 		};
 
 		await StrafeApi.Post<bool>( "player/login", msg.Serialize() );
