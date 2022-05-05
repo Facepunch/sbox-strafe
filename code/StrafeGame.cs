@@ -4,6 +4,7 @@ using Strafe.Api;
 using Strafe.Leaderboards;
 using Strafe.Players;
 using Strafe.UI;
+using Strafe.Utility;
 
 namespace Strafe;
 
@@ -31,6 +32,8 @@ internal partial class StrafeGame : Game
 
 		client.Pawn = new StrafePlayer();
 		(client.Pawn as StrafePlayer).Respawn();
+
+		NetworkLogin( client );
 	}
 
 	public static async void ExecuteChatCommand( Client cl, string command )
