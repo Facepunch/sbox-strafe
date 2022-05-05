@@ -1,9 +1,6 @@
 ﻿
 using Sandbox;
 using Strafe.Map;
-using Strafe.Replays;
-using Strafe.UI;
-using Strafe.Utility;
 using System.Collections.Generic;
 using System.Linq;
 

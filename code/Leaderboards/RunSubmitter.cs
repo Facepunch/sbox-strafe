@@ -2,9 +2,9 @@
 using Sandbox;
 using Strafe.Api;
 using Strafe.Players;
-using Strafe.Replays;
 using Strafe.UI;
 using Strafe.Utility;
+using System.Linq;
 
 namespace Strafe.Leaderboards;
 
@@ -43,7 +43,7 @@ internal class RunSubmitter : Entity
 
 		if ( timer.Stage != 0 ) return;
 
-		var replay = Replay.Create( timer.Frames, client.PlayerId );
+		var replay = new Replay( timer.Frames.ToList() );
 		ReplayEntity.Play( replay, 5 );
 
 		var replayJson = System.Text.Json.JsonSerializer.Serialize( replay );

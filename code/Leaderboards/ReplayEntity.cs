@@ -2,7 +2,7 @@
 using Sandbox;
 using Strafe.Players;
 
-namespace Strafe.Replays;
+namespace Strafe.Leaderboards;
 
 internal class ReplayEntity : AnimEntity
 {
