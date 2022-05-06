@@ -14,7 +14,7 @@ internal class StatusHud : Panel
 	{
 		base.Tick();
 
-		var connected = StrafeApi.Connected;
+		var connected = StrafeGame.Current.Connected;
 		if( HasClass("connected") != connected )
 		{
 			SetClass( "connected", connected );

@@ -4,7 +4,6 @@ using Strafe.Api;
 using Strafe.Leaderboards;
 using Strafe.Players;
 using Strafe.UI;
-using Strafe.Utility;
 
 namespace Strafe;
 

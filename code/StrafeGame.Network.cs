@@ -8,6 +8,9 @@ namespace Strafe;
 internal partial class StrafeGame
 {
 
+	[Net]
+	public bool Connected { get; set; }
+
 	private async void NetworkMapBump()
 	{
 		Host.AssertServer();
@@ -35,5 +38,8 @@ internal partial class StrafeGame
 
 		await StrafeApi.Post<bool>( "player/login", msg.Serialize() );
 	}
+
+	[Event.Tick.Server]
+	private void OnTick() => Connected = StrafeApi.Connected;
 
 }
