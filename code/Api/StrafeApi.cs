@@ -11,6 +11,7 @@ namespace Strafe.Api;
 internal class StrafeApi
 {
 
+	public static bool Connected => WebSocket?.IsConnected ?? false;
 	public static string Endpoint => "https://localhost:7265/api";
 	public static string WebSocketEndpoint => "wss://localhost:7265/api/ws";
 

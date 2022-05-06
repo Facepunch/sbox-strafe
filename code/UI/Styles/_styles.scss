@@ -26,7 +26,7 @@ TimerHud {
         border-radius: $largeradius;
         flex-direction: column;
         background-image: url( ui/border.png );
-        background-repeat:no-repeat;
+        background-repeat: no-repeat;
         background-position: center center;
         background-size: 100%;
         background-tint: $lightaccent;
@@ -172,5 +172,36 @@ CheckpointHud {
         background-position: center center;
         background-size: 98%;
         text-align: center;
+    }
+}
+
+StatusHud {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+
+    &.connected .api-status {
+        display: none;
+    }
+
+    .api-status {
+        position: absolute;
+        left: 175px;
+        bottom: 128px;
+        align-items: center;
+        padding: 4px 8px;
+        background-color: rgba( $bg .5 );
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            background-color: #ff0000;
+            margin-right: 5px;
+        }
+    }
+
+    &.connected .api-status .dot {
+        background-color: #00ff90;
     }
 }
