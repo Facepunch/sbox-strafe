@@ -50,9 +50,9 @@ internal class RunSubmitter : Entity
 		//we can send replay data over somehow as well
 
 		var runJson = System.Text.Json.JsonSerializer.Serialize( StageSubmission.From( timer ) );
-		var result = await StrafeApi.Post<string>( "stage/submit", runJson );
+		var result = await StrafeApi.Post<StageSubmissionResult>( "stage/submit", runJson );
 
-		Chat.AddChatEntry( To.Everyone, "Response", result );
+		Chat.AddChatEntry( To.Everyone, "Response", result.Serialize() );
 	}
 
 	public static void PrintResult( long playerid, SubmitScoreResult result )

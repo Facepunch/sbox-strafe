@@ -18,6 +18,7 @@ internal class StrafeApi
 	private static WebSocket WebSocket;
 	private static int MessageIdAccumulator;
 	private static List<GameMessage> Responses = new();
+	private static JsonSerializerOptions JsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
 	public static async Task<T> Get<T>( string controller )
 	{
@@ -45,7 +46,7 @@ internal class StrafeApi
 			Message = jsonData,
 		};
 
-		await WebSocket.Send( JsonSerializer.Serialize( msg ) );
+		await WebSocket.Send( JsonSerializer.Serialize( msg, JsonOptions ) );
 		var response = await WaitForResponse( msg.Id );
 
 		if( response == null )
@@ -54,7 +55,7 @@ internal class StrafeApi
 			return default;
 		}
 
-		return JsonSerializer.Deserialize<T>( response.Message );
+		return JsonSerializer.Deserialize<T>( response.Message, JsonOptions );
 	}
 
 	private static async Task<GameMessage> WaitForResponse( int messageid, float timeout = 7f )
