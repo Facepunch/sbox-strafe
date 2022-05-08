@@ -58,6 +58,8 @@ internal partial class StrafeGame
 			CourseType = CourseTypes.Staged;
 			StageCount = stageStarts.Count();
 		}
+
+		NetworkMapBump();
 	}
 
 	private void Invalidate( string reason )

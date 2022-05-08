@@ -15,9 +15,14 @@ internal partial class StrafeGame
 	{
 		Host.AssertServer();
 
+		var pkg = await Package.Fetch( Global.MapName, true );
+		var mapTitle = pkg?.Title ?? string.Empty;
+
 		var msg = new MapBumpMessage()
 		{
 			MapIdent = Global.MapName,
+			MapTitle = mapTitle,
+			CourseType = CourseType,
 			Host = Global.ServerSteamId.ToString()
 		};
 
