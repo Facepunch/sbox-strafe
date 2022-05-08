@@ -75,16 +75,23 @@ internal class StrafeApi
 		return null;
 	}
 
+	private static bool connectionInProgress;
 	private static async Task<bool> EnsureWebSocket()
 	{
 		Host.AssertServer();
 
+		while ( connectionInProgress ) await Task.Delay( 100 );
+
 		if ( WebSocket?.IsConnected ?? false ) return true;
+
+		connectionInProgress = true;
 
 		WebSocket?.Dispose();
 		WebSocket = new();
 		WebSocket.OnMessageReceived += WebSocket_OnMessageReceived;
 		await WebSocket.Connect( WebSocketEndpoint );
+
+		connectionInProgress = false;
 
 		return WebSocket.IsConnected;
 	}
