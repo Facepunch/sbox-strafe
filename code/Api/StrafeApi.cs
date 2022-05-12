@@ -59,7 +59,15 @@ internal class StrafeApi
 			return default;
 		}
 
-		return JsonSerializer.Deserialize<T>( response.Message, JsonOptions );
+		try
+		{
+			return JsonSerializer.Deserialize<T>( response.Message, JsonOptions );
+		}
+		catch( System.Exception e )
+		{
+			Log.Warning( "Errored on WebSocket message: " + e.Message );
+			return default;
+		}
 	}
 
 	private static async Task<GameMessage> WaitForResponse( int messageid, float timeout = 7f )
