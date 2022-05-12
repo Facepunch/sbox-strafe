@@ -55,16 +55,22 @@ internal partial class StrafeGame : Game
 			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Drop;
 		}
 
-		if( cmdName == "ping" && Host.IsClient )
+		if( cmdName == "ping" && Host.IsServer )
 		{
 			var result = await StrafeApi.Get<string>( "ping" );
 			Chat.AddChatEntry( "Response", result ); 
 		}
 
-		if( cmdName == "wsping" && Host.IsClient )
+		if( cmdName == "wsping" && Host.IsServer )
 		{
 			var result = await StrafeApi.Post<string>( "ping", "someData" );
-			Chat.AddChatEntry( "Response", result );
+			Chat.AddChatEntry( To.Everyone, "Response", result );
+		}
+
+		if( cmdName == "wt" && Host.IsServer )
+		{
+			var result = await StrafeApi.Post<string>( "ping/whitelisted", "someData" );
+			Chat.AddChatEntry( To.Everyone, "Response", result );
 		}
 	}
 
