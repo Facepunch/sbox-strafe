@@ -118,7 +118,7 @@ internal class StrafeApi
 		}
 		catch( System.Exception e )
 		{
-			Log.Error( e.Message );
+			Log.Warning( e.Message );
 		}
 	}
 
