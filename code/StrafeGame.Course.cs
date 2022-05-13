@@ -59,7 +59,7 @@ internal partial class StrafeGame
 			StageCount = stageStarts.Count();
 		}
 
-		NetworkMapBump();
+		NetworkServerLogin();
 	}
 
 	private void Invalidate( string reason )

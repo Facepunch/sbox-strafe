@@ -11,31 +11,36 @@ internal partial class StrafeGame
 	[Net]
 	public bool Connected { get; set; }
 
-	private async void NetworkMapBump()
+	private async void NetworkServerLogin()
 	{
 		Host.AssertServer();
+
+		if ( !Global.IsDedicatedServer ) return;
 
 		var pkg = await Package.Fetch( Global.MapName, true );
 		var mapTitle = pkg?.Title ?? string.Empty;
 
-		var msg = new MapBumpMessage()
+		var msg = new ServerLoginMessage()
 		{
+			SteamId = Global.ServerSteamId,
+			ServerName = string.Empty, // no way to grab this yet?
 			MapIdent = Global.MapName,
 			MapTitle = mapTitle,
-			CourseType = CourseType,
-			Host = Global.ServerSteamId.ToString()
+			CourseType = CourseType
 		};
 
-		await StrafeApi.Post<bool>( "map/bump", msg.Serialize() );
+		await StrafeApi.Post<bool>( "server/login", msg.Serialize() );
 	}
 
-	private async void NetworkLogin( Client client )
+	private async void NetworkClientLogin( Client client )
 	{
 		Host.AssertServer();
 
+		if ( !Global.IsDedicatedServer ) return;
+
 		var msg = new LoginMessage()
 		{
-			Host = Global.ServerSteamId.ToString(),
+			ServerSteamId = (long)Global.ServerSteamId,
 			Name = client.Name,
 			PlayerId = client.PlayerId,
 			MapIdent = Global.MapName
