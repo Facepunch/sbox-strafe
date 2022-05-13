@@ -1,11 +1,15 @@
 ﻿
 using Sandbox;
 using Strafe.Players;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace Strafe.Map;
 
-[Library( "strafe_trigger_start", Description = "Where the timer will begin a stage" )]
+[Hammer.AutoApplyMaterial( "materials/editor/start/strafe_trigger_start.vmat" )]
+[Display( Name = "Stage Start" )]
+[Library( "strafe_trigger_start", Description = "Where the timer will begin a stage" ), Category( "Triggers" ), Icon( "flag" )]
 internal partial class StageStart : BaseZone
 {
 
@@ -64,7 +68,9 @@ internal partial class StageStart : BaseZone
 
 }
 
-[Library( "strafe_trigger_end", Description = "Where the timer will end a stage" )]
+[Display( Name = "Stage End" )]
+[Hammer.AutoApplyMaterial( "materials/editor/end/strafe_trigger_end.vmat" )]
+[Library( "strafe_trigger_end", Description = "Where the timer will end a stage" ), Category( "Triggers" ), Icon( "outlined_flag" )]
 internal partial class StageEnd : BaseZone
 {
 
@@ -97,7 +103,9 @@ internal partial class StageEnd : BaseZone
 
 }
 
-[Library( "strafe_trigger_checkpoint", Description = "Where the timer will set a checkpoint" )]
+[Display( Name = "Checkpoint" )]
+[Hammer.AutoApplyMaterial( "materials/editor/checkpoint/strafe_trigger_checkpoint.vmat" )]
+[Library( "strafe_trigger_checkpoint", Description = "Where the timer will set a checkpoint" ), Category( "Triggers" ), Icon( "flag_circle" )]
 internal partial class LinearCheckpoint : BaseZone
 {
 

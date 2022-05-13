@@ -1,10 +1,13 @@
 ﻿
 using Sandbox;
 using Strafe.Players;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Strafe.Map;
 
 [Library("trigger_teleport")]
+[Display( Name = "Teleport Trigger" ), Category( "Triggers" ), Icon( "rotate_left" )]
 internal partial class StrafeTriggerTeleport : StrafeTrigger
 {
 
