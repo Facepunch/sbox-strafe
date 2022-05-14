@@ -33,6 +33,7 @@ internal class Backend
 		return JsonSerializer.Deserialize<T>( result );
 	}
 
+	public static async Task Post( string controller, string jsonData ) => await Post<object>( controller, jsonData );
 	public static async Task<T> Post<T>( string controller, string jsonData )
 	{
 		if( !await EnsureWebSocket() )
