@@ -4,6 +4,7 @@ using Strafe.Map;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace Strafe.Players;
 
@@ -236,9 +237,12 @@ partial class StrafeController : WalkController
 			BaseVelocity = BaseVelocity.WithZ( 0 );
 		}
 
-		if ( AutoJump ? Input.Down( InputButton.Jump ) : Input.Pressed( InputButton.Jump ) )
+		if ( !Swimming )
 		{
-			CheckJumpButton();
+			if ( AutoJump ? Input.Down( InputButton.Jump ) : Input.Pressed( InputButton.Jump ) )
+			{
+				CheckJumpButton();
+			}
 		}
 
 		bool bStartOnGround = GroundEntity != null;
@@ -254,7 +258,16 @@ partial class StrafeController : WalkController
 
 		WishVelocity = new Vector3( Input.Forward, Input.Left, 0 );
 		var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
-		WishVelocity *= Input.Rotation.Angles().WithPitch( 0 ).ToRotation();
+
+		if ( !Swimming )
+		{
+			WishVelocity *= Input.Rotation.Angles().WithPitch( 0 ).ToRotation();
+		}
+		else
+		{
+			WishVelocity *= Input.Rotation.Angles().ToRotation();
+		}
+		
 
 		if ( !Swimming/* && !IsTouchingLadder*/ )
 		{
@@ -269,7 +282,7 @@ partial class StrafeController : WalkController
 		bool bStayOnGround = false;
 		if ( Swimming )
 		{
-			ApplyFriction( 1 );
+			ApplyFriction( 1f );
 			WaterMove();
 		}
 		//else if ( IsTouchingLadder )
@@ -299,6 +312,131 @@ partial class StrafeController : WalkController
 			Velocity = Velocity.WithZ( 0 );
 		}
 	}
+
+	public override void WaterMove()
+	{
+		var wishdir = WishVelocity.Normal;
+		var wishspeed = WishVelocity.Length;
+		var wishvel = WishVelocity;
+
+		AngleVectors( Input.Rotation.Angles(), out Vector3 fwd, out Vector3 right, out Vector3 up );  // Determine movement angles
+
+		for ( int i = 0; i < 3; i++ )
+		{
+			wishvel[i] = fwd[i] * Input.Forward + right[i] * Input.Left;
+		}
+
+		// if we have the jump key down, move us up as well
+		if ( Input.Down( InputButton.Jump ) )
+		{
+			wishvel[2] += DefaultSpeed * Time.Delta;
+		}
+		// Sinking after no other movement occurs
+		else if ( wishvel.IsNearlyZero() )
+		{
+			wishvel[2] -= 60 * Time.Delta;       // drift towards bottom
+		}
+		else  // Go straight up by upmove amount.
+		{
+			// exaggerate upward movement along forward as well
+			float upwardMovememnt = Input.Forward * fwd.z * 2;
+			upwardMovememnt = Math.Clamp( upwardMovememnt, 0f, DefaultSpeed );
+			wishvel[2] += Input.Up + upwardMovememnt;
+		}
+
+		wishdir = wishvel;
+		wishspeed = wishdir.Length;
+		wishdir = wishdir.Normal;
+
+		// Cap speed.
+		if ( wishspeed > DefaultSpeed )
+		{
+			wishvel *= DefaultSpeed / wishspeed;
+			wishspeed = DefaultSpeed;
+		}
+
+		wishspeed *= 0.8f;
+
+		var temp = Velocity;
+		var speed = temp.Length;
+		var newspeed = 0f;
+		temp = temp.Normal;
+
+		if( speed > 0 )
+		{
+			newspeed = speed - Time.Delta * speed * GroundFriction * SurfaceFriction;
+			if ( newspeed < 0.1f )
+			{
+				newspeed = 0;
+			}
+
+			Velocity *= newspeed / speed;
+		}
+
+		float addspeed;
+		float accelspeed;
+
+		// water acceleration
+		if ( wishspeed >= 0.1f )  // old !
+		{
+			addspeed = wishspeed - newspeed;
+			if ( addspeed > 0 )
+			{
+				wishvel = wishvel.Normal;
+
+				accelspeed = Acceleration * wishspeed * Time.Delta * SurfaceFriction;
+				if ( accelspeed > addspeed )
+				{
+					accelspeed = addspeed;
+				}
+
+				for ( int i = 0; i < 3; i++ )
+				{
+					Velocity += accelspeed * wishvel;
+				}
+			}
+		}
+
+		Velocity += BaseVelocity;
+
+		Move();
+
+		Velocity -= BaseVelocity;
+	}
+
+	private static void AngleVectors( Angles angles, out Vector3 forward, out Vector3 right, out Vector3 up )
+	{
+		var quat = Rotation.From( angles );
+		forward = quat * Vector3.Forward;
+		right = quat * Vector3.Right;
+		up = quat * Vector3.Up;
+	}
+
+	//public override void WaterMove()
+	//{
+	//	var wishdir = WishVelocity.Normal;
+	//	var wishspeed = WishVelocity.Length;
+
+	//	wishspeed *= 0.8f;
+
+	//	Accelerate( wishdir, wishspeed, 100, Acceleration );
+
+	//	if ( wishdir.IsNearZeroLength )
+	//	{
+	//		Velocity += Vector3.Down * 120 * Time.Delta;
+	//	}
+
+	//	if ( Input.Down( InputButton.Jump ) )
+	//	{
+	//		Velocity += Vector3.Up * DefaultSpeed * Time.Delta;
+	//	}
+
+	//	Velocity += BaseVelocity;
+
+	//	Move();
+
+	//	Velocity -= BaseVelocity;
+	//}
 
 }
 

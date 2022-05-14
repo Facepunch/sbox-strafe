@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Strafe.Api;
 
-internal class StrafeApi
+internal class Backend
 {
 
 	public static bool Connected => WebSocket?.IsConnected ?? false;
@@ -109,7 +109,7 @@ internal class StrafeApi
 	{
 		for ( int i = Responses.Count - 1; i >= 0; i-- )
 		{
-			if ( (Responses[i]?.TimeSinceReceived ?? 0) > 30 )
+			if ( (Responses[i]?.TimeSinceReceived ?? 0) > 7f )
 			{
 				Responses.RemoveAt( i );
 			}

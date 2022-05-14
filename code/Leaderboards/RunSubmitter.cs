@@ -1,6 +1,7 @@
 ﻿
 using Sandbox;
 using Strafe.Api;
+using Strafe.Api.Messages;
 using Strafe.Players;
 using Strafe.UI;
 using Strafe.Utility;
@@ -50,7 +51,7 @@ internal class RunSubmitter : Entity
 		//we can send replay data over somehow as well
 
 		var runJson = System.Text.Json.JsonSerializer.Serialize( StageSubmission.From( timer ) );
-		var result = await StrafeApi.Post<StageSubmissionResult>( "stage/submit", runJson );
+		var result = await Backend.Post<StageSubmissionResult>( "stage/submit", runJson );
 
 		Chat.AddChatEntry( To.Everyone, "Response", result.Serialize() );
 	}

@@ -1,6 +1,7 @@
 ﻿
 using Sandbox;
 using Strafe.Api;
+using Strafe.Api.Messages;
 using Strafe.Utility;
 
 namespace Strafe;
@@ -20,7 +21,7 @@ internal partial class StrafeGame
 		var pkg = await Package.Fetch( Global.MapName, true );
 		var mapTitle = pkg?.Title ?? string.Empty;
 
-		var msg = new ServerLoginMessage()
+		var msg = new ServerLogin()
 		{
 			SteamId = Global.ServerSteamId,
 			ServerName = string.Empty, // no way to grab this yet?
@@ -29,7 +30,7 @@ internal partial class StrafeGame
 			CourseType = CourseType
 		};
 
-		await StrafeApi.Post<bool>( "server/login", msg.Serialize() );
+		await Backend.Post<bool>( "server/login", msg.Serialize() );
 	}
 
 	private async void NetworkClientLogin( Client client )
@@ -38,7 +39,7 @@ internal partial class StrafeGame
 
 		if ( !Global.IsDedicatedServer ) return;
 
-		var msg = new LoginMessage()
+		var msg = new ClientLogin()
 		{
 			ServerSteamId = (long)Global.ServerSteamId,
 			Name = client.Name,
@@ -46,10 +47,10 @@ internal partial class StrafeGame
 			MapIdent = Global.MapName
 		};
 
-		await StrafeApi.Post<bool>( "player/login", msg.Serialize() );
+		await Backend.Post<bool>( "player/login", msg.Serialize() );
 	}
 
 	[Event.Tick.Server]
-	private void OnTick() => Connected = StrafeApi.Connected;
+	private void OnTick() => Connected = Backend.Connected;
 
 }

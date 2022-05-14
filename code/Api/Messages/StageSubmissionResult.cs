@@ -1,7 +1,7 @@
 ﻿
 using Strafe.Players;
 
-namespace Strafe.Leaderboards;
+namespace Strafe.Api.Messages;
 
 internal class StageSubmissionResult
 {

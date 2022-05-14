@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Strafe.Leaderboards;
+namespace Strafe.Api.Messages;
 
-internal class StageSubmission
+internal class StageSubmission 
 {
 
 	public string MapIdent { get; set; }

@@ -1,7 +1,7 @@
 ﻿
-namespace Strafe.Api;
+namespace Strafe.Api.Messages;
 
-public class ServerLoginMessage
+internal class ServerLogin
 {
 	public ulong SteamId { get; set; }
 	public string ServerName { get; set; }

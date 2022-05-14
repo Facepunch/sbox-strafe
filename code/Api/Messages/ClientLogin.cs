@@ -1,7 +1,7 @@
 ﻿
-namespace Strafe.Api;
+namespace Strafe.Api.Messages;
 
-internal class LoginMessage
+internal class ClientLogin
 {
 
 	public long PlayerId { get; set; }
