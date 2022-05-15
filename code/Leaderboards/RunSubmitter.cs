@@ -50,8 +50,8 @@ internal class RunSubmitter : Entity
 		//var replayJson = System.Text.Json.JsonSerializer.Serialize( replay );
 		//we can send replay data over somehow as well
 
-		var runJson = System.Text.Json.JsonSerializer.Serialize( StageSubmission.From( timer ) );
-		var result = await Backend.Post<StageSubmissionResult>( "stage/submit", runJson );
+		var runJson = System.Text.Json.JsonSerializer.Serialize( CompletionData.From( timer ) );
+		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
 		Chat.AddChatEntry( To.Everyone, "Response", result.Serialize() );
 	}

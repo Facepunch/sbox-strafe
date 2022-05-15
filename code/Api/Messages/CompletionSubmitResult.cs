@@ -3,7 +3,7 @@ using Strafe.Players;
 
 namespace Strafe.Api.Messages;
 
-internal class StageSubmissionResult
+internal class CompletionSubmitResult
 {
 
 	public int NewRank { get; set; }

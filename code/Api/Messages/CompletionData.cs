@@ -6,21 +6,20 @@ using System.Linq;
 
 namespace Strafe.Api.Messages;
 
-internal class StageSubmission 
+internal class CompletionData 
 {
 
 	public string MapIdent { get; set; }
 	public long PlayerId { get; set; }
 	public int Stage { get; set; }
 	public Dictionary<int, TimerFrame> Stats { get; set; } = new();
-	//public Replay Replay { get; set; }
 	public DateTimeOffset Date { get; set; }
 
-	public static StageSubmission From( TimerEntity timer )
+	public static CompletionData From( TimerEntity timer )
 	{
 		if ( timer.Owner is not StrafePlayer pl ) return null;
 
-		var result = new StageSubmission();
+		var result = new CompletionData();
 		result.PlayerId = pl.Client.PlayerId;
 		result.Stage = timer.Stage;
 		result.MapIdent = Global.MapName;
