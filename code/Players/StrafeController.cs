@@ -237,12 +237,9 @@ partial class StrafeController : WalkController
 			BaseVelocity = BaseVelocity.WithZ( 0 );
 		}
 
-		if ( !Swimming )
+		if ( AutoJump ? Input.Down( InputButton.Jump ) : Input.Pressed( InputButton.Jump ) )
 		{
-			if ( AutoJump ? Input.Down( InputButton.Jump ) : Input.Pressed( InputButton.Jump ) )
-			{
-				CheckJumpButton();
-			}
+			CheckJumpButton();
 		}
 
 		bool bStartOnGround = GroundEntity != null;
