@@ -42,7 +42,7 @@ partial class StrafeController : WalkController
 
 		BaseSimulate();
 
-		if( Input.Left != 0 )
+		if ( Input.Left != 0 )
 		{
 			if ( MathF.Sign( Input.Left ) != MathF.Sign( LastLeft ) )
 				AddEvent( "strafe" );
@@ -57,7 +57,7 @@ partial class StrafeController : WalkController
 
 		if ( name.Equals( "jump" ) )
 		{
-			foreach( var ent in Pawn.Children )
+			foreach ( var ent in Pawn.Children )
 			{
 				if ( ent is not TimerEntity t ) continue;
 				if ( t.State != TimerEntity.States.Live ) continue;
@@ -209,7 +209,7 @@ partial class StrafeController : WalkController
 				}
 			}
 		}
-		catch( System.Exception e )
+		catch ( System.Exception e )
 		{
 			Log.Error( e );
 		}
@@ -267,7 +267,7 @@ partial class StrafeController : WalkController
 		{
 			WishVelocity *= Input.Rotation.Angles().ToRotation();
 		}
-		
+
 
 		if ( !Swimming/* && !IsTouchingLadder*/ )
 		{
@@ -282,6 +282,9 @@ partial class StrafeController : WalkController
 		bool bStayOnGround = false;
 		if ( Swimming )
 		{
+			if ( Pawn.WaterLevel.AlmostEqual( 0.6f, .05f ) )
+				CheckWaterJump();
+
 			ApplyFriction( 1f );
 			WaterMove();
 		}
@@ -313,58 +316,81 @@ partial class StrafeController : WalkController
 		}
 	}
 
+	[Net, Predicted]
+	public TimeSince TimeSinceWaterJump { get; set; }
+	private void CheckWaterJump()
+	{
+		if ( !Input.Down( InputButton.Jump ) )
+			return;
+
+		if ( TimeSinceWaterJump < 2f )
+			return;
+
+		if ( Velocity.z < -180 )
+			return;
+
+		var fwd = Rotation * Vector3.Forward;
+		var flatvelocity = Velocity.WithZ( 0 );
+		var curspeed = flatvelocity.Length;
+		flatvelocity = flatvelocity.Normal;
+		var flatforward = fwd.WithZ( 0 ).Normal;
+
+		// Are we backing into water from steps or something?  If so, don't pop forward
+		if ( !curspeed.AlmostEqual( 0f ) && (Vector3.Dot( flatvelocity, flatforward ) < 0f) )
+			return;
+
+		var vecstart = Position + (mins + maxs) * .5f;
+		var vecend = vecstart + flatforward * 24f;
+
+		var tr = TraceBBox( vecstart, vecend, 0f );
+		if ( tr.Fraction < 1.0f )
+		{
+			const float WATERJUMP_HEIGHT = 8f;
+			vecstart.z += Position.z + EyeHeight + WATERJUMP_HEIGHT;
+
+			vecend = vecstart + flatforward * 24f;
+
+			tr = TraceBBox( vecstart, vecend );
+			if ( tr.Fraction == 1.0f )
+			{
+				vecstart = vecend;
+				vecend.z -= 1024f;
+				tr = TraceBBox( vecstart, vecend );
+				if ( (tr.Fraction < 1.0f) && (tr.Normal.z >= 0.7f) )
+				{
+					Velocity = Velocity.WithZ( 356f );
+					TimeSinceWaterJump = 0f;
+				}
+			}
+		}
+	}
+
 	public override void WaterMove()
 	{
-		var wishdir = WishVelocity.Normal;
-		var wishspeed = WishVelocity.Length;
 		var wishvel = WishVelocity;
 
-		AngleVectors( Input.Rotation.Angles(), out Vector3 fwd, out Vector3 right, out Vector3 up );  // Determine movement angles
-
-		for ( int i = 0; i < 3; i++ )
-		{
-			wishvel[i] = fwd[i] * Input.Forward + right[i] * Input.Left;
-		}
-
-		// if we have the jump key down, move us up as well
 		if ( Input.Down( InputButton.Jump ) )
 		{
-			wishvel[2] += DefaultSpeed * Time.Delta;
+			wishvel[2] += DefaultSpeed;
 		}
-		// Sinking after no other movement occurs
 		else if ( wishvel.IsNearlyZero() )
 		{
-			wishvel[2] -= 60 * Time.Delta;       // drift towards bottom
+			wishvel[2] -= 60;
 		}
-		else  // Go straight up by upmove amount.
+		else
 		{
-			// exaggerate upward movement along forward as well
-			float upwardMovememnt = Input.Forward * fwd.z * 2;
+			float upwardMovememnt = Input.Forward * (Rotation * Vector3.Forward).z * 2;
 			upwardMovememnt = Math.Clamp( upwardMovememnt, 0f, DefaultSpeed );
 			wishvel[2] += Input.Up + upwardMovememnt;
 		}
 
-		wishdir = wishvel;
-		wishspeed = wishdir.Length;
-		wishdir = wishdir.Normal;
+		var speed = Velocity.Length;
+		var wishspeed = Math.Min( wishvel.Length, DefaultSpeed ) * 0.8f;
+		var wishdir = wishvel.Normal;
 
-		// Cap speed.
-		if ( wishspeed > DefaultSpeed )
+		if ( speed > 0 )
 		{
-			wishvel *= DefaultSpeed / wishspeed;
-			wishspeed = DefaultSpeed;
-		}
-
-		wishspeed *= 0.8f;
-
-		var temp = Velocity;
-		var speed = temp.Length;
-		var newspeed = 0f;
-		temp = temp.Normal;
-
-		if( speed > 0 )
-		{
-			newspeed = speed - Time.Delta * speed * GroundFriction * SurfaceFriction;
+			var newspeed = speed - Time.Delta * speed * GroundFriction * SurfaceFriction;
 			if ( newspeed < 0.1f )
 			{
 				newspeed = 0;
@@ -373,28 +399,9 @@ partial class StrafeController : WalkController
 			Velocity *= newspeed / speed;
 		}
 
-		float addspeed;
-		float accelspeed;
-
-		// water acceleration
 		if ( wishspeed >= 0.1f )  // old !
 		{
-			addspeed = wishspeed - newspeed;
-			if ( addspeed > 0 )
-			{
-				wishvel = wishvel.Normal;
-
-				accelspeed = Acceleration * wishspeed * Time.Delta * SurfaceFriction;
-				if ( accelspeed > addspeed )
-				{
-					accelspeed = addspeed;
-				}
-
-				for ( int i = 0; i < 3; i++ )
-				{
-					Velocity += accelspeed * wishvel;
-				}
-			}
+			Accelerate( wishdir, wishspeed, 100, Acceleration );
 		}
 
 		Velocity += BaseVelocity;
@@ -403,40 +410,6 @@ partial class StrafeController : WalkController
 
 		Velocity -= BaseVelocity;
 	}
-
-	private static void AngleVectors( Angles angles, out Vector3 forward, out Vector3 right, out Vector3 up )
-	{
-		var quat = Rotation.From( angles );
-		forward = quat * Vector3.Forward;
-		right = quat * Vector3.Right;
-		up = quat * Vector3.Up;
-	}
-
-	//public override void WaterMove()
-	//{
-	//	var wishdir = WishVelocity.Normal;
-	//	var wishspeed = WishVelocity.Length;
-
-	//	wishspeed *= 0.8f;
-
-	//	Accelerate( wishdir, wishspeed, 100, Acceleration );
-
-	//	if ( wishdir.IsNearZeroLength )
-	//	{
-	//		Velocity += Vector3.Down * 120 * Time.Delta;
-	//	}
-
-	//	if ( Input.Down( InputButton.Jump ) )
-	//	{
-	//		Velocity += Vector3.Up * DefaultSpeed * Time.Delta;
-	//	}
-
-	//	Velocity += BaseVelocity;
-
-	//	Move();
-
-	//	Velocity -= BaseVelocity;
-	//}
 
 }
 
