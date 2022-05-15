@@ -13,11 +13,11 @@ internal class Backend
 
 	public static bool Connected => WebSocket?.IsConnected ?? false;
 
-	public static string Endpoint => "https://localhost:7265/api";
-	public static string WebSocketEndpoint => "wss://localhost:7265/api/ws";
+	//public static string Endpoint => "https://localhost:7265/api";
+	//public static string WebSocketEndpoint => "wss://localhost:7265/api/ws";
 
-	//public static string Endpoint => "https://strafedb.com/api";
-	//public static string WebSocketEndpoint => "wss://strafedb.com/api/ws";
+	public static string Endpoint => "https://strafedb.com/api";
+	public static string WebSocketEndpoint => "wss://strafedb.com/api/ws";
 
 	private static WebSocket WebSocket;
 	private static int MessageIdAccumulator;
