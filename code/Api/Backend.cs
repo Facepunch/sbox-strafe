@@ -13,11 +13,11 @@ internal class Backend
 
 	public static bool Connected => WebSocket?.IsConnected ?? false;
 
-	//public static string Endpoint => "https://localhost:7265/api";
-	//public static string WebSocketEndpoint => "wss://localhost:7265/api/ws";
+	public static string Endpoint => "https://localhost:7265/api";
+	public static string WebSocketEndpoint => "wss://localhost:7265/api/ws";
 
-	public static string Endpoint => "https://strafedb.com/api";
-	public static string WebSocketEndpoint => "wss://strafedb.com/api/ws";
+	//public static string Endpoint => "https://strafedb.com/api";
+	//public static string WebSocketEndpoint => "wss://strafedb.com/api/ws";
 
 	private static WebSocket WebSocket;
 	private static int MessageIdAccumulator;
@@ -33,7 +33,24 @@ internal class Backend
 		return JsonSerializer.Deserialize<T>( result );
 	}
 
-	public static async Task Post( string controller, string jsonData ) => await Post<object>( controller, jsonData );
+	public static async Task Post( string controller, string jsonData )
+	{
+		if ( !await EnsureWebSocket() )
+		{
+			Log.Error( "WebSocket failed to connect" );
+			return;
+		}
+
+		var msg = new GameMessage()
+		{
+			Id = ++MessageIdAccumulator,
+			Controller = controller,
+			Message = jsonData,
+		};
+
+		await WebSocket.Send( JsonSerializer.Serialize( msg, JsonOptions ) );
+	}
+
 	public static async Task<T> Post<T>( string controller, string jsonData )
 	{
 		if( !await EnsureWebSocket() )
