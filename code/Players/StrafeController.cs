@@ -20,6 +20,11 @@ partial class StrafeController : WalkController
 	private Vector3 LastBaseVelocity;
 	private float LastLeft;
 
+	public StrafeController()
+	{
+		Duck = new StrafeDuck( this );
+	}
+
 	public void OnDeactivate()
 	{
 		Activated = false;
@@ -282,7 +287,6 @@ partial class StrafeController : WalkController
 			if ( Pawn.WaterLevel.AlmostEqual( 0.6f, .05f ) )
 				CheckWaterJump();
 
-			ApplyFriction( 1f );
 			WaterMove();
 		}
 		//else if ( IsTouchingLadder )
@@ -311,6 +315,42 @@ partial class StrafeController : WalkController
 		{
 			Velocity = Velocity.WithZ( 0 );
 		}
+	}
+
+	public override void CheckJumpButton()
+	{
+		if ( Swimming )
+		{
+			ClearGroundEntity();
+
+			Velocity = Velocity.WithZ( 100 );
+			return;
+		}
+
+		if ( GroundEntity == null )
+			return;
+
+		ClearGroundEntity();
+
+		float flGroundFactor = 1.0f;
+
+		var jumpHeight = Duck.IsActive ? 56 : 52;
+		float flMul = MathF.Sqrt( 2f * Gravity * jumpHeight );
+		float startz = Velocity.z;
+
+		if ( Duck.IsActive )
+		{
+			Velocity = Velocity.WithZ( startz + flMul * flGroundFactor );
+		}
+		else
+		{
+			Velocity += Vector3.Up * (startz + flMul * flGroundFactor);
+		}
+
+		Velocity = Velocity.WithZ( startz + flMul * flGroundFactor );
+		Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+
+		AddEvent( "jump" );
 	}
 
 	[Net, Predicted]
