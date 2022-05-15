@@ -15,7 +15,7 @@ internal class ServerHeartbeat
 	[Event.Tick.Server]
 	public static async void Test()
 	{
-		if( TimeSincePing > 1 )
+		if( TimeSincePing > 10 )
 		{
 			var ping = new ServerHeartbeat()
 			{
