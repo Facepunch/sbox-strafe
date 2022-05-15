@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace Strafe.Api;
 
-internal class Backend
+internal partial class Backend
 {
 
 	public static bool Connected => WebSocket?.IsConnected ?? false;
@@ -30,7 +30,7 @@ internal class Backend
 		var result = await http.GetStringAsync();
 		http.Dispose();
 
-		return JsonSerializer.Deserialize<T>( result );
+		return JsonSerializer.Deserialize<T>( result, JsonOptions );
 	}
 
 	public static async Task Post( string controller, string jsonData )

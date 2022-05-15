@@ -2,6 +2,7 @@
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using Strafe.Api;
 using Strafe.Utility;
 
 namespace Strafe.UI;
@@ -21,7 +22,7 @@ internal class Leaderboard : Panel
 	{
 		base.Tick();
 
-		if( TimeSinceUpdate > 5f )
+		if( TimeSinceUpdate > 60f )
 		{
 			Update();
 			TimeSinceUpdate = 0f;
@@ -30,17 +31,15 @@ internal class Leaderboard : Panel
 
 	private async void Update()
 	{
-		var q = await GameServices.Leaderboard.Query( Global.GameIdent, bucket: Global.MapName );
+		var qq = await Backend.FetchPersonalBests( Global.MapName, 0, 10, 0 );
 
-		if ( q?.Entries == null ) return;
+		if ( qq?.Count == null ) return;
 
 		DeleteChildren( true );
 
-		var rank = 1;
-		foreach( var entry in q.Entries )
+		foreach ( var entry in qq )
 		{
-			Add.Label( $"#{rank}   {entry.DisplayName}           {entry.Rating.ToTime()}s", q.PlayerPlace.ToString() );
-			rank++;
+			Add.Label( $"#{entry.Rank}   {entry.PlayerName}           {entry.Time.ToTime()}s" );
 		}
 	}
 
