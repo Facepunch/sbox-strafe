@@ -11,7 +11,6 @@ TimerHud {
     width: 100%;
     height: 100%;
     font-weight: 700;
-    font-size: 16px;
     text-shadow: 1px 1px 1px black;
 
     .inner {
@@ -166,7 +165,6 @@ CheckpointHud {
     bottom: 150px;
     right: 150px;
     flex-direction: column;
-    font-size: 16px;
     font-weight: 700;
     align-items: flex-end;
     text-shadow: 1px 1px 1px black;
@@ -175,10 +173,10 @@ CheckpointHud {
     CprRow, .row {
         min-width: 240px;
         padding: 8px;
-        //background-color: rgba( $darkbg .5 );
+        background-color: rgba( $darkbg .5 );
         margin-bottom: 4px;
         border-radius: $smallradius;
-        //background-image: url( ui/border.png );
+        background-image: url( ui/border.png );
         background-repeat: no-repeat;
         background-position: center center;
         background-size: 98%;

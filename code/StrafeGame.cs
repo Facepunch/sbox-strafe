@@ -24,6 +24,15 @@ internal partial class StrafeGame : Game
 			_ = new RunSubmitter();
 			_ = UpdateCpr();
 		}
+
+		if ( IsClient )
+		{
+			Log.Info( "------------------------------------------" );
+			Log.Info( "Welcome to Strafe, here's some copyable links" );
+			Log.Info( "Website: https://strafedb.com" );
+			Log.Info( "Discord: https://discord.gg/UG2KQdrkA5" );
+			Log.Info( "------------------------------------------" );
+		}
 	}
 
 	public override void ClientJoined( Client cl )
@@ -36,7 +45,8 @@ internal partial class StrafeGame : Game
 		NetworkClientLogin( cl );
 
 		Chat.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has joined the game", "connect" );
-		Chat.AddChatEntry( To.Single( cl ), "Server", "Discord invite at https://strafedb.com", "important" );
+		Chat.AddChatEntry( To.Single( cl ), "Server", "Website: https://strafedb.com", "important" );
+		Chat.AddChatEntry( To.Single( cl ), "Server", "Discord: https://discord.gg/UG2KQdrkA5", "important" );
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
