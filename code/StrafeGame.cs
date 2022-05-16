@@ -35,14 +35,15 @@ internal partial class StrafeGame : Game
 
 		NetworkClientLogin( cl );
 
-		Chat.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has joined the game" );
+		Chat.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has joined the game", "connect" );
+		Chat.AddChatEntry( To.Single( cl ), "Server", "Discord invite at https://strafedb.com", "important" );
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
 	{
 		base.ClientDisconnect( cl, reason );
 
-		Chat.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has disconnected" );
+		Chat.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has disconnected", "connect" );
 	}
 
 	public override void MoveToSpawnpoint( Entity pawn )
