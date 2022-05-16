@@ -23,7 +23,7 @@ TimerHud {
         min-width: 200px;
         align-items: center;
         background-color: rgba( $darkbg .5 );
-        border-radius: $largeradius;
+        border-radius: $smallradius;
         flex-direction: column;
         background-image: url( ui/border.png );
         background-repeat: no-repeat;
@@ -152,26 +152,44 @@ Leaderboard {
 
 CheckpointHud {
     position: absolute;
-    bottom: 128px;
-    right: 128px;
+    bottom: 150px;
+    right: 150px;
     flex-direction: column;
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 16px;
+    font-weight: 700;
     align-items: flex-end;
     text-shadow: 1px 1px 1px black;
     transition: all .15s ease-in;
 
-    .row {
-        min-width: 200px;
+    CprRow, .row {
+        min-width: 240px;
         padding: 8px;
-        background-color: rgba( $darkbg .5 );
+        //background-color: rgba( $darkbg .5 );
         margin-bottom: 4px;
         border-radius: $smallradius;
-        background-image: url( ui/border.png );
+        //background-image: url( ui/border.png );
         background-repeat: no-repeat;
         background-position: center center;
         background-size: 98%;
         text-align: center;
+        justify-content: center;
+
+        .green {
+            color: $green;
+        }
+
+        .red {
+            color: $red;
+        }
+
+        .title {
+            text-align: left;
+        }
+
+        .diff {
+            flex-grow: 1;
+            text-align: right;
+        }
     }
 }
 

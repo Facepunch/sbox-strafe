@@ -85,6 +85,8 @@ internal partial class TimerEntity : Entity
 		Current = true;
 	}
 
+	public TimerFrame CurrentFrame() => Frames[^1];
+
 	public override void Simulate( Client cl )
 	{
 		base.Simulate( cl );

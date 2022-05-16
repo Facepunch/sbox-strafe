@@ -13,4 +13,9 @@ internal partial class Backend
 		return await Get<List<PersonalBestEntry>>( $"pb/fetch?map={mapIdent}&stage={stage}&amount={amount}&skip={skip}" );
 	}
 
+	public static async Task<CompletionData> FetchCompletion( string mapIdent, int stage, int rank )
+	{
+		return await Get<CompletionData>( $"completion/fetch?map={mapIdent}&stage={stage}&rank={rank}" );
+	}
+
 }

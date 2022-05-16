@@ -30,19 +30,34 @@ internal class RunSubmitter : Entity
 		var client = player.Client;
 		if ( !client.IsValid() ) return;
 
-		// todo: we want linear checkpoints to be based off of overall time
-		// and stats rather than offset like stages
-		var term = StrafeGame.Current.CourseType == CourseTypes.Linear
-			? "cp"
-			: "stage";
+		var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
+			? timer.CurrentFrame()
+			: player.Stage( 0 ).CurrentFrame();
+		var diff = StrafeGame.Current.Diff( timer.Stage, snapshot );
 
-		var thing = timer.Stage == 0
-			? "the course"
-			: $"{term} {timer.Stage}";
+		if ( timer.Stage > 0 )
+		{
+			var term = StrafeGame.Current.CourseType == CourseTypes.Linear ? "cp" : "stage ";
+			var msg = $"{term}{timer.Stage} finished in {snapshot.Time.ToTime()}";
 
-		Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} finished {thing} in {timer.Timer.ToTime()}s" );
+			if ( diff != default )
+			{
+				msg += " | WR " + diff.Time.ToTime( true );
+			}
 
-		if ( timer.Stage != 0 ) return;
+			Chat.AddChatEntry( To.Single( timer ), "Timer", msg );
+
+			return;
+		}
+
+		var completionMsg = $"{client.Name} finished the map in {timer.Timer.ToTime()}";
+
+		if( diff != default )
+		{
+			completionMsg += " | WR " + diff.Time.ToTime( true );
+		}
+
+		Chat.AddChatEntry( To.Everyone, "Timer", completionMsg );
 
 		var replay = new Replay( timer.Frames.ToList() );
 		ReplayEntity.Play( replay, 5 );
@@ -54,19 +69,6 @@ internal class RunSubmitter : Entity
 		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
 		Chat.AddChatEntry( To.Everyone, "Response", result.Serialize() );
-	}
-
-	public static void PrintResult( long playerid, SubmitScoreResult result )
-	{
-		if ( result.ScoreDelta == 0 ) return;
-
-		if ( result.NewRank == 1 )
-		{
-			Chat.AddChatEntry( To.Everyone, "Server", "WORLD RECORD!!", "bold purple" );
-			Chat.AddChatEntry( To.Everyone, "Server", "WORLD RECORD!!", "bold purple" );
-		}
-
-		Chat.AddChatEntry( To.Everyone, "Server", $"Old rank: {result.OldRank} - New rank: {result.NewRank} - Improvement: {result.ScoreDelta.ToTime()}s", "bold" );
 	}
 
 }

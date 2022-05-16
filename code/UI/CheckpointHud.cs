@@ -15,7 +15,7 @@ internal class CheckpointHud : Panel
 
 	public override void Tick()
 	{
-		if( TimeSinceShown > 8f )
+		if( TimeSinceShown > 10f )
 		{
 			Style.Opacity = 0;
 		}
@@ -41,9 +41,26 @@ internal class CheckpointHud : Panel
 			}
 		}
 
-		Add.Label( $"Time {timer.Timer.ToTime()}s", "row" );
-		Add.Label( $"Jumps {timer.Jumps}", "row" );
-		Add.Label( $"Strafes {timer.Strafes}", "row" );
+		var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
+			? timer.CurrentFrame()
+			: (Local.Pawn as StrafePlayer).Stage( 0 ).CurrentFrame();
+
+		var diff = StrafeGame.Current.Diff( timer.Stage, snapshot );
+
+		if ( diff != default )
+		{
+			AddClass( "cpr" );
+			AddChild( new CprRow( $"Time {snapshot.Time.ToTime()}", diff.Time, CprRow.CprType.Time ) );
+			AddChild( new CprRow( $"Jumps {snapshot.Jumps}", diff.Jumps, CprRow.CprType.Int ) );
+			AddChild( new CprRow( $"Strafes {snapshot.Strafes}", diff.Strafes, CprRow.CprType.Int ) );
+		}
+		else
+		{
+			RemoveClass( "cpr" );
+			Add.Label( $"Time {snapshot.Time.ToTime()}", "row" );
+			Add.Label( $"Jumps {snapshot.Jumps}", "row" );
+			Add.Label( $"Strafes {snapshot.Strafes}", "row" );
+		}
 	}
 
 	[Events.Timer.OnStage]
@@ -52,9 +69,40 @@ internal class CheckpointHud : Panel
 		if ( timer.Owner is not StrafePlayer pl ) return;
 		if ( !pl.IsLocalPawn ) return;
 
-		Rebuild( timer.Stage, pl.Stage( 0 ) );
+		Rebuild( timer.Stage, timer );
 		Style.Opacity = 1;
 		TimeSinceShown = 0;
+	}
+
+	private class CprRow : Panel
+	{
+
+		public CprRow( string title, float diff, CprType type )
+		{
+			Add.Label( title, "title" );
+
+			if ( type == CprType.None ) return;
+
+			var difftext = type switch
+			{
+				CprType.Time => diff.ToTime( true ),
+				CprType.Int => (diff > 0 ? '+' : '-') + ((int)diff).ToString(),
+				_ => string.Empty
+			};
+
+			var cprlbl = Add.Label( difftext, "diff" );
+
+			if ( diff > 0 ) cprlbl.AddClass( "green" );
+			else cprlbl.AddClass( "red" );
+		}
+
+		public enum CprType
+		{
+			None,
+			Time,
+			Int
+		}
+
 	}
 
 }
