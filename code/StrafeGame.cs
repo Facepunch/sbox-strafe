@@ -26,14 +26,23 @@ internal partial class StrafeGame : Game
 		}
 	}
 
-	public override void ClientJoined( Client client )
+	public override void ClientJoined( Client cl )
 	{
-		base.ClientJoined( client );
+		base.ClientJoined( cl );
 
-		client.Pawn = new StrafePlayer();
-		(client.Pawn as StrafePlayer).Respawn();
+		cl.Pawn = new StrafePlayer();
+		(cl.Pawn as StrafePlayer).Respawn();
 
-		NetworkClientLogin( client );
+		NetworkClientLogin( cl );
+
+		Chat.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has joined the game" );
+	}
+
+	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+	{
+		base.ClientDisconnect( cl, reason );
+
+		Chat.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has disconnected" );
 	}
 
 	public override void MoveToSpawnpoint( Entity pawn )
