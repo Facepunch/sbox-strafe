@@ -114,6 +114,12 @@ internal partial class StrafeGame
 		else
 		{
 			VotingFinished = true;
+
+			if ( string.IsNullOrWhiteSpace( NextMap ) )
+			{
+				NextMap = Rand.FromList( maps );
+			}
+
 			Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the next map will be {NextMap}.", "info" );
 		}
 
