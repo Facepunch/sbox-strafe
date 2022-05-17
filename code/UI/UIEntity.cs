@@ -31,6 +31,7 @@ internal class UIEntity : HudEntity<RootPanel>
 		}
 
 		RootPanel.AddChild<Panel>( "crosshair" );
+		RootPanel.AddChild<Scoreboard<ScoreboardEntry>>();
 	}
 
 	[Event.Hotload]
