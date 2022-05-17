@@ -63,7 +63,7 @@ internal class CheckpointHud : Panel
 		}
 	}
 
-	[Events.Timer.OnStage]
+	[Events.Timer.OnStageComplete]
 	public void OnStage( TimerEntity timer )
 	{
 		if ( timer.Owner is not StrafePlayer pl ) return;

@@ -19,7 +19,7 @@ internal class RunSubmitter : Entity
 		Transmit = TransmitType.Always;
 	}
 
-	[Events.Timer.OnStage]
+	[Events.Timer.OnStageComplete]
 	public async void OnStage( TimerEntity timer )
 	{
 		if ( !IsServer ) return;

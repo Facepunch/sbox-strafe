@@ -1,6 +1,8 @@
 ﻿
 using Sandbox;
 using Strafe.Map;
+using Strafe.UI;
+using Strafe.Utility;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -56,6 +58,14 @@ internal partial class TimerEntity : Entity
 	{
 		Reset();
 		State = States.Live;
+
+		Events.Timer.OnStageStart.Run( this );
+
+		if ( IsClient && Stage == 0 )
+		{
+			var msg = $"Timer started | {Owner.Velocity.ToHuman()}";
+			Chat.AddChatEntry( "Timer", msg, "timer" );
+		}
 	}
 
 	public void Stop()
@@ -72,7 +82,7 @@ internal partial class TimerEntity : Entity
 		State = States.Complete;
 		Snapshot = Linear ? (Owner as StrafePlayer).Stage( 0 ).GrabFrame() : GrabFrame();
 
-		Events.Timer.OnStage.Run( this );
+		Events.Timer.OnStageComplete.Run( this );
 	}
 
 	public void SetCurrent()

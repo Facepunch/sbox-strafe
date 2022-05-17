@@ -9,12 +9,21 @@ internal static class Events
 	internal static class Timer
 	{
 
-		public class OnStage : EventAttribute
+		public class OnStageComplete : EventAttribute
 		{
-			public OnStage() : base( "timer.onstage" ) { }
+			public OnStageComplete() : base( "timer.onstagecomplete" ) { }
 			public static void Run( TimerEntity timer )
 			{
-				Event.Run( "timer.onstage", timer );
+				Event.Run( "timer.onstagecomplete", timer );
+			}
+		}
+
+		public class OnStageStart : EventAttribute
+		{
+			public OnStageStart() : base( "timer.onstagelive" ) { }
+			public static void Run( TimerEntity timer )
+			{
+				Event.Run( "timer.onstagelive", timer );
 			}
 		}
 
