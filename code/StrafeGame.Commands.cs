@@ -48,7 +48,7 @@ internal partial class StrafeGame
 			Chat.AddChatEntry( To.Everyone, "Response", result );
 		}
 
-		if( cmdName == "menu" && Host.IsServer )
+		if ( cmdName == "testmenu" && Host.IsServer )
 		{
 			if ( cl.Pawn is not StrafePlayer pl ) return;
 
@@ -59,6 +59,20 @@ internal partial class StrafeGame
 			menu.AddOption( "Option 3", x => Log.Error( "Option 3" ) );
 		}
 
+		if ( cmdName == "testvote" && Host.IsServer )
+		{
+			_ = Current.MapVoteAsync();
+		}
+
+		if ( cmdName == "timeleft" && Host.IsServer )
+		{
+			Current.PrintTimeLeft();
+		}
+
+		if ( cmdName == "rtv" && Host.IsServer )
+		{
+			Current.RockTheVote( cl );
+		}
 	}
 
 }

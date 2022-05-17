@@ -65,6 +65,8 @@ internal class SlotMenuHud : Panel
 	[Event.BuildInput]
 	public void OnBuildInput( InputBuilder b )
 	{
+		if ( this.IsDeleting ) return;
+
 		for( int i = 0; i <= 9; i++ )
 		{
 			var e = Enum.Parse<InputButton>( $"Slot{i}" );

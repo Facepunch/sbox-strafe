@@ -1,6 +1,5 @@
 ﻿
 using Sandbox;
-using Strafe.Api;
 using Strafe.Leaderboards;
 using Strafe.Players;
 using Strafe.UI;
@@ -23,6 +22,7 @@ internal partial class StrafeGame : Game
 			_ = new UIEntity();
 			_ = new RunSubmitter();
 			_ = new CprEntity();
+			_ = GameLoopAsync();
 		}
 
 		if ( IsClient )
@@ -60,9 +60,7 @@ internal partial class StrafeGame : Game
 	{
 		base.MoveToSpawnpoint( pawn );
 
-		var pos = pawn.Position;
-		pos.z = (int)(pos.z + 1);
-		pawn.Position = pos;
+		pawn.Position = pawn.Position.WithZ( (int)(pawn.Position.z + 1) );
 	}
 
 }
