@@ -120,9 +120,13 @@ internal partial class StrafePlayer : Sandbox.Player
 		Velocity = 0;
 		BaseVelocity = 0;
 
-		Children.OfType<TimerEntity>().ToList().ForEach( x => x.Stop() );
+		foreach(var child in Children )
+		{
+			if ( child is not TimerEntity t || !t.IsValid() ) continue;
+			t.Stop();
+		}
 
-		Stage( 1 ).TeleportTo();
+		(Stage( 1 ) ?? Stage( 0 ))?.TeleportTo();
 	}
 
 	public void GoBack()
