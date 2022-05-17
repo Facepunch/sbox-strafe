@@ -31,8 +31,8 @@ internal class RunSubmitter : Entity
 		if ( !client.IsValid() ) return;
 
 		var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
-			? timer.CurrentFrame()
-			: player.Stage( 0 ).CurrentFrame();
+			? timer.GrabFrame()
+			: player.Stage( 0 ).GrabFrame();
 		var diff = StrafeGame.Current.Diff( timer.Stage, snapshot );
 
 		if ( timer.Stage > 0 )

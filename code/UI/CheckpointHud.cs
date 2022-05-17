@@ -7,7 +7,7 @@ using Strafe.Utility;
 
 namespace Strafe.UI;
 
-[Hud, UseTemplate]
+//[Hud, UseTemplate]
 internal class CheckpointHud : Panel
 {
 
@@ -42,8 +42,8 @@ internal class CheckpointHud : Panel
 		}
 
 		var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
-			? timer.CurrentFrame()
-			: (Local.Pawn as StrafePlayer).Stage( 0 ).CurrentFrame();
+			? timer.GrabFrame()
+			: (Local.Pawn as StrafePlayer).Stage( 0 ).GrabFrame();
 
 		var diff = StrafeGame.Current.Diff( timer.Stage, snapshot );
 

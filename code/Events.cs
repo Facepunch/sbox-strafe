@@ -27,6 +27,24 @@ internal static class Events
 			}
 		}
 
+		public class OnStageStop : EventAttribute
+		{
+			public OnStageStop() : base( "timer.onstagestop" ) { }
+			public static void Run( TimerEntity timer )
+			{
+				Event.Run( "timer.onstagestop", timer );
+			}
+		}
+
+		public class OnReset : EventAttribute
+		{
+			public OnReset() : base( "timer.onreset" ) { }
+			public static void Run( TimerEntity timer )
+			{
+				Event.Run( "timer.onreset", timer );
+			}
+		}
+
 	}
 }
 

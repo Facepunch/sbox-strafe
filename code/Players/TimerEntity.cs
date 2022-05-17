@@ -52,6 +52,8 @@ internal partial class TimerEntity : Entity
 		Jumps = 0;
 		Strafes = 0;
 		frames.Clear();
+
+		Events.Timer.OnReset.Run( this );
 	}
 
 	public void Start()
@@ -72,6 +74,8 @@ internal partial class TimerEntity : Entity
 	{
 		Reset();
 		State = States.Stopped;
+
+		Events.Timer.OnStageStop.Run( this );
 	}
 
 	public void Complete()
@@ -94,8 +98,6 @@ internal partial class TimerEntity : Entity
 		State = States.Start;
 		Current = true;
 	}
-
-	public TimerFrame CurrentFrame() => Frames[^1];
 
 	public override void Simulate( Client cl )
 	{
@@ -145,7 +147,7 @@ internal partial class TimerEntity : Entity
 		pl.Rotation = start.Rotation;
 	}
 
-	private TimerFrame GrabFrame()
+	public TimerFrame GrabFrame()
 	{
 		return new TimerFrame()
 		{

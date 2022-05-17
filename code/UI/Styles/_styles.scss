@@ -10,10 +10,25 @@ TimerHud {
     position: absolute;
     width: 100%;
     height: 100%;
-    font-weight: 700;
     text-shadow: 1px 1px 1px black;
 
     .inner {
+
+        .row {
+            width: 100%;
+            justify-content: center;
+
+            .diff {
+                position: absolute;
+                left: 100%;
+                color: $green;
+
+                &.red {
+                    color: $red;
+                }
+            }
+        }
+
         position: absolute;
         bottom: 175px;
         left: 50%;
@@ -21,14 +36,13 @@ TimerHud {
         padding: 10px;
         min-width: 200px;
         align-items: center;
-        background-color: rgba( $darkbg .5 );
         border-radius: $smallradius;
         flex-direction: column;
         background-image: url( ui/border.png );
         background-repeat: no-repeat;
         background-position: center center;
         background-size: 100%;
-        background-tint: $lightaccent;
+        background-tint: rgba( white .25 );
     }
 }
 
