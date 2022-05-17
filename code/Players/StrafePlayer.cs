@@ -7,6 +7,8 @@ namespace Strafe.Players;
 internal partial class StrafePlayer : Sandbox.Player
 {
 
+	private bool TimersCreated;
+
 	public override void Respawn()
 	{
 		base.Respawn();
@@ -31,16 +33,21 @@ internal partial class StrafePlayer : Sandbox.Player
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
 
-		// 0 = entire course
-		// 1, 2, 3 etc = per stage
-		for ( int i = 0; i <= StrafeGame.Current.StageCount; i++ )
+		if( !TimersCreated )
 		{
-			new TimerEntity()
+			TimersCreated = true;
+
+			// 0 = entire course
+			// 1, 2, 3 etc = per stage
+			for ( int i = 0; i <= StrafeGame.Current.StageCount; i++ )
 			{
-				Owner = this,
-				Parent = this,
-				Stage = i
-			};
+				new TimerEntity()
+				{
+					Owner = this,
+					Parent = this,
+					Stage = i
+				};
+			}
 		}
 	}
 
