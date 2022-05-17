@@ -15,6 +15,7 @@ internal class SlotMenuHud : Panel
 	private int Hash;
 
 	public string Title => Menu.Title;
+	public string Duration => ((int)Menu.TimeUntilClose).ToString();
 	public Panel OptionsCanvas { get; set; }
 
 	public SlotMenuHud( SlotMenu menu )

@@ -15,8 +15,9 @@ internal partial class SlotMenu : Entity
 	public List<string> Options { get; set; }
 	[Net]
 	public bool CloseButton { get; set; }
+	[Net]
+	public RealTimeUntil TimeUntilClose { get; set; }
 
-	private TimeSince TimeSinceCreated;
 	private List<Action<Client>> OptionActions = new();
 	private SlotMenuHud Hud;
 
@@ -24,7 +25,7 @@ internal partial class SlotMenu : Entity
 	{
 		base.Spawn();
 
-		TimeSinceCreated = 0;
+		TimeUntilClose = 30;
 
 		Transmit = TransmitType.Always;
 	}
@@ -48,7 +49,7 @@ internal partial class SlotMenu : Entity
 	[Event.Tick.Server]
 	private void OnTick()
 	{
-		if ( TimeSinceCreated > 30 )
+		if ( TimeUntilClose <= 0)
 			Delete();
 	}
 

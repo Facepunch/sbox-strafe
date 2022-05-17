@@ -277,6 +277,18 @@ SlotMenuHud {
         color: $orange;
     }
 
+    .duration {
+        position: absolute;
+        left: -14px;
+        top: -14px;
+        border-radius: 50%;
+        background-color: $darkbg;
+        width: 28px;
+        height: 28px;
+        align-items: center;
+        text-align: center;
+    }
+
     .options {
         flex-direction: column;
         padding-left: 10px;
