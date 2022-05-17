@@ -22,7 +22,7 @@ internal partial class StrafeGame : Game
 
 			_ = new UIEntity();
 			_ = new RunSubmitter();
-			_ = UpdateCpr();
+			_ = new CprEntity();
 		}
 
 		if ( IsClient )

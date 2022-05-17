@@ -1,7 +1,7 @@
 ﻿
 using Sandbox;
 using Sandbox.UI;
-using Sandbox.UI.Construct;
+using Strafe.Leaderboards;
 using Strafe.Players;
 using Strafe.Utility;
 
@@ -69,8 +69,7 @@ internal class TimerHud : Panel
 			? timer.GrabFrame()
 			: (Local.Pawn as StrafePlayer).Stage( 0 ).GrabFrame();
 
-		var diff = StrafeGame.Current.Diff( timer.Stage, snapshot );
-		if ( diff == default ) return;
+		if ( !CprEntity.TryGetDiff( timer.Stage, snapshot, out var diff ) ) return;
 
 		TimeDiff.Text = diff.Time.ToTime( true );
 		TimeDiff.SetClass( "red", diff.Time < 0 );
@@ -96,9 +95,11 @@ internal class TimerHud : Panel
 		if ( !pl.IsLocalPawn ) return;
 		if ( timer.Stage != 0 ) return;
 
-		if ( StrafeGame.Current.Cpr?.ContainsKey( 1 ) ?? false )
+		if( CprEntity.TryGetDiff( 1, default, out var cprframe ) )
 		{
-			var diff = pl.Velocity.Length - StrafeGame.Current.Cpr[1].Velocity.Length;
+			// TODO: Cpr[1].Velocity isn't our start speed, we actually don't even store
+			// start speed anywhere yet
+			var diff = pl.Velocity.Length - CprEntity.Current.Cpr[1].Velocity.Length;
 			SpeedDiff.Text = $"{(int)diff} u/s";
 			SpeedDiff.SetClass( "red", diff < 0 );
 		}

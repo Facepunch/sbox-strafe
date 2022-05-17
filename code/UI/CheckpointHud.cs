@@ -2,6 +2,7 @@
 using Sandbox;
 using Sandbox.UI;
 using Sandbox.UI.Construct;
+using Strafe.Leaderboards;
 using Strafe.Players;
 using Strafe.Utility;
 
@@ -45,9 +46,7 @@ internal class CheckpointHud : Panel
 			? timer.GrabFrame()
 			: (Local.Pawn as StrafePlayer).Stage( 0 ).GrabFrame();
 
-		var diff = StrafeGame.Current.Diff( timer.Stage, snapshot );
-
-		if ( diff != default )
+		if(CprEntity.TryGetDiff( timer.Stage, snapshot, out var diff ) )
 		{
 			AddClass( "cpr" );
 			AddChild( new CprRow( $"Time {snapshot.Time.ToTime()}", diff.Time, CprRow.CprType.Time ) );

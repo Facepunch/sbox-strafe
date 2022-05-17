@@ -33,7 +33,8 @@ internal class RunSubmitter : Entity
 		var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
 			? timer.GrabFrame()
 			: player.Stage( 0 ).GrabFrame();
-		var diff = StrafeGame.Current.Diff( timer.Stage, snapshot );
+
+		CprEntity.TryGetDiff( timer.Stage, snapshot, out var diff );
 
 		if ( timer.Stage > 0 )
 		{
