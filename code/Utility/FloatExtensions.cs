@@ -9,9 +9,9 @@ internal static class FloatExtensions
 	public static string ToTime( this float seconds, bool includePlusSign = false )
 	{
 		var tsSeconds = TimeSpan.FromSeconds( seconds );
-		var format = tsSeconds.Seconds > 60
-			? @"mm\:ss\.fff\s"
-			: @"s\.fff\s";
+		var format = tsSeconds.TotalSeconds > 60
+			? @"m\:ss\.ff\s"
+			: @"s\.ff\s";
 
 		var result = tsSeconds.ToString( format );
 		if ( seconds < 0 ) result = '-' + result;
