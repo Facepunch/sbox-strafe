@@ -40,7 +40,23 @@ internal partial class StrafeGame
 			await Task.DelayRealtimeSeconds( 1.0f );
 		}
 
+		if( !await EnsureNextMap() )
+		{
+			Log.Error( "Never got a good map to change to" );
+			return;
+		}
+
 		Global.ChangeLevel( NextMap );
+	}
+
+	private async Task<bool> EnsureNextMap()
+	{
+		if ( NextMap?.StartsWith( "_extend" ) ?? false ) return false;
+		if ( !string.IsNullOrEmpty( NextMap ) ) return true;
+
+		NextMap = Rand.FromList( await GetAvailableMaps() );
+
+		return !string.IsNullOrEmpty( NextMap );
 	}
 
 	private bool ShouldPrintTime()
@@ -96,16 +112,16 @@ internal partial class StrafeGame
 			menu.AddOption( m, x => SetMapVote( x, m ) );
 		}
 
-		menu.AddOption( "Extend 15 minutes", x => SetMapVote( x, "extend15" ) );
+		menu.AddOption( "Extend 15 minutes", x => SetMapVote( x, "_extend15" ) );
 
 		while ( menu.IsValid() )
 		{
 			await Task.DelayRealtimeSeconds( 1.0f );
 		}
 
-		if ( NextMap.StartsWith( "extend" ) )
+		if ( NextMap.StartsWith( "_extend" ) )
 		{
-			var len = NextMap.Replace( "extend", "" );
+			var len = NextMap.Replace( "_extend", "" );
 			var lenMins = int.Parse( len );
 			StateTimer += lenMins * 60f;
 			MapVotes.Clear();
@@ -134,13 +150,13 @@ internal partial class StrafeGame
 		MapVotes[client.PlayerId] = map;
 		NextMap = MapVotes.OrderByDescending( x => x.Value ).First().Value;
 
-		if ( !map.StartsWith( "extend" ) )
+		if ( !map.StartsWith( "_extend" ) )
 		{
 			Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} voted for {map}", "info" );
 		}
 		else
 		{
-			var len = map.Replace( "extend", "" );
+			var len = map.Replace( "_extend", "" );
 			Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} voted to extend the map {len} minutes", "info" );
 		}
 	}
