@@ -73,6 +73,11 @@ internal partial class StrafeGame
 		{
 			Current.RockTheVote( cl );
 		}
+
+		if( cmdName == "nextmap" && Host.IsServer )
+		{
+			Chat.AddChatEntry( To.Everyone, "Server", $"The next map is {Current.NextMap ?? "undecided"}" );
+		}
 	}
 
 }
