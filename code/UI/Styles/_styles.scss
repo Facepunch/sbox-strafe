@@ -246,3 +246,39 @@ StatusHud {
         background-color: #00ff90;
     }
 }
+
+SlotMenuHud {
+    position: absolute;
+    padding: 15px;
+    background-color: rgba($darkbg .25);
+    border-radius: $radius;
+    top: 40%;
+    left: 100px;
+    flex-direction: column;
+    text-shadow: 1px 1px 1px black;
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity .15s ease-in;
+    transition: transform .8s bounce-out;
+
+    &:intro {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    &:outro {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    .title {
+        font-weight: heavy;
+        margin-bottom: 10px;
+        color: $orange;
+    }
+
+    .options {
+        flex-direction: column;
+        padding-left: 10px;
+    }
+}

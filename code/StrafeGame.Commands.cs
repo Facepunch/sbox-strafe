@@ -2,6 +2,7 @@
 using Sandbox;
 using Strafe.Api;
 using Strafe.Players;
+using Strafe.Menu;
 using Strafe.UI;
 
 namespace Strafe;
@@ -46,6 +47,18 @@ internal partial class StrafeGame
 			var result = await Backend.Post<string>( "ping/whitelisted", "someData" );
 			Chat.AddChatEntry( To.Everyone, "Response", result );
 		}
+
+		if( cmdName == "menu" && Host.IsServer )
+		{
+			if ( cl.Pawn is not StrafePlayer pl ) return;
+
+			var menu = new SlotMenu();
+			menu.Title = "Test Menu";
+			menu.AddOption( "Option 1", x => Log.Error( "Option 1" ) );
+			menu.AddOption( "Option 2", x => Log.Error( "Option 2" ) );
+			menu.AddOption( "Option 3", x => Log.Error( "Option 3" ) );
+		}
+
 	}
 
 }
