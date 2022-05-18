@@ -18,6 +18,8 @@ internal partial class CprEntity : Entity
 	public CprEntity()
 	{
 		Current = this;
+
+		Transmit = TransmitType.Always;
 	}
 
 	public override async void Spawn()
