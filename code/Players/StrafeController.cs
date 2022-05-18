@@ -1,6 +1,7 @@
 ﻿
 using Sandbox;
 using Strafe.Map;
+using Strafe.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -167,34 +168,38 @@ partial class StrafeController : WalkController
 		Momentum = false;
 	}
 
-	private List<StrafeTrigger> FindTouchingTriggers()
+	private int FindTouchingTriggers( List<StrafeTrigger> list )
 	{
-		var result = new List<StrafeTrigger>();
+		list.Clear();
+
 		var pl = Pawn as Player;
-		if ( !pl.IsValid() ) return result;
+		if ( !pl.IsValid() ) return 0;
 
-		foreach ( var ent in Entity.All.OfType<StrafeTrigger>() )
+		var me = new BBox( Position + mins, Position + maxs );
+
+		foreach ( var ent in Entity.All )
 		{
-			var bbox = ent.PhysicsBody.GetBounds();
-
-			var me = new BBox( Position + mins, Position + maxs );
-			if ( !bbox.Overlaps( me ) )
+			if ( ent is not StrafeTrigger t ) 
 				continue;
 
-			result.Add( ent );
+			var closestPoint = t.PhysicsBody.FindClosestPoint( Pawn.Position );
+			if ( !me.Contains( closestPoint ) ) continue;
+
+			list.Add( t );
 		}
 
-		return result;
+		return list.Count;
 	}
 
+	List<StrafeTrigger> TouchBuffer = new( 32 );
 	private void DoTriggers()
 	{
-		var touchingNow = FindTouchingTriggers();
+		FindTouchingTriggers( TouchBuffer );
 
 		// try not to brick too hard yet
 		try
 		{
-			foreach ( var trigger in touchingNow )
+			foreach ( var trigger in TouchBuffer )
 			{
 				if ( !TouchingTriggers.Contains( trigger ) )
 				{
@@ -208,19 +213,19 @@ partial class StrafeController : WalkController
 
 			foreach ( var trigger in TouchingTriggers )
 			{
-				if ( !touchingNow.Contains( trigger ) )
+				if ( !TouchBuffer.Contains( trigger ) )
 				{
 					trigger.SimulatedEndTouch( this );
 				}
 			}
 		}
-		catch ( System.Exception e )
+		catch ( Exception e )
 		{
 			Log.Error( e );
 		}
 
 		TouchingTriggers.Clear();
-		TouchingTriggers.AddRange( touchingNow );
+		TouchingTriggers.AddRange( TouchBuffer );
 	}
 
 	private void BaseSimulate()
