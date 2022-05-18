@@ -3,6 +3,7 @@ using Sandbox;
 using Strafe.Leaderboards;
 using Strafe.Players;
 using Strafe.UI;
+using System.Linq;
 
 namespace Strafe;
 
@@ -23,6 +24,8 @@ internal partial class StrafeGame : Game
 			_ = new RunSubmitter();
 			_ = new CprEntity();
 			_ = GameLoopAsync();
+
+			All.OfType<SpawnPoint>().ToList().ForEach( x => x.Transmit = TransmitType.Always );
 		}
 
 		if ( IsClient )
