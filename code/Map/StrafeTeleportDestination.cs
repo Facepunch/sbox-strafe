@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Strafe.Map;
 
-[Library( "strafe_player_spawn" )]
-[Display( Name = "Player Spawn" ), Category( "Points" ), Icon( "elderly_woman" )]
-internal partial class StrafeSpawnPoint : SpawnPoint
+[Library( "strafe_teleport_destination" )]
+[Display( Name = "Teleport Destination" ), Category( "Points" ), Icon( "elderly_woman" )]
+internal partial class StrafeTeleportDestination : Entity
 {
 
 	public override void Spawn()
