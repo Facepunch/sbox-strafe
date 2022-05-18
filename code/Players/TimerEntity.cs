@@ -63,7 +63,7 @@ internal partial class TimerEntity : Entity
 
 		Events.Timer.OnStageStart.Run( this );
 
-		if ( IsClient && Stage == 0 )
+		if ( Prediction.FirstTime && IsClient && Stage == 0 )
 		{
 			var msg = $"Timer started | {Owner.Velocity.ToHuman()}";
 			Chat.AddChatEntry( "Timer", msg, "timer" );
