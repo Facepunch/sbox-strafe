@@ -85,11 +85,11 @@ internal class RunSubmitter : Entity
 
 		if ( result.NewRank == 1 )
 		{
-			Chat.AddChatEntry( To.Everyone, "**WORLD RECORD**", "important" );
+			Chat.AddChatEntry( To.Everyone, "Timer", "**WORLD RECORD**", "important" );
 		}
 		else if ( result.NewRank <= 5 )
 		{
-			Chat.AddChatEntry( To.Everyone, "Top 5", "important" );
+			Chat.AddChatEntry( To.Everyone, "Timer", "Top 5", "important" );
 		}
 
 		Chat.AddChatEntry( To.Everyone, "Timer", completionMsg );
