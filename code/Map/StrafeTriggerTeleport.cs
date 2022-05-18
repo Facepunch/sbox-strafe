@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Strafe.Map;
 
-[Library("trigger_teleport")]
+[Library( "strafe_trigger_teleport" )]
 [Display( Name = "Teleport Trigger" ), Category( "Triggers" ), Icon( "rotate_left" )]
 internal partial class StrafeTriggerTeleport : StrafeTrigger
 {
@@ -55,7 +55,7 @@ internal partial class StrafeTriggerTeleport : StrafeTrigger
 		if ( !IsEnabled ) return;
 
 		var tx = TargetTransform;
-		if( tx == default )
+		if ( tx == default )
 		{
 			var ent = Entity.FindByName( TargetEntity );
 			if ( ent.IsValid() )
