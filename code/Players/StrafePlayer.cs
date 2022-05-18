@@ -8,6 +8,7 @@ internal partial class StrafePlayer : Sandbox.Player
 {
 
 	private bool TimersCreated;
+	private Clothing.Container Clothing;
 
 	public override void Respawn()
 	{
@@ -32,6 +33,10 @@ internal partial class StrafePlayer : Sandbox.Player
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
+
+		Clothing ??= new();
+		Clothing.LoadFromClient( Client );
+		Clothing.DressEntity( this );
 
 		if( !TimersCreated )
 		{
