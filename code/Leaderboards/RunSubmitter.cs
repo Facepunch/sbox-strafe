@@ -51,15 +51,6 @@ internal class RunSubmitter : Entity
 			return;
 		}
 
-		var completionMsg = $"{client.Name} finished the map in {timer.Timer.ToTime()}";
-
-		if( diff != default )
-		{
-			completionMsg += " | WR " + diff.Time.ToTime( true );
-		}
-
-		Chat.AddChatEntry( To.Everyone, "Timer", completionMsg );
-
 		var replay = new Replay( timer.Frames.ToList() );
 		ReplayEntity.Play( replay, 5 );
 
@@ -69,7 +60,40 @@ internal class RunSubmitter : Entity
 		var runJson = System.Text.Json.JsonSerializer.Serialize( CompletionData.From( timer ) );
 		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
-		Chat.AddChatEntry( To.Everyone, "Response", result.Serialize() );
+		PrintResult( client, timer, result );
+	}
+
+	private void PrintResult( Client client, TimerEntity timer, CompletionSubmitResult result )
+	{
+		if ( result.OldTime != 0 && result.OldTime < result.NewTime ) 
+			return;
+		if ( client.Pawn is not StrafePlayer player ) 
+			return;
+
+		var improvement = result.NewTime - result.OldTime;
+		var completionMsg = $"{client.Name} finished the map in {timer.Timer.ToTime()}, improving by {improvement.ToTime()}";
+		var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
+			? timer.GrabFrame()
+			: player.Stage( 0 ).GrabFrame();
+
+		CprEntity.TryGetDiff( timer.Stage, snapshot, out var diff );
+
+		if ( diff != default )
+		{
+			completionMsg += " | WR " + diff.Time.ToTime( true );
+		}
+
+		if ( result.NewRank == 1 )
+		{
+			Chat.AddChatEntry( To.Everyone, "**WORLD RECORD**", "important" );
+		}
+		else if ( result.NewRank <= 5 )
+		{
+			Chat.AddChatEntry( To.Everyone, "Top 5", "important" );
+		}
+
+		Chat.AddChatEntry( To.Everyone, "Timer", completionMsg );
+		Chat.AddChatEntry( To.Everyone, "Timer", $"New rank: {result.NewRank}, Old rank: {result.OldRank}" );
 	}
 
 }
