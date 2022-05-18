@@ -21,12 +21,14 @@ internal partial class StrafeTriggerTeleport : StrafeTrigger
 	/// If set, teleports the entity with an offset depending on where the entity was in the trigger teleport. Think world portals. Place the target entity accordingly.
 	/// </summary>
 	[Property( "teleport_relative", Title = "Teleport Relatively" )]
+	[Net]
 	public bool TeleportRelative { get; set; }
 
 	/// <summary>
 	/// If set, the teleported entity will not have it's velocity reset to 0.
 	/// </summary>
 	[Property( "keep_velocity", Title = "Keep Velocity" )]
+	[Net]
 	public bool KeepVelocity { get; set; }
 
 	[Net]
@@ -37,11 +39,10 @@ internal partial class StrafeTriggerTeleport : StrafeTrigger
 	/// </summary>
 	protected Output OnTriggered { get; set; }
 
-	public override void Spawn()
+	[Event.Entity.PostSpawn]
+	private void OnEntityPostSpawn()
 	{
-		base.Spawn();
-
-		var Targetent = Entity.FindByName( TargetEntity );
+		var Targetent = FindByName( TargetEntity );
 		if ( Targetent.IsValid() )
 		{
 			TargetTransform = Targetent.Transform;
