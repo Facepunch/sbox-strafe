@@ -60,7 +60,10 @@ internal class RunSubmitter : Entity
 		var runJson = System.Text.Json.JsonSerializer.Serialize( CompletionData.From( timer ) );
 		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
-		PrintResult( client, timer, result );
+		if( result != null )
+		{
+			PrintResult( client, timer, result );
+		}
 	}
 
 	private void PrintResult( Client client, TimerEntity timer, CompletionSubmitResult result )
