@@ -17,12 +17,12 @@ internal class ServerHeartbeat
 	{
 		if( TimeSincePing > 10 )
 		{
+			TimeSincePing = 0;
 			var ping = new ServerHeartbeat()
 			{
 				PlayerCount = Client.All.Count
 			};
 			await Backend.Post( "server/heartbeat", ping.Serialize() );
-			TimeSincePing = 0;
 		}
 	}
 

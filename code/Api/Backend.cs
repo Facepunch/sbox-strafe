@@ -13,8 +13,8 @@ internal partial class Backend
 
 	public static bool Connected => WebSocket?.IsConnected ?? false;
 
-	//public static string Endpoint => "https://localhost:7265/api";
-	public static string Endpoint => "https://strafedb.com/api";
+	public static string Endpoint => "https://localhost:7265/api";
+	//public static string Endpoint => "https://strafedb.com/api";
 
 	private static WebSocket WebSocket;
 	private static int MessageIdAccumulator;
@@ -98,23 +98,25 @@ internal partial class Backend
 		return null;
 	}
 
-	private static bool connectionInProgress;
+	private static TimeSince TimeSinceConnectionAttempt;
 	private static async Task<bool> EnsureWebSocket()
 	{
 		Host.AssertServer();
 
-		while ( connectionInProgress ) await Task.Delay( 100 );
-
 		if ( WebSocket?.IsConnected ?? false ) return true;
 
-		connectionInProgress = true;
+		if ( TimeSinceConnectionAttempt < 2f )
+		{
+			await Task.Delay( 2000 );
 
+			if ( WebSocket?.IsConnected ?? false ) return true;
+		}
+
+		TimeSinceConnectionAttempt = 0f;
 		WebSocket?.Dispose();
 		WebSocket = new();
 		WebSocket.OnMessageReceived += WebSocket_OnMessageReceived;
-		await WebSocket.Connect( Endpoint.Replace("https://", "ws://" ) + "/ws" );
-
-		connectionInProgress = false;
+		await WebSocket.Connect( Endpoint.Replace("https://", "wss://" ) + "/ws" );
 
 		return WebSocket.IsConnected;
 	}
