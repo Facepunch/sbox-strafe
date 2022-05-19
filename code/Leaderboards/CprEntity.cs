@@ -48,8 +48,8 @@ internal partial class CprEntity : Entity
 		result = new TimerFrame()
 		{
 			Time = frame.Time - Current.Cpr[stage].Time,
-			Jumps = frame.Jumps - Current.Cpr[stage].Jumps,
-			Strafes = frame.Strafes - Current.Cpr[stage].Strafes,
+			Jumps = (ushort)(frame.Jumps - Current.Cpr[stage].Jumps),
+			Strafes = (ushort)(frame.Strafes - Current.Cpr[stage].Strafes),
 		};
 
 		return true;

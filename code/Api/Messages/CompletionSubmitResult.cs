@@ -12,4 +12,6 @@ internal class CompletionSubmitResult
 	public float OldTime { get; set; }
 	public TimerFrame Comparison { get; set; }
 
+	public bool IsPersonalBest => OldTime == 0 || NewTime < OldTime;
+
 }

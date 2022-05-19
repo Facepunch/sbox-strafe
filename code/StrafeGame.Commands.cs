@@ -4,6 +4,10 @@ using Strafe.Api;
 using Strafe.Players;
 using Strafe.Menu;
 using Strafe.UI;
+using Sandbox.Internal;
+using System.Collections.Generic;
+using Strafe.Utility;
+using System.IO;
 
 namespace Strafe;
 
@@ -77,6 +81,40 @@ internal partial class StrafeGame
 		if( cmdName == "nextmap" && Host.IsServer )
 		{
 			Chat.AddChatEntry( To.Everyone, "Server", $"The next map is {Current.NextMap ?? "undecided"}" );
+		}
+		
+		if( cmdName == "dl" && Host.IsServer )
+		{
+			var http = new Http( new System.Uri( "https://strafereplays.blob.core.windows.net/replays/67efd50e-586e-475e-b9e7-815f0c97040d.bytes" ) );
+			var data = await http.GetBytesAsync();
+			Log.Info( string.Join( ',', data ) );
+		}
+
+		if( cmdName == "repsize" && Host.IsServer )
+		{
+			var data = new List<TimerFrame>();
+			for( int i = 0; i < 180000; i++ )
+			{
+				data.Add( new()
+				{
+					Angles = Angles.Random,
+					Jumps = (ushort)Rand.Int(0, 100),
+					Strafes = (ushort)Rand.Int(0, 100 ),
+					Position = Vector3.Random,
+					Time = Rand.Float(0, 100),
+					Velocity = Vector3.Random
+				} );
+			}
+			var replay = new Strafe.Leaderboards.Replay( 0, data );
+
+			var sw = new System.Diagnostics.Stopwatch();
+			sw.Start();
+			var bytes = replay.ToBytes();
+			sw.Stop();
+
+			Log.Info( "BYTE ARRAY MB: " + bytes.Length / 1024f / 1024f );
+			Log.Info( "COMPRESSED MB: " + bytes.Compress().Length / 1024f / 1024f );
+			Log.Info( "TIME: " + sw.ElapsedMilliseconds );
 		}
 	}
 

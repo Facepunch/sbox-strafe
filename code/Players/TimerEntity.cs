@@ -28,9 +28,9 @@ internal partial class TimerEntity : Entity
 	[Net, Predicted]
 	public bool Current { get; set; }
 	[Net, Predicted]
-	public int Jumps { get; set; }
+	public ushort Jumps { get; set; }
 	[Net, Predicted]
-	public int Strafes { get; set; }
+	public ushort Strafes { get; set; }
 
 	public TimerFrame Snapshot { get; private set; }
 

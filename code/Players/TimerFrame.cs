@@ -1,5 +1,4 @@
 ﻿
-using Sandbox;
 using System;
 
 namespace Strafe.Players;
@@ -11,8 +10,8 @@ internal struct TimerFrame
 	public Vector3 Position { get; set; }
 	public Angles Angles { get; set; }
 	public float Time { get; set; }
-	public int Jumps { get; set; }
-	public int Strafes { get; set; }
+	public ushort Jumps { get; set; }
+	public ushort Strafes { get; set; }
 
 	public static bool operator ==( TimerFrame a, TimerFrame b )
 	{

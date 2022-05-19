@@ -51,18 +51,20 @@ internal class RunSubmitter : Entity
 			return;
 		}
 
-		var replay = new Replay( timer.Frames.ToList() );
+		var replay = new Replay( client.PlayerId, timer.Frames.ToList() );
+		replay = Replay.FromBytes( replay.ToBytes() );
 		ReplayEntity.Play( replay, 5 );
-
-		//var replayJson = System.Text.Json.JsonSerializer.Serialize( replay );
-		//we can send replay data over somehow as well
 
 		var runJson = System.Text.Json.JsonSerializer.Serialize( CompletionData.From( timer ) );
 		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
-		if( result != null )
+		if ( result == null ) return;
+
+		PrintResult( client, timer, result );
+
+		if( result.NewRank == 1 && result.IsPersonalBest )
 		{
-			PrintResult( client, timer, result );
+			// send binary replay
 		}
 	}
 
