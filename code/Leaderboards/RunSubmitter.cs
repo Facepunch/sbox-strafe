@@ -47,7 +47,7 @@ internal class RunSubmitter : Entity
 				msg += " | WR " + diff.Time.ToTime( true );
 			}
 
-			Chat.AddChatEntry( To.Single( timer ), "Timer", msg );
+			Chat.AddChatEntry( To.Single( timer ), "Timer", msg, "timer" );
 
 			return;
 		}
@@ -82,7 +82,7 @@ internal class RunSubmitter : Entity
 	{
 		if ( result == null || !result.IsPersonalBest )
 		{
-			Chat.AddChatEntry( To.Single( client ), "Timer", $"Map finished in {stageFrame.Time.ToTime()}" );
+			Chat.AddChatEntry( To.Single( client ), "Timer", $"Map finished in {stageFrame.Time.ToTime()}", "timer" );
 			return;
 		}
 
@@ -104,8 +104,8 @@ internal class RunSubmitter : Entity
 			Chat.AddChatEntry( To.Everyone, "Timer", "Top 5", "important" );
 		}
 
-		Chat.AddChatEntry( To.Everyone, "Timer", completionMsg );
-		Chat.AddChatEntry( To.Everyone, "Timer", $"New rank: {result.NewRank}, Old rank: {result.OldRank}" );
+		Chat.AddChatEntry( To.Everyone, "Timer", completionMsg, "timer" );
+		Chat.AddChatEntry( To.Everyone, "Timer", $"New rank: {result.NewRank}, Old rank: {result.OldRank}", "timer" );
 	}
 
 }

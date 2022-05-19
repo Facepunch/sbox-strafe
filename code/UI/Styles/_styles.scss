@@ -142,6 +142,13 @@ StrafeChatEntry {
         font-weight: heavy;
     }
 
+    &.timer {
+        .name {
+            color: $orange;
+        }
+        color: rgba(white .8);
+    }
+
     .name {
         margin-right: 4px;
         font-weight: 800;
