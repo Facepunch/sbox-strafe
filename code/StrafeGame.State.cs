@@ -93,6 +93,8 @@ internal partial class StrafeGame
 
 		if ( VoteInProgress ) return;
 
+		MapVotes.Clear();
+		VotingFinished = false;
 		VoteInProgress = true;
 
 		Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has started.", "info" );
@@ -148,7 +150,14 @@ internal partial class StrafeGame
 			return;
 
 		MapVotes[client.PlayerId] = map;
-		NextMap = MapVotes.OrderByDescending( x => x.Value ).First().Value;
+
+		var votemap = new Dictionary<string, int>();
+		MapVotes.Values.ToList().ForEach( x => votemap.Add( x, 0 ) );
+		foreach ( var kvp in MapVotes )
+		{
+			votemap[kvp.Value]++;
+		}
+		NextMap = votemap.OrderByDescending( x => x.Value ).First().Key;
 
 		if ( !map.StartsWith( "_extend" ) )
 		{
