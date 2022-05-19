@@ -4,7 +4,7 @@ using Strafe.Players;
 
 namespace Strafe.Leaderboards;
 
-internal class ReplayEntity : AnimEntity
+internal partial class ReplayEntity : AnimEntity
 {
 
 	private int NumberOfLoops;
@@ -12,12 +12,19 @@ internal class ReplayEntity : AnimEntity
 	private int CurrentFrame;
 	private Replay Replay;
 
+	[Net]
+	public long PlayerId { get; set; }
+	[Net]
+	public TimerFrame FinalFrame { get; set; }
+
 	public override void Spawn()
 	{
 		base.Spawn();
 
 		SetModel( "models/citizen/citizen.vmdl" );
 		EnableAllCollisions = false;
+
+		Transmit = TransmitType.Always;
 	}
 
 	[Event.Tick.Server]
@@ -25,6 +32,9 @@ internal class ReplayEntity : AnimEntity
 	{
 		if ( Replay == null ) return;
 		if ( Replay.Frames == null || Replay.Frames.Count == 0 ) return;
+
+		PlayerId = Replay.PlayerId;
+		FinalFrame = Replay.Frames[^1];
 
 		ApplyFrame( Replay.Frames[CurrentFrame] );
 

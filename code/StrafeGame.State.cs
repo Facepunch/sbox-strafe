@@ -64,6 +64,7 @@ internal partial class StrafeGame
 		if ( (int)StateTimer % (5 * 60f) == 0 ) return true;
 		if ( (int)StateTimer == 120 ) return true;
 		if ( (int)StateTimer == 60 ) return true;
+		if ( (int)StateTimer == 42 ) return true;
 		if ( (int)StateTimer == 30 ) return true;
 		if ( (int)StateTimer <= 10 ) return true;
 

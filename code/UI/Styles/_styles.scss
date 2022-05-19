@@ -294,3 +294,78 @@ SlotMenuHud {
         padding-left: 10px;
     }
 }
+
+StrafeScoreboard {
+    position: absolute;
+    width: 50%;
+    height: 50%;
+    top: 25%;
+    left: 25%;
+    border-radius: $radius;
+    padding: $paddingmedium;
+    opacity: 0;
+    transition: opacity .12s ease-out;
+    background-color: rgba( $darkbg .95 );
+    background-image: url( ui/border.png );
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 101.35%;
+    background-tint: $lightaccent;
+    flex-direction: row;
+    box-shadow: 2px 2px 0px rgba(black .93);
+
+    .column {
+        flex-grow: 1;
+        flex-direction: column;
+        margin-right: 20px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+
+    .heading {
+        font-weight: 800;
+        font-size: 24px;
+        text-transform: uppercase;
+        margin-bottom: $paddingmedium;
+        padding-bottom: $paddingmedium;
+        border-bottom: 1px solid rgba( $darkaccent .5 );
+    }
+
+    PlayerList, ReplayList {
+        flex-direction: column;
+    }
+
+    .scoreboard-entry {
+        padding: $paddingsmall;
+        justify-content: space-between;
+        flex-grow: 1;
+        transition: all .1s ease-out;
+        border-radius: $radius;
+
+        .name {
+            color: $darkaccent;
+            font-weight: 800;
+        }
+
+        &:hover {
+            background-color: $darkaccent;
+            text-shadow: 1px 1px 2px black;
+            transform: scale(1.02);
+            box-shadow: 3px 3px 0px black;
+        }
+    }
+
+    ReplayList .scoreboard-entry .name {
+        color: $orange;
+    }
+
+    &.open {
+        opacity: 1;
+    }
+
+    &.cursor {
+        pointer-events: all;
+    }
+}
