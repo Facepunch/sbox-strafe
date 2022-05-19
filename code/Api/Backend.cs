@@ -5,6 +5,7 @@ using System.Text.Json;
 using Sandbox;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace Strafe.Api;
 
@@ -46,6 +47,45 @@ internal partial class Backend
 		};
 
 		await WebSocket.Send( JsonSerializer.Serialize( msg, JsonOptions ) );
+	}
+
+	public static async Task<T> Post<T>( string controller, byte[] data )
+	{
+		if ( !await EnsureWebSocket() )
+		{
+			Log.Error( "WebSocket failed to connect" );
+			return default;
+		}
+
+		data ??= new byte[0];
+
+		var msgid = ++MessageIdAccumulator;
+
+		using var ms = new MemoryStream();
+		using var bw = new BinaryWriter( ms );
+		bw.Write( msgid );
+		bw.Write( controller );
+		bw.Write( data.Length );
+		bw.Write( data );
+
+		await WebSocket.Send( ms.ToArray() );
+		var response = await WaitForResponse( msgid );
+
+		if ( response == null )
+		{
+			Log.Error( $"WebSocket response failed: {controller}" );
+			return default;
+		}
+
+		try
+		{
+			return JsonSerializer.Deserialize<T>( response.Message, JsonOptions );
+		}
+		catch ( System.Exception e )
+		{
+			Log.Warning( "Errored on WebSocket message: " + e.Message );
+			return default;
+		}
 	}
 
 	public static async Task<T> Post<T>( string controller, string jsonData )
