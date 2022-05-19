@@ -5,6 +5,7 @@ using Strafe.Api.Messages;
 using Strafe.Players;
 using Strafe.UI;
 using Strafe.Utility;
+using System;
 using System.Linq;
 
 namespace Strafe.Leaderboards;
@@ -51,10 +52,6 @@ internal class RunSubmitter : Entity
 			return;
 		}
 
-		var replay = new Replay( client.PlayerId, timer.Frames.ToList() );
-		replay = Replay.FromBytes( replay.ToBytes() );
-		ReplayEntity.Play( replay, 5 );
-
 		var runJson = System.Text.Json.JsonSerializer.Serialize( CompletionData.From( timer ) );
 		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
@@ -64,7 +61,15 @@ internal class RunSubmitter : Entity
 
 		if( result.NewRank == 1 && result.IsPersonalBest )
 		{
-			// send binary replay
+			var replay = new Replay( client.PlayerId, timer.Frames.ToList() );
+
+			var upload = new UploadReplay()
+			{
+				CompletionId = result.CompletionId,
+				ReplayBase64 = Convert.ToBase64String( replay.ToBytes() )
+			};
+
+			var uploadResult = await Backend.Post<UploadReplayResult>( "completion/upload-replay", upload.Serialize() );
 		}
 	}
 

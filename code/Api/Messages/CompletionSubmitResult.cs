@@ -6,6 +6,7 @@ namespace Strafe.Api.Messages;
 internal class CompletionSubmitResult
 {
 
+	public long CompletionId { get; set; }
 	public int NewRank { get; set; }
 	public int OldRank { get; set; }
 	public float NewTime { get; set; }

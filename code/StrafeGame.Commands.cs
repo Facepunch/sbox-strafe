@@ -40,6 +40,12 @@ internal partial class StrafeGame
 			Chat.AddChatEntry( To.Everyone, "Response", result );
 		}
 
+		if ( cmdName == "blobtest" && Host.IsServer )
+		{
+			var result = await Backend.Post<string>( "blobtest/tester", new byte[4] { 1, 2, 3, 4 } );
+			Chat.AddChatEntry( To.Everyone, "Response", result );
+		}
+
 		if ( cmdName == "wsping" && Host.IsServer )
 		{
 			var result = await Backend.Post<string>( "ping", "someData" );
@@ -98,8 +104,8 @@ internal partial class StrafeGame
 				data.Add( new()
 				{
 					Angles = Angles.Random,
-					Jumps = (ushort)Rand.Int(0, 100),
-					Strafes = (ushort)Rand.Int(0, 100 ),
+					Jumps = Rand.Int(0, 100),
+					Strafes = Rand.Int(0, 100 ),
 					Position = Vector3.Random,
 					Time = Rand.Float(0, 100),
 					Velocity = Vector3.Random

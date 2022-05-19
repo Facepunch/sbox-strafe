@@ -83,8 +83,8 @@ internal static class ReplayIO
 			Position = br.ReadVector3(),
 			Angles = br.ReadAngles(),
 			Time = br.ReadSingle(),
-			Jumps = br.ReadUInt16(),
-			Strafes = br.ReadUInt16(),
+			Jumps = br.ReadInt32(),
+			Strafes = br.ReadInt32(),
 		};
 	}
 
