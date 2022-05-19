@@ -14,8 +14,8 @@ internal partial class Backend
 
 	public static bool Connected => WebSocket?.IsConnected ?? false;
 
-	public static string Endpoint => "https://localhost:7265/api";
-	//public static string Endpoint => "https://strafedb.com/api";
+	//public static string Endpoint => "https://localhost:7265/api";
+	public static string Endpoint => "https://strafedb.com/api";
 
 	private static WebSocket WebSocket;
 	private static int MessageIdAccumulator;
