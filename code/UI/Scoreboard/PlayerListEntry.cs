@@ -8,9 +8,4 @@ namespace Strafe.UI;
 internal class PlayerListEntry : EasyListEntry<StrafePlayer>
 {
 
-	public PlayerListEntry()
-	{
-		AddClass( "scoreboard-entry" );
-	}
-
 }

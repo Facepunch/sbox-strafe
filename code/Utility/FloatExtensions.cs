@@ -10,8 +10,8 @@ internal static class FloatExtensions
 	{
 		var tsSeconds = TimeSpan.FromSeconds( seconds );
 		var format = tsSeconds.TotalSeconds > 60
-			? @"m\:ss\.ff\s"
-			: @"s\.ff\s";
+			? @"m\:ss\.fff\s"
+			: @"s\.fff\s";
 
 		var result = tsSeconds.ToString( format );
 		if ( seconds < 0 ) result = '-' + result;

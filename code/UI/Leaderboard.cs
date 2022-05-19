@@ -39,7 +39,7 @@ internal class Leaderboard : Panel
 
 		foreach ( var entry in qq )
 		{
-			Add.Label( $"#{entry.Rank}   {entry.PlayerName}           {entry.Time.ToTime()}s" );
+			Add.Label( $"#{entry.Rank}   {entry.PlayerName}           {entry.Time.ToTime()}" );
 		}
 	}
 

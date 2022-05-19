@@ -13,6 +13,11 @@ internal class StrafeChatEntry : Panel
 
 	public TimeSince TimeSinceCreated = 0;
 
+	public StrafeChatEntry()
+	{
+		AllowChildSelection = true;
+	}
+
 	public override void Tick()
 	{
 		base.Tick();

@@ -4,6 +4,7 @@
 RootPanel {
     color: white;
     font-family: Ubuntu;
+    font-size: 16px;
 }
 
 TimerHud {
@@ -337,7 +338,7 @@ StrafeScoreboard {
         flex-direction: column;
     }
 
-    .scoreboard-entry {
+    PlayerListEntry, ReplayListEntry {
         padding: $paddingsmall;
         justify-content: space-between;
         flex-grow: 1;
@@ -354,10 +355,14 @@ StrafeScoreboard {
             text-shadow: 1px 1px 2px black;
             transform: scale(1.02);
             box-shadow: 3px 3px 0px black;
+
+            .name {
+                color: white;
+            }
         }
     }
 
-    ReplayList .scoreboard-entry .name {
+    ReplayListEntry .name {
         color: $orange;
     }
 
