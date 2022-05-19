@@ -2,6 +2,7 @@
 using Sandbox.Internal;
 using Strafe.Api.Messages;
 using Strafe.Leaderboards;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -27,10 +28,18 @@ internal partial class Backend
 		if ( completionData == null ) return null;
 		if ( string.IsNullOrEmpty( completionData.ReplayUrl ) ) return null;
 
-		var url = completionData.ReplayUrl;
-		var client = new Http( new System.Uri( url ) );
-		var data = await client.GetBytesAsync();
-		return Replay.FromBytes( data );
+		try
+		{
+			var url = completionData.ReplayUrl;
+			var client = new Http( new System.Uri( url ) );
+			var data = await client.GetBytesAsync();
+			return Replay.FromBytes( data );
+		}
+		catch(Exception e )
+		{
+			Log.Error( "Error fetching replay: " + e.Message );
+			return null;
+		}
 	}
 
 }
