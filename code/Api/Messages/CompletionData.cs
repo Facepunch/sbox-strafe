@@ -14,6 +14,7 @@ internal class CompletionData
 	public int Stage { get; set; }
 	public Dictionary<int, TimerFrame> Stats { get; set; } = new();
 	public DateTimeOffset Date { get; set; }
+	public string ReplayUrl { get; set; }
 
 	public static CompletionData From( TimerEntity timer )
 	{

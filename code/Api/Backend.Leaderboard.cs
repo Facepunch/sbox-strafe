@@ -1,5 +1,7 @@
 ﻿
+using Sandbox.Internal;
 using Strafe.Api.Messages;
+using Strafe.Leaderboards;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -16,6 +18,19 @@ internal partial class Backend
 	public static async Task<CompletionData> FetchCompletion( string mapIdent, int stage, int rank )
 	{
 		return await Get<CompletionData>( $"completion/fetch?map={mapIdent}&stage={stage}&rank={rank}" );
+	}
+
+	public static async Task<Replay> FetchReplay( string mapIdent, int stage, int rank )
+	{
+		var completionData = await FetchCompletion( mapIdent, stage, rank );
+
+		if ( completionData == null ) return null;
+		if ( string.IsNullOrEmpty( completionData.ReplayUrl ) ) return null;
+
+		var url = completionData.ReplayUrl;
+		var client = new Http( new System.Uri( url ) );
+		var data = await client.GetBytesAsync();
+		return Replay.FromBytes( data );
 	}
 
 }
