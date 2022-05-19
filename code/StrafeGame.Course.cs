@@ -1,7 +1,10 @@
 ﻿
 using Sandbox;
+using Strafe.Api;
+using Strafe.Leaderboards;
 using Strafe.Map;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Strafe;
 
@@ -67,6 +70,14 @@ internal partial class StrafeGame
 		InvalidReason = reason;
 		CourseType = CourseTypes.Invalid;
 		Log.Error( reason );
+	}
+
+	private async Task DownloadWrReplay()
+	{
+		var replay = await Backend.FetchReplay( Global.MapName, 0, 1 );
+		if ( replay == null ) return;
+
+		ReplayEntity.Play( replay, -1 );
 	}
 
 }

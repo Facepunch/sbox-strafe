@@ -24,6 +24,7 @@ internal partial class StrafeGame : Game
 			_ = new RunSubmitter();
 			_ = new CprEntity();
 			_ = GameLoopAsync();
+			_ = DownloadWrReplay();
 
 			All.OfType<SpawnPoint>().ToList().ForEach( x => x.Transmit = TransmitType.Always );
 		}
