@@ -52,12 +52,17 @@ internal class RunSubmitter : Entity
 			return;
 		}
 
+		// storing these before the async operation so they don't get lost
+		var stageFrame = timer.GrabFrame();
+		var courseFrame = player.Stage( 0 ).GrabFrame();
+		var stage = timer.Stage;
+
 		var runJson = System.Text.Json.JsonSerializer.Serialize( CompletionData.From( timer ) );
 		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
-		if ( result == null ) return;
+		PrintResult( client, stage, stageFrame, courseFrame, result );
 
-		PrintResult( client, timer, result );
+		if ( result == null ) return;
 
 		if( result.NewRank == 1 && result.IsPersonalBest )
 		{
@@ -73,22 +78,19 @@ internal class RunSubmitter : Entity
 		}
 	}
 
-	private void PrintResult( Client client, TimerEntity timer, CompletionSubmitResult result )
+	private void PrintResult( Client client, int stage, TimerFrame stageFrame, TimerFrame courseFrame, CompletionSubmitResult? result )
 	{
-		if ( result.OldTime != 0 && result.OldTime < result.NewTime ) 
+		if ( result == null || !result.IsPersonalBest )
+		{
+			Chat.AddChatEntry( To.Single( client ), "Timer", $"Map finished in {stageFrame.Time.ToTime()}" );
 			return;
-		if ( client.Pawn is not StrafePlayer player ) 
-			return;
+		}
 
 		var improvement = result.NewTime - result.OldTime;
-		var completionMsg = $"{client.Name} finished the map in {timer.Timer.ToTime()}, improving by {improvement.ToTime()}";
-		var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
-			? timer.GrabFrame()
-			: player.Stage( 0 ).GrabFrame();
+		var completionMsg = $"{client.Name} finished the map in {stageFrame.Time.ToTime()}, improving by {improvement.ToTime()}";
+		var diffFrame = StrafeGame.Current.CourseType == CourseTypes.Staged ? stageFrame : courseFrame;
 
-		CprEntity.TryGetDiff( timer.Stage, snapshot, out var diff );
-
-		if ( diff != default )
+		if ( CprEntity.TryGetDiff( stage, diffFrame, out var diff ) )
 		{
 			completionMsg += " | WR " + diff.Time.ToTime( true );
 		}
