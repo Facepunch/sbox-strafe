@@ -28,7 +28,15 @@ internal partial class Backend
 		var result = await http.GetStringAsync();
 		http.Dispose();
 
-		return JsonSerializer.Deserialize<T>( result, JsonOptions );
+		try
+		{
+			return JsonSerializer.Deserialize<T>( result, JsonOptions );
+		}
+		catch( System.Exception e )
+		{
+			Log.Info( "Error getting from " + controller + ", " + e.Message );
+			return default;
+		}
 	}
 
 	public static async Task Post( string controller, string jsonData )
