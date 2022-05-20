@@ -56,8 +56,9 @@ internal partial class ReplayEntity : AnimEntity
 	private void ApplyFrame( TimerFrame frame )
 	{
 		Position = frame.Position;
-		Rotation = Rotation.From( frame.Angles );
+		Rotation = Rotation.From( frame.Angles.WithPitch( 0 ) );
 		EyeRotation = Rotation.From( frame.Angles );
+		EyeLocalPosition = Vector3.Up * 64f;
 		Velocity = frame.Velocity;
 	}
 

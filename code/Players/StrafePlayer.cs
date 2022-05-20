@@ -58,6 +58,8 @@ internal partial class StrafePlayer : Sandbox.Player
 
 	public override void Simulate( Client cl )
 	{
+		if ( SpectateTarget.IsValid() ) return;
+
 		base.Simulate( cl );
 
 		if ( Controller is StrafeController ctrl )

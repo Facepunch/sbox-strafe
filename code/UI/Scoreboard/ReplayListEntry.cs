@@ -2,6 +2,7 @@
 using Sandbox;
 using Sandbox.UI;
 using Strafe.Leaderboards;
+using Strafe.Players;
 using Strafe.Utility;
 
 namespace Strafe.UI;
@@ -18,6 +19,21 @@ internal class ReplayListEntry : EasyListEntry<ReplayEntity>
 		base.OnSet();
 
 		Friend = new Friend( Item.PlayerId );
+	}
+
+	protected override void OnMouseDown( MousePanelEvent e )
+	{
+		base.OnMouseDown( e );
+
+		StrafePlayer.SetSpectateTarget( Item.NetworkIdent );
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		var p = Local.Pawn as StrafePlayer;
+		SetClass( "active", p.SpectateTarget == Item );
 	}
 
 }

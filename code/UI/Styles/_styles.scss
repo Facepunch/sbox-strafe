@@ -7,6 +7,33 @@ RootPanel {
     font-size: 16px;
 }
 
+button {
+    border-radius: $radius;
+    padding: $paddingsmall;
+    cursor: pointer;
+    text-shadow: 1px 1px 1px black;
+    border: 2px solid $lightaccent;
+    background-color: transparent;
+    transition: all .15s ease-out;
+
+    &:hover {
+        background-color: $lightaccent;
+        transform: scale(1.05);
+    }
+}
+
+button.disabled {
+    opacity: .25;
+    cursor: default;
+    transition: none;
+    border: 2px solid $bg;
+
+    &:hover {
+        background-color: transparent;
+        transform: scale(1);
+    }
+}
+
 TimerHud {
     position: absolute;
     width: 100%;
@@ -319,9 +346,13 @@ StrafeScoreboard {
     background-position: center center;
     background-size: 50% 101.35%;
     background-tint: $lightaccent;
-    flex-direction: row;
+    flex-direction: column;
     box-shadow: 2px 2px 0px rgba(black .93);
     z-index: $z-chat;
+
+    .columns {
+        flex-grow: 1;
+    }
 
     .column {
         flex-grow: 1;
@@ -352,13 +383,19 @@ StrafeScoreboard {
         flex-grow: 1;
         transition: all .1s ease-out;
         border-radius: $radius;
+        cursor: pointer;
+
+        &.active {
+            border: 2px solid $orange;
+            transform: scale(1.02);
+        }
 
         .name {
             color: $darkaccent;
             font-weight: 800;
         }
 
-        &:hover {
+        &:hover:not(.active) {
             background-color: $darkaccent;
             text-shadow: 1px 1px 2px black;
             transform: scale(1.02);
@@ -380,5 +417,36 @@ StrafeScoreboard {
 
     &.cursor {
         pointer-events: all;
+    }
+}
+
+SpectatorList {
+    position: absolute;
+    right: 64px;
+    top: 40%;
+    opacity: 0;
+    flex-direction: column;
+
+    &.open {
+        opacity: 1;
+    }
+
+    .heading {
+        padding: 8px;
+        margin-bottom: 8px;
+        border-radius: $radius;
+        background-image: url( ui/border.png );
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 98%;
+        background-tint: rgba( $lightaccent .35 );
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .entries {
+        flex-direction: column;
+        padding: 4px 8px;
+        text-align: center;
     }
 }

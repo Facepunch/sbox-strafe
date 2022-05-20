@@ -8,13 +8,20 @@ internal class StrafeCamera : CameraMode
 
 	public override void Update()
 	{
-		var pawn = Local.Pawn;
-		if ( pawn == null ) return;
+		if ( Local.Pawn is not StrafePlayer pl ) 
+			return;
 
-		Position = pawn.EyePosition;
-		Rotation = pawn.EyeRotation;
+		var target = Local.Pawn;
 
-		Viewer = pawn;
+		if ( pl.SpectateTarget.IsValid() )
+		{
+			target = pl.SpectateTarget;
+		}
+
+		Position = target.EyePosition;
+		Rotation = target.EyeRotation;
+
+		Viewer = target;
 	}
 
 }

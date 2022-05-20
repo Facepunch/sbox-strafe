@@ -1,14 +1,20 @@
 ﻿
 <root>
 
-    <panel class="column">
-        <label class="heading">Players</label>
-        <PlayerList />
+    <panel class="columns">
+        <panel class="column">
+            <label class="heading">Players</label>
+            <PlayerList />
+        </panel>
+
+        <panel class="column">
+            <label class="heading">Replays</label>
+            <ReplayList />
+        </panel>
     </panel>
 
-    <panel class="column">
-        <label class="heading">Replays</label>
-        <ReplayList />
+    <panel class="footer">
+        <button @ref="StopSpectatingButton" onclick="StopSpectating()" class="button">Stop Spectating</button>
     </panel>
 
 </root>
