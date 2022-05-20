@@ -48,7 +48,7 @@ internal partial class Chat : Panel
 		}
 	}
 
-	[ClientCmd( "say2" )]
+	[ConCmd.Client( "say2" )]
 	public static void Submit( string msg )
 	{
 		if ( string.IsNullOrWhiteSpace( msg ) )
@@ -74,7 +74,7 @@ internal partial class Chat : Panel
 		Sound.FromScreen( "ui.button.over" );
 	}
 
-	[ClientCmd( "chat_add", CanBeCalledFromServer = true )]
+	[ConCmd.Client( "chat_add", CanBeCalledFromServer = true )]
 	public static void AddChatEntry( string name, string message, string classes = default )
 	{
 		Current?.AddEntry( name, message, classes );
@@ -110,7 +110,7 @@ internal partial class Chat : Panel
 		}
 	}
 
-	[ServerCmd( "say" )]
+	[ConCmd.Server( "say" )]
 	public static void Say( string message )
 	{
 		Assert.NotNull( ConsoleSystem.Caller );

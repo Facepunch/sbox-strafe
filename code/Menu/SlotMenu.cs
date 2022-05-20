@@ -61,7 +61,7 @@ internal partial class SlotMenu : Entity
 		OptionActions.Add( onChosen );
 	}
 
-	[ServerCmd]
+	[ConCmd.Server]
 	public static void ChooseOption( int menuIdent, int slot )
 	{
 		if ( !ConsoleSystem.Caller.IsValid() ) return;

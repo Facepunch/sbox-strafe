@@ -16,7 +16,7 @@ internal partial class StrafePlayer
 			SpectateTarget = null;
 	}
 
-	[ServerCmd]
+	[ConCmd.Server]
 	public static void SetSpectateTarget( int targetIdent )
 	{
 		if ( !ConsoleSystem.Caller.IsValid() ) return;

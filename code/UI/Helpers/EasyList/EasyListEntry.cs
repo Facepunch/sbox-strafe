@@ -1,9 +1,8 @@
-﻿using Sandbox;
+﻿
 using Sandbox.UI;
 
 namespace Strafe.UI;
 
-[Library]
 internal class EasyListEntry<T> : Panel
 {
 

@@ -30,7 +30,7 @@ internal class StrafeScoreboard : Panel
 		}
 		else
 		{
-			if ( Input.Down( InputButton.Attack1 ) || Input.Down( InputButton.Attack2 ) )
+			if ( Input.Down( InputButton.PrimaryAttack ) || Input.Down( InputButton.SecondaryAttack ) )
 			{
 				AddClass( "cursor" );
 			}

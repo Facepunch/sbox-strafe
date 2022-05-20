@@ -25,7 +25,7 @@ internal abstract class EasyList<T, T2> : Panel
 
 		foreach ( var item in items )
 		{
-			var child = Library.Create<T>() as EasyListEntry<T2>;
+			var child = TypeLibrary.Create<T>(typeof(T));
 			child.Set( item );
 			child.Parent = parent;
 		}

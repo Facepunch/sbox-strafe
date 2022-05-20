@@ -13,7 +13,7 @@ internal partial class CprEntity : Entity
 	public static CprEntity Current;
 
 	[Net]
-	public Dictionary<int, TimerFrame> Cpr { get; set; } = new();
+	public IDictionary<int, TimerFrame> Cpr { get; set; }
 
 	public CprEntity()
 	{

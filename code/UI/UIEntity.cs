@@ -22,10 +22,10 @@ internal class UIEntity : HudEntity<RootPanel>
 
 		RootPanel.DeleteChildren();
 
-		var hudElements = Library.GetAttributes<HudAttribute>();
+		var hudElements = TypeLibrary.GetAttributes<HudAttribute>();
 		foreach ( var element in hudElements )
 		{
-			var instance = element.Create<Panel>();
+			var instance = TypeLibrary.Create<Panel>( element.TargetType );
 			if ( instance == null ) continue;
 			RootPanel.AddChild( instance );
 		}

@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using SandboxEditor;
 using Strafe.Players;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,7 @@ namespace Strafe.Map;
 
 [Library( "strafe_trigger_teleport" )]
 [Display( Name = "Teleport Trigger" ), Category( "Triggers" ), Icon( "rotate_left" )]
+[HammerEntity]
 internal partial class StrafeTriggerTeleport : StrafeTrigger
 {
 

@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using SandboxEditor;
 using Strafe.Players;
 using System;
 using System.ComponentModel;
@@ -10,6 +11,7 @@ namespace Strafe.Map;
 //[Hammer.AutoApplyMaterial( "materials/editor/push/strafe_trigger_push.vmat" )]
 [Library( "strafe_trigger_push" )]
 [Display( Name = "Push Trigger" ), Category( "Triggers" ), Icon( "double_arrow" )]
+[HammerEntity]
 internal partial class TriggerPush : StrafeTrigger
 {
 

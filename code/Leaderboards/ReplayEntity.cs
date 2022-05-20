@@ -4,7 +4,7 @@ using Strafe.Players;
 
 namespace Strafe.Leaderboards;
 
-internal partial class ReplayEntity : AnimEntity
+internal partial class ReplayEntity : AnimatedEntity
 {
 
 	private int NumberOfLoops;

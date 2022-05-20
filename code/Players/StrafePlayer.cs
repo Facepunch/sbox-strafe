@@ -8,7 +8,7 @@ internal partial class StrafePlayer : Sandbox.Player
 {
 
 	private bool TimersCreated;
-	private Clothing.Container Clothing;
+	private ClothingContainer Clothing;
 
 	public override void Respawn()
 	{
@@ -151,7 +151,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		CurrentStage()?.TeleportTo();
 	}
 
-	[ClientCmd( "+yaw", CanBeCalledFromServer = false )]
+	[ConCmd.Client( "+yaw", CanBeCalledFromServer = false )]
 	public static void OnYaw( float spd = 0 )
 	{
 		if ( Local.Pawn is not StrafePlayer pl ) return;
@@ -159,7 +159,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		pl.YawSpeed = spd;
 	}
 
-	[ClientCmd( "-yaw", CanBeCalledFromServer = false )]
+	[ConCmd.Client( "-yaw", CanBeCalledFromServer = false )]
 	public static void OnYawRelease()
 	{
 		if ( Local.Pawn is not StrafePlayer pl ) return;

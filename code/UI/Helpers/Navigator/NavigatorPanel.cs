@@ -121,7 +121,7 @@ public class NavigatorPanel : Panel
 		}
 		else
 		{
-			var panel = attr.Create<Panel>();
+			var panel = TypeLibrary.Create<Panel>();
 			panel.AddClass( "navigator-body" );
 
 			Current = new HistoryItem { Panel = panel, Url = url };

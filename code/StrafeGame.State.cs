@@ -16,7 +16,7 @@ internal partial class StrafeGame
 	[Net]
 	public string NextMap { get; set; }
 	[Net]
-	public Dictionary<long, string> MapVotes { get; set; }
+	public IDictionary<long, string> MapVotes { get; set; }
 
 	private bool VotingFinished;
 	private bool VoteInProgress;
