@@ -64,7 +64,7 @@ internal class RunSubmitter : Entity
 
 		if ( result == null ) return;
 
-		if( result.NewRank == 1 && result.IsPersonalBest )
+		if(/* result.NewRank == 1 && */result.IsPersonalBest )
 		{
 			var replay = new Replay( client.PlayerId, timer.Frames.ToList() );
 
