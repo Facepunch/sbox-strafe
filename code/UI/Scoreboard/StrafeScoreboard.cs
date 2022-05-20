@@ -1,10 +1,6 @@
 ﻿
 using Sandbox;
 using Sandbox.UI;
-using Strafe.Players;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Strafe.UI;
 

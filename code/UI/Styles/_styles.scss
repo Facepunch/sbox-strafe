@@ -321,6 +321,7 @@ StrafeScoreboard {
     background-tint: $lightaccent;
     flex-direction: row;
     box-shadow: 2px 2px 0px rgba(black .93);
+    z-index: $z-chat;
 
     .column {
         flex-grow: 1;
