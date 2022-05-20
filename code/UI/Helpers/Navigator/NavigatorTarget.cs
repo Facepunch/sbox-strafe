@@ -1,4 +1,4 @@
-﻿using Sandbox;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +8,13 @@ namespace Strafe.UI;
 /// <summary>
 /// Mark a Panel with this class for it to be navigatable
 /// </summary>
-public class NavigatorTargetAttribute : LibraryAttribute
+public class NavigatorTargetAttribute : System.Attribute, Sandbox.ITypeAttribute
 {
 	public string Url { get; internal set; }
+	public Type TargetType
+	{
+		get; set;
+	}
 
 	string[] Parts;
 
@@ -55,8 +59,8 @@ public class NavigatorTargetAttribute : LibraryAttribute
 	public static NavigatorTargetAttribute FindValidTarget( string url )
 	{
 		return TypeLibrary.GetAttributes<NavigatorTargetAttribute>()
-			.Where( x => x.CanServeUrl( url ) )
-			.FirstOrDefault();
+								.Where( x => x.CanServeUrl( url ) )
+								.FirstOrDefault();
 	}
 
 	internal IEnumerable<(string key, string value)> ExtractProperties( string url )

@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿
+using Sandbox;
 using Sandbox.UI;
 using Sandbox.Html;
 using System;
@@ -121,7 +122,7 @@ public class NavigatorPanel : Panel
 		}
 		else
 		{
-			var panel = TypeLibrary.Create<Panel>();
+			var panel = TypeLibrary.Create<Panel>( attr.TargetType );
 			panel.AddClass( "navigator-body" );
 
 			Current = new HistoryItem { Panel = panel, Url = url };
@@ -155,6 +156,7 @@ public class NavigatorPanel : Panel
 
 	protected virtual void NotFound( string url )
 	{
+		if ( url == null ) return;
 		Log.Warning( $"Url Not Found: {url}" );
 	}
 
