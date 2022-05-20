@@ -57,6 +57,7 @@ internal partial class ReplayEntity : AnimEntity
 	{
 		Position = frame.Position;
 		Rotation = Rotation.From( frame.Angles );
+		EyeRotation = Rotation.From( frame.Angles );
 		Velocity = frame.Velocity;
 	}
 
