@@ -11,6 +11,9 @@ namespace Strafe;
 internal partial class StrafeGame
 {
 
+	[ConVar.Server("strafe_disable_mapcycle")]
+	public static bool DisableMapCycle { get; set; }
+
 	[Net]
 	public RealTimeUntil StateTimer { get; set; }
 	[Net]
@@ -27,6 +30,12 @@ internal partial class StrafeGame
 
 		while ( StateTimer > 0 )
 		{
+			if( DisableMapCycle )
+			{
+				await Task.DelayRealtimeSeconds( 1.0f );
+				continue;
+			}
+
 			if ( (int)StateTimer == (7 * 60) )
 			{
 				_ = MapVoteAsync();
