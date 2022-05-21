@@ -153,6 +153,7 @@ internal partial class StrafePlayer : Sandbox.Player
 
 	TimeSince timeSinceLastFootstep = 0;
 
+	public override float FootstepVolume() => Velocity.WithZ( 0 ).Length.LerpInverse( 0.0f, 260f );
 	public override void OnAnimEventFootstep( Vector3 pos, int foot, float volume )
 	{
 		if ( LifeState != LifeState.Alive )
