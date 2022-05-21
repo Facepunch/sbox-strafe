@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using System;
 
 namespace Strafe.Players;
 
@@ -23,7 +24,6 @@ internal class StrafeDuck : Duck
 		if ( IsActive )
 		{
 			Controller.SetTag( "ducked" );
-			Controller.EyeLocalPosition *= .4375f;
 		}
 	}
 
@@ -43,9 +43,18 @@ internal class StrafeDuck : Duck
 		var wasactive = IsActive;
 		base.TryUnDuck();
 
-		if ( wasactive && !IsActive )
+		if ( wasactive && !IsActive && Controller.GroundEntity == null )
 		{
+			var distToGround = Controller.TraceBBox( Controller.Position, Controller.Position + Vector3.Down * 1000 ).Distance;
+			var shift = MathF.Min( 14, distToGround );
+			Controller.Position += Vector3.Down * shift;
 		}
+	}
+
+	public override float GetWishSpeed()
+	{
+		if ( !IsActive ) return -1;
+		return 88;
 	}
 
 }

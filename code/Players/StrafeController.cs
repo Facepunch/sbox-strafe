@@ -5,7 +5,6 @@ using Strafe.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 
 namespace Strafe.Players;
 
@@ -237,7 +236,12 @@ partial class StrafeController : WalkController
 
 	private void BaseSimulate()
 	{
-		EyeLocalPosition = Vector3.Up * (EyeHeight * Pawn.Scale);
+		var targetz = Duck.IsActive ? 40 : EyeHeight;
+		var lerpspd = Duck.IsActive ? 8f : 24f;
+		var curz = EyeLocalPosition.z;
+		var newz = curz.LerpTo( targetz, Time.Delta * lerpspd );
+
+		EyeLocalPosition = Vector3.Up * (newz * Pawn.Scale);
 		UpdateBBox();
 
 		EyeLocalPosition += TraceOffset;
