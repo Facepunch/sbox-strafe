@@ -48,7 +48,6 @@ internal partial class Chat : Panel
 		}
 	}
 
-	[ConCmd.Client( "say2" )]
 	public static void Submit( string msg )
 	{
 		if ( string.IsNullOrWhiteSpace( msg ) )
@@ -74,7 +73,7 @@ internal partial class Chat : Panel
 		Sound.FromScreen( "ui.button.over" );
 	}
 
-	[ConCmd.Client( "chat_add", CanBeCalledFromServer = true )]
+	[ConCmd.Client( "chat_add_entry", CanBeCalledFromServer = true )]
 	public static void AddChatEntry( string name, string message, string classes = default )
 	{
 		Current?.AddEntry( name, message, classes );
@@ -90,7 +89,7 @@ internal partial class Chat : Panel
 	{
 		base.OnMouseDown( e );
 
-		foreach( var child in Children )
+		foreach ( var child in Children )
 		{
 			Unselect( child );
 		}
@@ -98,20 +97,31 @@ internal partial class Chat : Panel
 
 	private void Unselect( Panel p )
 	{
-		if( p is Label l )
+		if ( p is Label l )
 		{
 			l.ShouldDrawSelection = false;
 			return;
 		}
 
-		foreach( var child in p.Children )
+		foreach ( var child in p.Children )
 		{
 			Unselect( child );
 		}
 	}
 
-	[ConCmd.Server( "say" )]
+	[ConCmd.Client]
 	public static void Say( string message )
+	{
+		if ( message[0] == '!' )
+		{
+			StrafeGame.ExecuteChatCommand( Local.Client, message );
+		}
+
+		Say2( message );
+	}
+
+	[ConCmd.Server]
+	public static void Say2( string message )
 	{
 		Assert.NotNull( ConsoleSystem.Caller );
 
