@@ -151,6 +151,33 @@ internal partial class StrafePlayer : Sandbox.Player
 		CurrentStage()?.TeleportTo();
 	}
 
+	TimeSince timeSinceLastFootstep = 0;
+
+	public override void OnAnimEventFootstep( Vector3 pos, int foot, float volume )
+	{
+		if ( LifeState != LifeState.Alive )
+			return;
+
+		if ( !IsServer )
+			return;
+
+		if ( timeSinceLastFootstep < 0.2f )
+			return;
+
+		volume *= FootstepVolume();
+
+		timeSinceLastFootstep = 0;
+
+		var tr = Trace.Ray( pos, pos + Vector3.Down * 20 )
+			.Radius( 1 )
+			.Ignore( this )
+			.Run();
+
+		if ( !tr.Hit ) return;
+
+		tr.Surface.DoFootstep( this, tr, foot, volume * 10 );
+	}
+
 	[ConCmd.Client( "+yaw", CanBeCalledFromServer = false )]
 	public static void OnYaw( float spd = 0 )
 	{
