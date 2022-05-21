@@ -20,6 +20,7 @@ partial class StrafeController : WalkController
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
 	private float LastLeft;
+	private bool LastGrounded;
 
 	public StrafeController()
 	{
@@ -54,7 +55,13 @@ partial class StrafeController : WalkController
 				AddEvent( "strafe" );
 		}
 
+		if( !LastGrounded && GroundEntity.IsValid() )
+		{
+			AddEvent( "grounded" );
+		}
+
 		LastLeft = Input.Left;
+		LastGrounded = GroundEntity.IsValid();
 	}
 
 	public override void OnEvent( string name )

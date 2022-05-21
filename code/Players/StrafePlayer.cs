@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using System;
 using System.Linq;
 
 namespace Strafe.Players;
@@ -61,6 +62,8 @@ internal partial class StrafePlayer : Sandbox.Player
 		if ( SpectateTarget.IsValid() ) return;
 
 		base.Simulate( cl );
+
+		SimulateAnimatorSounds();
 
 		if ( Controller is StrafeController ctrl )
 		{
@@ -177,6 +180,25 @@ internal partial class StrafePlayer : Sandbox.Player
 		if ( !tr.Hit ) return;
 
 		tr.Surface.DoFootstep( this, tr, foot, volume * 10 );
+	}
+
+	private TimeSince TimeSinceGroundedSound = 0f;
+	private void SimulateAnimatorSounds()
+	{
+		if ( !IsClient ) return;
+
+		using var _ = Prediction.Off();
+
+		if ( Animator.HasEvent( "jump" ) && TimeSinceGroundedSound > .2f )
+		{
+			Sound.FromEntity( "footstep-concrete", this );
+		}
+
+		if ( Animator.HasEvent( "grounded" ) )
+		{
+			Sound.FromEntity( "footstep-concrete-land", this );
+			TimeSinceGroundedSound = 0f;
+		}
 	}
 
 	[ConCmd.Client( "+yaw", CanBeCalledFromServer = false )]
