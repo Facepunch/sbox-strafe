@@ -27,6 +27,6 @@
     "LeaderboardType": 2,
     "PerMapRanking": true,
     "GameNetworkType": 0,
-    "MaxPlayers": 0
+    "MaxPlayers": 16
   }
 }
