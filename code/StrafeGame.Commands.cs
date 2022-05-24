@@ -8,6 +8,8 @@ using Sandbox.Internal;
 using System.Collections.Generic;
 using Strafe.Utility;
 using System.IO;
+using Strafe.Leaderboards;
+using System.Linq;
 
 namespace Strafe;
 
@@ -84,7 +86,7 @@ internal partial class StrafeGame
 			Current.RockTheVote( cl );
 		}
 
-		if( cmdName == "nextmap" && Host.IsServer )
+		if ( cmdName == "nextmap" && Host.IsServer )
 		{
 			Chat.AddChatEntry( To.Everyone, "Server", $"The next map is {Current.NextMap ?? "undecided"}" );
 		}
@@ -96,7 +98,7 @@ internal partial class StrafeGame
 
 			if ( pl.TrailEnabled == true )
 			{
-				Chat.AddChatEntry( To.Single(cl),"Server", "Trail Enabled" );
+				Chat.AddChatEntry( To.Single( cl ), "Server", "Trail Enabled" );
 			}
 			if ( pl.TrailEnabled == false )
 			{
@@ -111,18 +113,18 @@ internal partial class StrafeGame
 			Log.Info( string.Join( ',', data ) );
 		}
 
-		if( cmdName == "repsize" && Host.IsServer )
+		if ( cmdName == "repsize" && Host.IsServer )
 		{
 			var data = new List<TimerFrame>();
-			for( int i = 0; i < 180000; i++ )
+			for ( int i = 0; i < 180000; i++ )
 			{
 				data.Add( new()
 				{
 					Angles = Angles.Random,
-					Jumps = Rand.Int(0, 100),
-					Strafes = Rand.Int(0, 100 ),
+					Jumps = Rand.Int( 0, 100 ),
+					Strafes = Rand.Int( 0, 100 ),
 					Position = Vector3.Random,
-					Time = Rand.Float(0, 100),
+					Time = Rand.Float( 0, 100 ),
 					Velocity = Vector3.Random
 				} );
 			}
@@ -137,6 +139,51 @@ internal partial class StrafeGame
 			Log.Info( "COMPRESSED MB: " + bytes.Compress().Length / 1024f / 1024f );
 			Log.Info( "TIME: " + sw.ElapsedMilliseconds );
 		}
+	}
+
+	private static TimeSince TimeSinceReplaySpawned;
+	[ConCmd.Server]
+	public static async void SpawnMyReplay()
+	{
+		if ( !ConsoleSystem.Caller.IsValid() ) return;
+
+		var caller = ConsoleSystem.Caller;
+
+		if ( TimeSinceReplaySpawned < 10 )
+		{
+			Chat.AddChatEntry( To.Single( caller ), "Timer", $"A replay was requested recently, try again in a few seconds.", "timer" );
+			return;
+		}
+
+		if ( All.Any( x => x is ReplayEntity rep && rep.PlayerId == caller.PlayerId ) )
+		{
+			Chat.AddChatEntry( To.Single( caller ), "Timer", $"There's already a replay spawned for this player.", "timer" );
+			return;
+		}
+
+		TimeSinceReplaySpawned = 0f;
+
+		Chat.AddChatEntry( To.Single( caller ), "Timer", $"Fetching your replay...", "timer" );
+
+		var pb = await Backend.FetchPersonalBest( Global.MapName, 0, caller.PlayerId );
+
+		if ( pb == null )
+		{
+			Chat.AddChatEntry( To.Single( caller ), "Timer", $"You haven't completed this map yet.", "timer" );
+			return;
+		}
+
+		var replay = await Backend.FetchReplay( Global.MapName, 0, pb.Rank );
+
+		if ( replay == null )
+		{
+			Chat.AddChatEntry( To.Single( caller ), "Timer", $"You don't have a replay on this map.", "timer" );
+			return;
+		}
+
+		Chat.AddChatEntry( To.Single( caller ), "Timer", $"Your replay has been spawned, it will play 4 times.", "timer" );
+
+		ReplayEntity.Play( replay, 4 );
 	}
 
 }

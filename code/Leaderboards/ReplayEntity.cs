@@ -64,7 +64,7 @@ internal partial class ReplayEntity : AnimatedEntity
 
 	public static void Play( Replay replay, int loops )
 	{
-		Host.AssertServer();
+		//Host.AssertServer();
 
 		new ReplayEntity()
 		{

@@ -1,6 +1,8 @@
 ﻿
 using Sandbox;
 using Sandbox.UI;
+using Strafe.Api;
+using Strafe.Leaderboards;
 
 namespace Strafe.UI;
 
@@ -24,6 +26,11 @@ internal class TabMenu : Panel
 				AddClass( "cursor" );
 			}
 		}
+	}
+
+	public void SpawnMyReplay()
+	{
+		StrafeGame.SpawnMyReplay();
 	}
 
 }
