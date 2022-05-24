@@ -20,7 +20,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		SetModel( "models/citizen/citizen.vmdl" );
 		SetInteractsAs( CollisionLayer.Player );
 		SetInteractsExclude( CollisionLayer.Player );
-		SetInteractsWith( CollisionLayer.Trigger | CollisionLayer.Water );
+		SetInteractsWith( CollisionLayer.Trigger | CollisionLayer.Water | CollisionLayer.Solid );
 
 		Controller = new StrafeController()
 		{
