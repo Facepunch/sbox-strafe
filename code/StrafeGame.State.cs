@@ -23,10 +23,20 @@ internal partial class StrafeGame
 
 	private bool VotingFinished;
 	private bool VoteInProgress;
+	private List<string> MapCycle = new();
 
 	private async Task GameLoopAsync( float gametime = 1800f )
 	{
 		StateTimer = gametime;
+		MapCycle = await GetAvailableMaps();
+		MapCycle = MapCycle.OrderBy( x => Rand.Int( 9999 ) )
+			.Distinct()
+			.Where( x => x != Global.MapName )
+			.Take( 5 )
+			.ToList();
+
+		NextMap = Rand.FromList( MapCycle );
+		if ( string.IsNullOrEmpty( NextMap ) ) NextMap = Global.MapName;
 
 		while ( StateTimer > 0 )
 		{
@@ -49,23 +59,7 @@ internal partial class StrafeGame
 			await Task.DelayRealtimeSeconds( 1.0f );
 		}
 
-		if( !await EnsureNextMap() )
-		{
-			Log.Error( "Never got a good map to change to" );
-			return;
-		}
-
 		Global.ChangeLevel( NextMap );
-	}
-
-	private async Task<bool> EnsureNextMap()
-	{
-		if ( NextMap?.StartsWith( "_extend" ) ?? false ) return false;
-		if ( !string.IsNullOrEmpty( NextMap ) ) return true;
-
-		NextMap = Rand.FromList( await GetAvailableMaps() );
-
-		return !string.IsNullOrEmpty( NextMap );
 	}
 
 	private bool ShouldPrintTime()
@@ -109,17 +103,10 @@ internal partial class StrafeGame
 
 		Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has started.", "info" );
 
-		var maps = await GetAvailableMaps();
-		maps = maps.OrderBy( x => Rand.Int( 9999 ) )
-			.Distinct()
-			.Where( x => x != Global.MapName )
-			.Take( 5 )
-			.ToList();
-
 		var menu = new SlotMenu();
 		menu.Title = "Vote for the next map";
 
-		foreach ( var m in maps )
+		foreach ( var m in MapCycle )
 		{
 			menu.AddOption( m, x => SetMapVote( x, m ) );
 		}
@@ -142,11 +129,6 @@ internal partial class StrafeGame
 		else
 		{
 			VotingFinished = true;
-
-			if ( string.IsNullOrWhiteSpace( NextMap ) )
-			{
-				NextMap = Rand.FromList( maps );
-			}
 
 			Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the next map will be {NextMap}.", "info" );
 		}
