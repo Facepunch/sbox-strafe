@@ -1,6 +1,7 @@
 ﻿using Sandbox;
 using Sandbox.UI;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Strafe.UI;
 
@@ -13,11 +14,12 @@ internal abstract class EasyList<T, T2> : Panel
 	private int activehash;
 
 	protected virtual List<T2> FetchItems() => null;
+	protected virtual Task<List<T2>> FetchItemsAsync() => null;
 	protected virtual int GetItemHash() => 0;
 
-	protected void Rebuild()
+	protected async void Rebuild()
 	{
-		var items = FetchItems();
+		var items = FetchItems() ?? await FetchItemsAsync();
 		if ( items == null ) return;
 
 		var parent = Canvas ?? this;

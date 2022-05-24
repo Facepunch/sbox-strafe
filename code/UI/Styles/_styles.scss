@@ -15,6 +15,8 @@ button {
     border: 2px solid $lightaccent;
     background-color: transparent;
     transition: all .15s ease-out;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
         background-color: $lightaccent;
@@ -47,6 +49,48 @@ button.disabled {
     flex-direction: column;
     box-shadow: 2px 2px 0px rgba(black .93);
     z-index: $z-chat;
+
+    .heading {
+        padding: 8px;
+        margin-bottom: 8px;
+        background-image: url( ui/border.png );
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 100%;
+        background-tint: rgba( $lightaccent .35 );
+        font-weight: 700;
+        font-size: 24px;
+        text-transform: uppercase;
+        margin-bottom: $paddingmedium;
+        padding-bottom: $paddingmedium;
+        border-bottom: 1px solid rgba( $darkaccent .5 );
+    }
+}
+
+.toolbar {
+    flex-direction: row;
+
+    button {
+        margin-right: 10px;
+
+        &:last-child {
+            margin-right: 0px;
+        }
+    }
+}
+
+.columns {
+    flex-grow: 1;
+
+    .column {
+        flex-grow: 1;
+        flex-direction: column;
+        margin-right: 20px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+    }
 }
 
 TimerHud {
@@ -216,14 +260,6 @@ StrafeChatEntry {
     }
 }
 
-Leaderboard {
-    left: 32px;
-    top: 32px;
-    flex-direction: column;
-    text-shadow: 1px 1px 0px black;
-    font-weight: 600;
-}
-
 CheckpointHud {
     position: absolute;
     bottom: 150px;
@@ -345,37 +381,33 @@ SlotMenuHud {
     }
 }
 
-StrafeScoreboard {
+TabMenu {
     position: absolute;
-    width: 50%;
-    height: 50%;
-    top: 25%;
-    left: 25%;
-    opacity: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    transition: all .15s ease-out;
+    z-index: $z-chat;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba( black .15 );
+    backdrop-filter: blur(2px);
 
-    .columns {
-        flex-grow: 1;
+    .content {
+        width: 55%;
+        height: 50%;
     }
 
-    .column {
-        flex-grow: 1;
-        flex-direction: column;
-        margin-right: 20px;
-
-        &:last-child {
-            margin-right: 0;
-        }
+    &.open {
+        opacity: 1;
     }
 
-    .heading {
-        font-weight: 800;
-        font-size: 24px;
-        text-transform: uppercase;
-        margin-bottom: $paddingmedium;
-        padding-bottom: $paddingmedium;
-        border-bottom: 1px solid rgba( $darkaccent .5 );
+    &.cursor {
+        pointer-events: all;
     }
+}
 
+StrafeScoreboard {
     PlayerList, ReplayList {
         flex-direction: column;
     }
@@ -413,13 +445,17 @@ StrafeScoreboard {
     ReplayListEntry .name {
         color: $orange;
     }
+}
 
-    &.open {
-        opacity: 1;
+StrafeLeaderboard {
+    .entries {
+        flex-direction: column;
+        text-shadow: 1px 1px 0px black;
+        font-weight: 600;
     }
 
-    &.cursor {
-        pointer-events: all;
+    StrafeLeaderboardEntry {
+        justify-content: space-between;
     }
 }
 
@@ -432,19 +468,6 @@ SpectatorList {
 
     &.open {
         opacity: 1;
-    }
-
-    .heading {
-        padding: 8px;
-        margin-bottom: 8px;
-        border-radius: $radius;
-        background-image: url( ui/border.png );
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 98%;
-        background-tint: rgba( $lightaccent .35 );
-        font-weight: 700;
-        text-align: center;
     }
 
     .entries {
