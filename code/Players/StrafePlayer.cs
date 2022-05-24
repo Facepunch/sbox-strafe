@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using Strafe.UI;
 using System;
 using System.Linq;
 
@@ -10,13 +11,16 @@ internal partial class StrafePlayer : Sandbox.Player
 
 	private bool TimersCreated;
 	private ClothingContainer Clothing;
+	private Nametag Nametag;
 
 	public override void Respawn()
 	{
 		base.Respawn();
 
 		SetModel( "models/citizen/citizen.vmdl" );
-		CollisionGroup = CollisionGroup.Never;
+		SetInteractsAs( CollisionLayer.Player );
+		SetInteractsExclude( CollisionLayer.Player );
+		SetInteractsWith( CollisionLayer.Trigger | CollisionLayer.Water );
 
 		Controller = new StrafeController()
 		{
@@ -55,6 +59,20 @@ internal partial class StrafePlayer : Sandbox.Player
 				};
 			}
 		}
+	}
+
+	public override void ClientSpawn()
+	{
+		base.ClientSpawn();
+
+		Nametag = new( this );
+	}
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+
+		Nametag?.Delete();
 	}
 
 	public override void Simulate( Client cl )

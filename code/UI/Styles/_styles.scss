@@ -450,3 +450,20 @@ SpectatorList {
         text-align: center;
     }
 }
+
+Nametag {
+    font-family: Ubuntu;
+    font-size: 32px;
+    color: white;
+    align-items: center;
+    justify-content: center;
+    text-stroke: 9px black;
+    text-shadow: 2px 2px 2px black;
+    font-weight: 800;
+    opacity: 0;
+    transition: opacity .15s ease-out;
+
+    &.open {
+        opacity: 1;
+    }
+}
