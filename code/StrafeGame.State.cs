@@ -25,7 +25,7 @@ internal partial class StrafeGame
 	private bool VoteInProgress;
 	private List<string> MapCycle = new();
 
-	private async Task GameLoopAsync( float gametime = 1800f )
+	private async Task GameLoopAsync( float gametime = 1200f )
 	{
 		StateTimer = gametime;
 		MapCycle = await GetAvailableMaps();
