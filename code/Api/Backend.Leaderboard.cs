@@ -3,6 +3,7 @@ using Sandbox.Internal;
 using Strafe.Api.Messages;
 using Strafe.Leaderboards;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,6 +11,12 @@ namespace Strafe.Api;
 
 internal partial class Backend
 {
+
+	public static async Task<PersonalBestEntry> FetchPersonalBest( string mapIdent, int stage, long playerId )
+	{
+		var response = await Get<List<PersonalBestEntry>>( $"pb/fetch?map={mapIdent}&stage={stage}&playerid={playerId}" );
+		return response?.FirstOrDefault();
+	}
 
 	public static async Task<List<PersonalBestEntry>> FetchPersonalBests( string mapIdent, int stage, int amount, int skip )
 	{
