@@ -135,8 +135,13 @@ internal partial class LinearCheckpoint : BaseZone
 
 internal partial class BaseZone : StrafeTrigger
 {
-	[Property]
+	[Net,Property, Category( "Edge Effect" )]
 	public bool EffectEdge { get; set; } = false;
+
+	[Net]
+	[Property("Effect Color", "Effect Color (R G B)", help:"Set the effect edge color." ), Category( "Edge Effect" )]
+	[DefaultValue("255 0 0 255")]
+	public Color EffectColor { get; set; }
 
 	public override void Spawn()
 	{
@@ -160,6 +165,7 @@ internal partial class BaseZone : StrafeTrigger
 				var corner = Position + Model.PhysicsBounds.Corners.ElementAt( i );
 				corner.z += 1;
 				particle.SetPosition( i + 1, corner );
+				particle.SetPosition( 10, EffectColor * 255f );
 			}
 		}
 	}
