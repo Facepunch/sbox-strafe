@@ -13,8 +13,8 @@ internal partial class StrafeTriggerFriction : StrafeTrigger
 {
 	[Net]
 	[Property( "friction", Title = "Friction" )]
-	[MinMax( 0.0f, 30.0f )]
-	public float SetFriction { get; set; } = 1f;
+	[MinMax( 0.0f, 4.0f )]
+	public float SetFriction { get; set; } = 4f;
 
 
 	public override void SimulatedStartTouch( StrafeController ctrl )
