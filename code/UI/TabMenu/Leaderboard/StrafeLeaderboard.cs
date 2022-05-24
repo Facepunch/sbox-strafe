@@ -24,7 +24,7 @@ internal class StrafeLeaderboard : EasyList<StrafeLeaderboardEntry, PersonalBest
 
 	protected override int GetItemHash()
 	{
-		if( TimeSinceBuild > 5 )
+		if( TimeSinceBuild > 60 )
 		{
 			FakeHash = Rand.Int( 9999 );
 			TimeSinceBuild = 0;
