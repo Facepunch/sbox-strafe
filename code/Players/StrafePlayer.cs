@@ -64,6 +64,8 @@ internal partial class StrafePlayer : Sandbox.Player
 			}
 		}
 
+		CreateViewModel();
+
 		if (TrailEnabled)
 		{
 			TrailParticle = Particles.Create( "particles/gameplay/strafe_trail/strafe_trail.vpcf", this );
@@ -134,6 +136,22 @@ internal partial class StrafePlayer : Sandbox.Player
 		{
 			var spd = Velocity.Length.Remap( 0f, 1000, 0, 1 );
 			TrailParticle.SetPosition( 10, new Vector3( spd, 0f, 0f) );
+		}
+
+		bool toggle = Input.Pressed( InputButton.Flashlight );
+
+		if ( timeSinceLightToggled > 0.1f && toggle )
+		{
+			LightEnabled = !LightEnabled;
+
+			PlaySound( LightEnabled ? "flashlight-on" : "flashlight-off" );
+
+			if ( viewLight.IsValid() )
+			{
+				viewLight.Enabled = LightEnabled;
+			}
+
+			timeSinceLightToggled = 0;
 		}
 	}
 
