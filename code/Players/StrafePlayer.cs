@@ -64,8 +64,6 @@ internal partial class StrafePlayer : Sandbox.Player
 			}
 		}
 
-		CreateViewModel();
-
 		if (TrailEnabled)
 		{
 			TrailParticle = Particles.Create( "particles/gameplay/strafe_trail/strafe_trail.vpcf", this );
@@ -75,6 +73,8 @@ internal partial class StrafePlayer : Sandbox.Player
 	public override void ClientSpawn()
 	{
 		base.ClientSpawn();
+
+		CreateViewModel();
 
 		Nametag = new( this );
 	}
