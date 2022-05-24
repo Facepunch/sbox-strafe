@@ -134,7 +134,6 @@ internal partial class StrafePlayer : Sandbox.Player
 		{
 			var spd = Velocity.Length.Remap( 0f, 1000, 0, 1 );
 			TrailParticle.SetPosition( 10, new Vector3( spd, 0f, 0f) );
-			Log.Info( TrailEnabled );
 		}
 	}
 
