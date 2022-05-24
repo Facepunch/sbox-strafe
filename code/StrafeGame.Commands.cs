@@ -88,8 +88,23 @@ internal partial class StrafeGame
 		{
 			Chat.AddChatEntry( To.Everyone, "Server", $"The next map is {Current.NextMap ?? "undecided"}" );
 		}
-		
-		if( cmdName == "dl" && Host.IsServer )
+
+		if ( cmdName == "snailtrail" && Host.IsServer )
+		{
+			if ( cl.Pawn is not StrafePlayer pl ) return;
+			pl.EnableTrailParticle();
+
+			if ( pl.TrailEnabled == true )
+			{
+				Chat.AddChatEntry( To.Single(cl),"Server", "Trail Enabled" );
+			}
+			if ( pl.TrailEnabled == false )
+			{
+				Chat.AddChatEntry( To.Single( cl ), "Server", "Trail Disabled" );
+			}
+		}
+
+		if ( cmdName == "dl" && Host.IsServer )
 		{
 			var http = new Http( new System.Uri( "https://strafereplays.blob.core.windows.net/replays/67efd50e-586e-475e-b9e7-815f0c97040d.bytes" ) );
 			var data = await http.GetBytesAsync();

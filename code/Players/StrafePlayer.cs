@@ -13,6 +13,9 @@ internal partial class StrafePlayer : Sandbox.Player
 	private ClothingContainer Clothing;
 	private Nametag Nametag;
 
+	public bool TrailEnabled;
+	public Particles TrailParticle { get; set; }
+
 	public override void Respawn()
 	{
 		base.Respawn();
@@ -58,6 +61,11 @@ internal partial class StrafePlayer : Sandbox.Player
 					Stage = i
 				};
 			}
+		}
+
+		if(TrailEnabled)
+		{
+			TrailParticle = Particles.Create( "particles/gameplay/strafe_trail/strafe_trail.vpcf", this );
 		}
 	}
 
@@ -119,6 +127,13 @@ internal partial class StrafePlayer : Sandbox.Player
 		if ( Input.Pressed( InputButton.Drop ) )
 		{
 			GoBack();
+		}
+
+		if ( TrailEnabled )
+		{
+			var spd = Velocity.Length.Remap( 0f, 1000, 0, 1 );
+			TrailParticle.SetPosition( 10, new Vector3( spd, 0f, 0f) );
+			Log.Info( TrailEnabled );
 		}
 	}
 
@@ -216,6 +231,22 @@ internal partial class StrafePlayer : Sandbox.Player
 		{
 			Sound.FromEntity( "footstep-concrete-land", this );
 			TimeSinceGroundedSound = 0f;
+		}
+	}
+
+	public void EnableTrailParticle()
+	{
+		if ( !TrailEnabled )
+		{
+			TrailEnabled = true;
+
+			TrailParticle = Particles.Create( "particles/gameplay/strafe_trail/strafe_trail.vpcf", this );
+		}
+		else
+		{
+			TrailEnabled = false;
+			TrailParticle.Destroy();
+			TrailParticle = null;
 		}
 	}
 
