@@ -33,6 +33,7 @@ internal partial class StrafePlayer : Sandbox.Player
 			DefaultSpeed = 260,
 			AutoJump = true,
 			Acceleration = 5,
+			GroundFriction = 4 //Do this just for safety if player respawns inside friction volume.
 		};
 
 		CameraMode = new StrafeCamera();
@@ -63,7 +64,7 @@ internal partial class StrafePlayer : Sandbox.Player
 			}
 		}
 
-		if(TrailEnabled)
+		if (TrailEnabled)
 		{
 			TrailParticle = Particles.Create( "particles/gameplay/strafe_trail/strafe_trail.vpcf", this );
 		}
