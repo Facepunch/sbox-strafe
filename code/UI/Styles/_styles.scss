@@ -34,6 +34,21 @@ button.disabled {
     }
 }
 
+.container {
+    border-radius: $radius;
+    padding: $paddingmedium;
+    transition: opacity .12s ease-out;
+    background-color: rgba( $darkbg .95 );
+    background-image: url( ui/border.png );
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 50% 101.35%;
+    background-tint: $lightaccent;
+    flex-direction: column;
+    box-shadow: 2px 2px 0px rgba(black .93);
+    z-index: $z-chat;
+}
+
 TimerHud {
     position: absolute;
     width: 100%;
@@ -336,19 +351,7 @@ StrafeScoreboard {
     height: 50%;
     top: 25%;
     left: 25%;
-    border-radius: $radius;
-    padding: $paddingmedium;
     opacity: 0;
-    transition: opacity .12s ease-out;
-    background-color: rgba( $darkbg .95 );
-    background-image: url( ui/border.png );
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: 50% 101.35%;
-    background-tint: $lightaccent;
-    flex-direction: column;
-    box-shadow: 2px 2px 0px rgba(black .93);
-    z-index: $z-chat;
 
     .columns {
         flex-grow: 1;
