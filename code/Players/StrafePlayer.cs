@@ -63,11 +63,6 @@ internal partial class StrafePlayer : Sandbox.Player
 				};
 			}
 		}
-
-		if (TrailEnabled)
-		{
-			TrailParticle = Particles.Create( "particles/gameplay/strafe_trail/strafe_trail.vpcf", this );
-		}
 	}
 
 	public override void ClientSpawn()
@@ -75,6 +70,11 @@ internal partial class StrafePlayer : Sandbox.Player
 		base.ClientSpawn();
 
 		CreateViewModel();
+
+		if ( TrailEnabled )
+		{
+			TrailParticle = Particles.Create( "particles/gameplay/strafe_trail/strafe_trail.vpcf", this );
+		}
 
 		Nametag = new( this );
 	}
@@ -252,12 +252,12 @@ internal partial class StrafePlayer : Sandbox.Player
 		}
 	}
 
+	[ClientRpc]
 	public void EnableTrailParticle()
 	{
 		if ( !TrailEnabled )
 		{
 			TrailEnabled = true;
-
 			TrailParticle = Particles.Create( "particles/gameplay/strafe_trail/strafe_trail.vpcf", this );
 		}
 		else
