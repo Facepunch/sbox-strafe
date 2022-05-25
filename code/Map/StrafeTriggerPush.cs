@@ -24,6 +24,8 @@ internal partial class StrafeTriggerPush : StrafeTrigger
 	public Vector3 Direction { get; set; }
 	[Property, Net]
 	public float Speed { get; set; }
+	[Property, Net]
+	public bool Clamp { get; set; }
 
 	public override void SimulatedStartTouch( StrafeController ctrl )
 	{
@@ -64,7 +66,7 @@ internal partial class StrafeTriggerPush : StrafeTrigger
 			vecPush += ctrl.BaseVelocity;
 		}
 		ctrl.BaseVelocity = vecPush;
-		ctrl.Momentum = true; // kinda dumb, trying to be consistent with source 1 push
+		ctrl.Momentum = true;
 	}
 
 	private Vector3 GetPushVector( StrafeController ctrl )

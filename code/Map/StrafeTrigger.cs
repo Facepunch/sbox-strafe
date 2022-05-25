@@ -7,7 +7,7 @@ namespace Strafe.Map;
 internal partial class StrafeTrigger : BaseTrigger
 {
 
-	[ConVar.Replicated]
+	//[ConVar.Replicated]
 	public static bool strafe_disable_triggers { get; set; }
 
 	public override void Spawn()
