@@ -91,19 +91,15 @@ internal partial class StrafeGame
 			Chat.AddChatEntry( To.Everyone, "Server", $"The next map is {Current.NextMap ?? "undecided"}" );
 		}
 
-		if ( cmdName == "snailtrail" && Host.IsServer )
+		if ( cmdName == "snailtrail" && Host.IsClient )
 		{
 			if ( cl.Pawn is not StrafePlayer pl ) return;
-			pl.EnableTrailParticle();
 
-			if ( pl.TrailEnabled == true )
-			{
-				Chat.AddChatEntry( To.Single( cl ), "Server", "Trail Enabled" );
-			}
-			if ( pl.TrailEnabled == false )
-			{
-				Chat.AddChatEntry( To.Single( cl ), "Server", "Trail Disabled" );
-			}
+			Log.Info( Time.Now );
+			
+			var enabled = pl.ToggleTrail();
+			if ( enabled ) Chat.AddChatEntry( "Server", "Trail Enabled" );
+			else Chat.AddChatEntry( "Server", "Trail Disabled" );
 		}
 
 		if ( cmdName == "dl" && Host.IsServer )
@@ -128,7 +124,7 @@ internal partial class StrafeGame
 					Velocity = Vector3.Random
 				} );
 			}
-			var replay = new Strafe.Leaderboards.Replay( 0, data );
+			var replay = new Replay( 0, data );
 
 			var sw = new System.Diagnostics.Stopwatch();
 			sw.Start();

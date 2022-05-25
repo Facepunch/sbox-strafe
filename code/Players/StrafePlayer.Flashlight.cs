@@ -5,41 +5,41 @@ namespace Strafe.Players;
 
 internal partial class StrafePlayer
 {
-	private bool LightEnabled { get; set; } = false;
-	protected virtual Vector3 LightOffset => Vector3.Forward * 10;
 
-	private SpotLightEntity viewLight;
+	private SpotLightEntity Flashlight;
 
-	TimeSince timeSinceLightToggled;
-
-	public void CreateViewModel()
+	private void ToggleFlashlight()
 	{
-		viewLight = CreateLight();
-		viewLight.SetParent( this, "forward_reference", new Transform( LightOffset + Vector3.Up * 12 ) );
-		viewLight.EnableViewmodelRendering = true;
-		viewLight.Enabled = LightEnabled;
+		Host.AssertClient();
 
-	}
-	private SpotLightEntity CreateLight()
-	{
-		var light = new SpotLightEntity
+		if( Flashlight == null )
 		{
-			Enabled = true,
-			DynamicShadows = true,
-			Range = 512,
-			Falloff = 1.0f,
-			LinearAttenuation = 0.0f,
-			QuadraticAttenuation = 1.0f,
-			Brightness = 3,
-			Color = Color.White,
-			InnerConeAngle = 20,
-			OuterConeAngle = 40,
-			FogStength = 1.0f,
-			Owner = Owner,
-			LightCookie = Texture.Load( "materials/effects/lightcookie.vtex" )
-		};
+			Flashlight = new SpotLightEntity
+			{
+				Enabled = false,
+				DynamicShadows = true,
+				Color = Color.White,
+				InnerConeAngle = 20,
+				OuterConeAngle = 40,
+				Range = 1024,
+				Owner = Owner,
+				LightCookie = Texture.Load( "materials/effects/lightcookie.vtex" )
+			};
+			var tx = Transform.WithPosition( Vector3.Up * 64 + Vector3.Forward * 20f );
+			Flashlight.SetParent( this, null, tx );
+		}
 
-		return light;
+		Flashlight.Enabled = !Flashlight.Enabled;
+		PlaySound( Flashlight.Enabled ? "flashlight-on" : "flashlight-off" );
+	}
+
+	[Event.Tick.Client]
+	private void UpdateFlashlight()
+	{
+		if ( !Flashlight.IsValid() ) return;
+		if ( !Flashlight.Enabled ) return;
+
+		Flashlight.Rotation = EyeRotation;
 	}
 
 }
