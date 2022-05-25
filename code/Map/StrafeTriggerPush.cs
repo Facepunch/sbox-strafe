@@ -2,6 +2,7 @@
 using Sandbox;
 using SandboxEditor;
 using Strafe.Players;
+using Strafe.Utility;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -12,11 +13,13 @@ namespace Strafe.Map;
 [Library( "strafe_trigger_push" )]
 [Display( Name = "Push Trigger" ), Category( "Triggers" ), Icon( "double_arrow" )]
 [HammerEntity]
-internal partial class TriggerPush : StrafeTrigger
+internal partial class StrafeTriggerPush : StrafeTrigger
 {
 
 	[Property, Net]
 	public bool Once { get; set; }
+	[Property, Net]
+	public bool TriggerOnJump { get; set; }
 	[Property, Net]
 	public Vector3 Direction { get; set; }
 	[Property, Net]
@@ -25,6 +28,15 @@ internal partial class TriggerPush : StrafeTrigger
 	public override void SimulatedStartTouch( StrafeController ctrl )
 	{
 		base.SimulatedStartTouch( ctrl );
+
+		if ( TriggerOnJump )
+		{
+			if ( !ctrl.GroundEntity.IsValid() || !Input.Down( InputButton.Jump ) )
+				return;
+
+			ctrl.Velocity += GetPushVector( ctrl );
+			return;
+		}
 
 		if ( !Once ) return;
 
@@ -36,6 +48,15 @@ internal partial class TriggerPush : StrafeTrigger
 		base.SimulatedTouch( ctrl );
 
 		if ( Once ) return;
+
+		if ( TriggerOnJump )
+		{
+			if ( !ctrl.GroundEntity.IsValid() || !Input.Down( InputButton.Jump ) ) 
+				return;
+
+			ctrl.Velocity += GetPushVector( ctrl );
+			return;
+		}
 
 		var vecPush = GetPushVector( ctrl );
 		if ( ctrl.Momentum && !ctrl.GroundEntity.IsValid() )
@@ -51,27 +72,9 @@ internal partial class TriggerPush : StrafeTrigger
 		var result = Direction.Normal * Speed;
 		var tr = ctrl.TraceBBox( Position, Position + Vector3.Down * 4f, 4 );
 		if ( !tr.Entity.IsValid() ) return result;
-
-		return ClipVelocity( result, tr.Normal );
-	}
-
-	// also kinda dumb, hacking around movement controller to maintain
-	// direction of velocity on small slopes and whatnot
-	Vector3 ClipVelocity( Vector3 vel, Vector3 norm, float overbounce = 1.0f )
-	{
-		var backoff = Vector3.Dot( vel, norm ) * overbounce;
-		var o = vel - (norm * backoff);
-
-		// garry: I don't totally understand how we could still
-		//		  be travelling towards the norm, but the hl2 code
-		//		  does another check here, so we're going to too.
-		var adjust = Vector3.Dot( o, norm );
-		if ( adjust >= 1.0f ) return o;
-
-		adjust = MathF.Min( adjust, -1.0f );
-		o -= norm * adjust;
-
-		return o;
+		if ( Vector3.GetAngle( tr.Normal, Vector3.Up ) < 1f ) return result;
+		
+		return result.Clip( tr.Normal );
 	}
 
 }
