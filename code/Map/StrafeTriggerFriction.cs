@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿
+using Sandbox;
 using SandboxEditor;
 using Strafe.Players;
 using System.ComponentModel;
@@ -7,26 +8,20 @@ using System.ComponentModel.DataAnnotations;
 namespace Strafe.Map;
 
 [Display( Name = "Friction Trigger" )]
-[Library( "strafe_change_friction", Description = "Where the timer will begin a stage" ), Category( "Triggers" ), Icon( "flag" )]
+[Library( "strafe_trigger_friction", Description = "Set the player's friction level while standing in this zone." ), Category( "Triggers" ), Icon( "flag" )]
 [HammerEntity]
 internal partial class StrafeTriggerFriction : StrafeTrigger
 {
+
 	[Net]
-	[Property( "friction", Title = "Friction" )]
-	[MinMax( 0.0f, 4.0f )]
-	public float SetFriction { get; set; } = 4f;
+	[Property( "friction_level", Title = "Friction Level" )]
+	public Strafe.Players.FrictionLevels FrictionLevel { get; set; } = Strafe.Players.FrictionLevels.Normal;
 
-
-	public override void SimulatedStartTouch( StrafeController ctrl )
+	public override void SimulatedTouch( StrafeController ctrl )
 	{
-		base.SimulatedStartTouch( ctrl );
-		ctrl.GroundFriction = SetFriction;
-	}
+		base.SimulatedTouch( ctrl );
 
-	public override void SimulatedEndTouch( StrafeController ctrl )
-	{
-		base.SimulatedEndTouch( ctrl );
-		ctrl.GroundFriction = 4.0f;
+		ctrl.FrictionLevel = FrictionLevel;
 	}
 
 }

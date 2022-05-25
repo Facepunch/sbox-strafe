@@ -15,6 +15,8 @@ partial class StrafeController : WalkController
 	public bool Momentum { get; set; }
 	[Net, Predicted]
 	public bool Activated { get; set; }
+	[Net, Predicted]
+	public FrictionLevels FrictionLevel { get; set; }
 
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
@@ -40,6 +42,8 @@ partial class StrafeController : WalkController
 
 	public override void Simulate()
 	{
+		FrictionLevel = FrictionLevels.Normal;
+
 		DoTriggers();
 
 		LastBaseVelocity = BaseVelocity;
@@ -270,7 +274,13 @@ partial class StrafeController : WalkController
 
 			if ( GroundEntity != null )
 			{
-				ApplyFriction( GroundFriction * SurfaceFriction );
+				var frictionModifier = FrictionLevel switch
+				{
+					FrictionLevels.Normal => 1.0f,
+					FrictionLevels.Sticky => 2.0f,
+					FrictionLevels.Skate => 0.05f
+				};
+				ApplyFriction( GroundFriction * SurfaceFriction * frictionModifier );
 			}
 		}
 
