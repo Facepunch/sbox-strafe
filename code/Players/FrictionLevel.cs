@@ -5,5 +5,6 @@ internal enum FrictionLevels
 {
 	Normal,
 	Skate,
-	Sticky
+	Sticky,
+	Floating
 }

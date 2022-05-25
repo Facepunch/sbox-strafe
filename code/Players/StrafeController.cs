@@ -140,7 +140,7 @@ partial class StrafeController : WalkController
 
 		var pm = TraceBBox( vBumpOrigin, point, 4.0f );
 
-		if ( pm.Entity == null || Vector3.GetAngle( Vector3.Up, pm.Normal ) > GroundAngle )
+		if ( FrictionLevel == FrictionLevels.Floating || pm.Entity == null || Vector3.GetAngle( Vector3.Up, pm.Normal ) > GroundAngle )
 		{
 			ClearGroundEntity();
 			bMoveToEndPos = false;
@@ -278,7 +278,8 @@ partial class StrafeController : WalkController
 				{
 					FrictionLevels.Normal => 1.0f,
 					FrictionLevels.Sticky => 2.0f,
-					FrictionLevels.Skate => 0.05f
+					FrictionLevels.Skate => 0.05f,
+					_ => 1.0f
 				};
 				ApplyFriction( GroundFriction * SurfaceFriction * frictionModifier );
 			}
