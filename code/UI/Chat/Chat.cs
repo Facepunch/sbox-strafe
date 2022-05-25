@@ -53,11 +53,6 @@ internal partial class Chat : Panel
 		if ( string.IsNullOrWhiteSpace( msg ) )
 			return;
 
-		if ( msg[0] == '!' )
-		{
-			StrafeGame.ExecuteChatCommand( Local.Client, msg );
-		}
-
 		Say( msg );
 	}
 
