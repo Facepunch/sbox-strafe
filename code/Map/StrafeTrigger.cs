@@ -33,4 +33,29 @@ internal partial class StrafeTrigger : BaseTrigger
 	public virtual void SimulatedTouch( StrafeController ctrl ) { }
 	public virtual void SimulatedEndTouch( StrafeController ctrl ) { }
 
+	public Transform SpawnTransform()
+	{
+		var pos = WorldSpaceBounds.Center;
+		var height = WorldSpaceBounds.Size.z;
+		var tr = Trace.Ray( pos, pos + Vector3.Down * height * .55f )
+			.HitLayer( CollisionLayer.All, false )
+			.HitLayer( CollisionLayer.Solid, true )
+			.HitLayer( CollisionLayer.GRATE, true )
+			.HitLayer( CollisionLayer.PLAYER_CLIP, true )
+			.HitLayer( CollisionLayer.WINDOW, true )
+			.HitLayer( CollisionLayer.NPC, true )
+			.WithoutTags( "player" )
+			.Run();
+
+		if ( !tr.Hit )
+		{
+			return new Transform( WorldSpaceBounds.Center, Rotation, 1 );
+		}
+
+		var endpos = tr.EndPosition + Vector3.Up;
+		endpos.z = (int)endpos.z;
+
+		return new Transform( endpos, Rotation, 1 );
+	}
+
 }

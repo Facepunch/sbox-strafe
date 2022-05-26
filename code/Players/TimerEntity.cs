@@ -125,26 +125,25 @@ internal partial class TimerEntity : Entity
 		if ( Owner is not StrafePlayer pl ) 
 			return;
 
-		var targetStage = Stage == 0 ? 1 : Stage;
+		pl.Transform = TeleportTransform() ?? pl.Transform;
+	}
 
-		var start = All.First( x => x is StageStart s && s.Stage == targetStage );
-		var pos = start.WorldSpaceBounds.Center;
-		var height = start.WorldSpaceBounds.Size.z;
-		var tr = Trace.Ray( pos, pos + Vector3.Down * height * .55f )
-			.HitLayer( CollisionLayer.All, false )
-			.HitLayer( CollisionLayer.Solid, true )
-			.HitLayer( CollisionLayer.GRATE, true )
-			.HitLayer( CollisionLayer.PLAYER_CLIP, true )
-			.HitLayer( CollisionLayer.WINDOW, true )
-			.HitLayer( CollisionLayer.NPC, true )
-			.WithoutTags( "player" )
-			.Run();
+	public Transform? TeleportTransform()
+	{
+		var isLinear = StrafeGame.Current.CourseType == CourseTypes.Linear;
+		StrafeTrigger targetTrigger = null;
 
-		if ( tr.Hit )
-			pos = tr.EndPosition + Vector3.Up;
+		if ( isLinear && Stage > 0 )
+		{
+			targetTrigger = All.FirstOrDefault( x => x is LinearCheckpoint cp && cp.Checkpoint == Stage ) as StrafeTrigger;
+		}
+		else
+		{
+			var targetStage = Stage == 0 ? 1 : Stage;
+			targetTrigger = All.First( x => x is StageStart s && s.Stage == targetStage ) as StrafeTrigger;
+		}
 
-		pl.Position = pos;
-		pl.Rotation = start.Rotation;
+		return targetTrigger?.SpawnTransform();
 	}
 
 	public TimerFrame GrabFrame()

@@ -166,7 +166,7 @@ internal partial class StrafePlayer : Sandbox.Player
 			t.Stop();
 		}
 
-		(Stage( 1 ) ?? Stage( 0 ))?.TeleportTo();
+		Stage( 0 )?.TeleportTo();
 	}
 
 	public void GoBack()
