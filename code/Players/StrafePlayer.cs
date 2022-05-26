@@ -121,7 +121,7 @@ internal partial class StrafePlayer : Sandbox.Player
 			GoBack();
 		}
 
-		if ( Input.Pressed( InputButton.Flashlight ) )
+		if ( Input.Pressed( InputButton.Flashlight ) && IsClient )
 		{
 			ToggleFlashlight();
 		}
