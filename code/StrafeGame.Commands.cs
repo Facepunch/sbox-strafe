@@ -28,12 +28,12 @@ internal partial class StrafeGame
 
 		if ( cmdName == "r" && Host.IsClient )
 		{
-			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Reload;
+			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Drop;
 		}
 
 		if ( cmdName == "t" && Host.IsClient )
 		{
-			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Drop;
+			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Reload;
 		}
 
 		if ( cmdName == "ping" && Host.IsServer )

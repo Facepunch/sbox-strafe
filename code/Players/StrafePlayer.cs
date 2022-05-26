@@ -111,12 +111,12 @@ internal partial class StrafePlayer : Sandbox.Player
 			}
 		}
 
-		if ( Input.Pressed( InputButton.Reload ) )
+		if ( Input.Pressed( InputButton.Drop ) )
 		{
 			Restart();
 		}
 
-		if ( Input.Pressed( InputButton.Drop ) )
+		if ( Input.Pressed( InputButton.Reload ) )
 		{
 			GoBack();
 		}
