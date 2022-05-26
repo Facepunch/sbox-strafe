@@ -16,6 +16,7 @@ internal partial class StrafePlayer
 		{
 			Flashlight = new SpotLightEntity
 			{
+				EnableViewmodelRendering = true,
 				Enabled = false,
 				DynamicShadows = true,
 				Color = Color.White,
