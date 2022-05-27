@@ -28,15 +28,8 @@ internal partial class StrafeGame
 	private async Task GameLoopAsync( float gametime = 1200f )
 	{
 		StateTimer = gametime;
-		MapCycle = await GetAvailableMaps();
-		MapCycle = MapCycle.OrderBy( x => Rand.Int( 9999 ) )
-			.Distinct()
-			.Where( x => x != Global.MapName )
-			.Take( 5 )
-			.ToList();
 
-		NextMap = Rand.FromList( MapCycle );
-		if ( string.IsNullOrEmpty( NextMap ) ) NextMap = Global.MapName;
+		await RollMapCycle();
 
 		while ( StateTimer > 0 )
 		{
@@ -125,6 +118,7 @@ internal partial class StrafeGame
 			StateTimer += lenMins * 60f;
 			MapVotes.Clear();
 			Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the current map has been extended {len} minutes.", "info" );
+			await RollMapCycle();
 		}
 		else
 		{
@@ -203,6 +197,19 @@ internal partial class StrafeGame
 			_ = MapVoteAsync();
 			StateTimer = 61f;
 		}
+	}
+
+	private async Task RollMapCycle()
+	{
+		MapCycle = await GetAvailableMaps();
+		MapCycle = MapCycle.OrderBy( x => Rand.Int( 9999 ) )
+			.Distinct()
+			.Where( x => x != Global.MapName )
+			.Take( 5 )
+			.ToList();
+
+		NextMap = Rand.FromList( MapCycle );
+		if ( string.IsNullOrEmpty( NextMap ) ) NextMap = Global.MapName;
 	}
 
 }
