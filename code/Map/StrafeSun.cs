@@ -18,6 +18,8 @@ internal partial class StrafeSun : Entity
 	public float TimeOfDay { get; set; }
 	[Net]
 	public EnvironmentLightEntity SunEntity { get; set; }
+	[Net]
+	public GradientFogEntity FogEntity { get; set; }
 	//[Net]
 	public Color NightSkyColor => new Color( .256f, .272f, .436f );
 	//[Net]
@@ -75,6 +77,13 @@ internal partial class StrafeSun : Entity
 		SunEntity.Rotation = Rotation.From( new Angles( pitch, 90, 0 ) ) * Rotation.FromYaw( -43 );
 		SunEntity.SkyColor = GetSkyColor();
 		SunEntity.Color = GetSunColor();
+
+		if( FogEntity.IsValid() )
+		{
+			FogEntity.FogFadeTime = 0f;
+			FogEntity.SetFogColor( GetFogColor() );
+			FogEntity.SetFogMaxOpacity( 1f );
+		}
 	}
 
 	private bool IsNight()
@@ -133,6 +142,27 @@ internal partial class StrafeSun : Entity
 		}
 
 		return NightSkyColor;
+	}
+
+	private Color GetFogColor()
+	{
+		var nightfogcolor = Color.Black;
+		var a = TimeOfDay / RealSecondsPerDay;
+
+		if ( a > SunriseBegin && a <= DayBegin )
+		{
+			return Color.Lerp( nightfogcolor, GetSunColor(), a.LerpInverse( SunriseBegin, DayBegin ) );
+		}
+		else if ( a > SunsetBegin && a <= Night )
+		{
+			return Color.Lerp( GetSunColor(), nightfogcolor, a.LerpInverse( SunsetBegin, Night ) );
+		}
+		else if ( a > DayBegin && a <= SunsetBegin )
+		{
+			return DaySkyColor;
+		}
+
+		return nightfogcolor;
 	}
 
 }
