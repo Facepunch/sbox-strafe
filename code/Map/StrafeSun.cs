@@ -28,7 +28,7 @@ internal partial class StrafeSun : Entity
 	/// <summary>
 	/// Length from midnight to midnight, in seconds
 	/// </summary>
-	public int DayLength => 15;
+	public int DayLength => 240;
 
 	/// <summary>
 	/// Night time will go by this much faster
