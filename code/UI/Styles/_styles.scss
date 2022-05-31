@@ -5,6 +5,11 @@ RootPanel {
     color: white;
     font-family: Ubuntu;
     font-size: 16px;
+    transition: opacity .15s ease-out;
+
+    &.hidden {
+        opacity: 0;
+    }
 }
 
 button {

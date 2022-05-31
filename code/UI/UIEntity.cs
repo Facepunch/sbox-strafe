@@ -7,8 +7,12 @@ namespace Strafe.UI;
 internal class UIEntity : HudEntity<RootPanel>
 {
 
+	public static UIEntity Current;
+
 	public UIEntity()
 	{
+		Current = this;
+
 		if ( IsServer ) return;
 
 		RootPanel.StyleSheet.Load( "UI/Styles/_styles.scss" );
@@ -37,6 +41,12 @@ internal class UIEntity : HudEntity<RootPanel>
 	private void OnHotload()
 	{
 		Rebuild();
+	}
+
+	[ConCmd.Client( "strafe_toggle_hud" )]
+	public static void ToggleHud()
+	{
+		Current.RootPanel.SetClass( "hidden", !Current.RootPanel.HasClass( "hidden" ) );
 	}
 
 }
