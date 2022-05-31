@@ -21,7 +21,8 @@
       "dogi.surf_esmdogi",
       "rival.surf_egypt",
       "rival.surf_combo",
-      "bafkb.bhopaqua"
+      "bafkb.bhopaqua",
+      "facepunch.strafe_hackr"
     ],
     "MinPlayers": 1,
     "MapSelect": 3,
