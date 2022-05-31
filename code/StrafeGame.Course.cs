@@ -72,12 +72,22 @@ internal partial class StrafeGame
 		Log.Error( reason );
 	}
 
+	private ReplayEntity WrReplay;
 	private async Task DownloadWrReplay()
 	{
 		var replay = await Backend.FetchReplay( Global.MapName, 0, 1 );
 		if ( replay == null ) return;
 
-		ReplayEntity.Play( replay, -1 );
+		SetWrReplay( replay );
+	}
+
+	public void SetWrReplay( Replay replay )
+	{
+		if ( WrReplay.IsValid() )
+			WrReplay.Delete();
+		WrReplay = null;
+
+		WrReplay = ReplayEntity.Play( replay, -1 );
 	}
 
 }

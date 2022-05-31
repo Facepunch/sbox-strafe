@@ -70,11 +70,11 @@ internal partial class ReplayEntity : AnimatedEntity
 		Velocity = frame.Velocity;
 	}
 
-	public static void Play( Replay replay, int loops )
+	public static ReplayEntity Play( Replay replay, int loops )
 	{
 		//Host.AssertServer();
 
-		new ReplayEntity()
+		return new ReplayEntity()
 		{
 			Replay = replay,
 			NumberOfLoops = loops

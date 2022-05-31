@@ -75,6 +75,11 @@ internal class RunSubmitter : Entity
 			};
 
 			var uploadResult = await Backend.Post<UploadReplayResult>( "completion/upload-replay", upload.Serialize() );
+
+			if( result.NewRank == 1 )
+			{
+				StrafeGame.Current.SetWrReplay( replay );
+			}
 		}
 	}
 
