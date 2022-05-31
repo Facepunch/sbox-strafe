@@ -312,17 +312,33 @@ StatusHud {
     height: 100%;
     position: absolute;
 
-    &.connected .api-status {
+    &.connected .api {
         display: none;
     }
 
-    .api-status {
+    .map {
+        display: none;
+    }
+
+    &.preview .map {
+        display: flex;
+
+        .dot {
+            background-color: $orange;
+        }
+    }
+
+    .inner {
         position: absolute;
         left: 175px;
         bottom: 128px;
+    }
+
+    .status {
         align-items: center;
         padding: 4px 8px;
         background-color: rgba( $bg .5 );
+        margin-right: 4px;
 
         .dot {
             width: 12px;

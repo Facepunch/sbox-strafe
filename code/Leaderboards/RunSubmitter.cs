@@ -2,6 +2,7 @@
 using Sandbox;
 using Strafe.Api;
 using Strafe.Api.Messages;
+using Strafe.Map;
 using Strafe.Players;
 using Strafe.UI;
 using Strafe.Utility;
@@ -57,6 +58,12 @@ internal class RunSubmitter : Entity
 		var courseFrame = player.Stage( 0 ).GrabFrame();
 		var stage = timer.Stage;
 
+		if ( !CanSubmit() )
+		{
+			Chat.AddChatEntry( To.Everyone, "Timer", $"{client.Name} finished in {stageFrame.Time.ToTime()}", "timer" );
+			return;
+		}
+
 		var runJson = System.Text.Json.JsonSerializer.Serialize( CompletionData.From( timer ) );
 		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
@@ -111,6 +118,15 @@ internal class RunSubmitter : Entity
 
 		Chat.AddChatEntry( To.Everyone, "Timer", completionMsg, "timer" );
 		Chat.AddChatEntry( To.Everyone, "Timer", $"New rank: {result.NewRank}, Old rank: {result.OldRank}", "timer" );
+	}
+
+	private bool CanSubmit()
+	{
+		var ent = Entity.All.FirstOrDefault( x => x is StrafeMapConfig ) as StrafeMapConfig;
+		if ( !ent.IsValid() ) return true;
+		if ( ent.State == MapStates.Released ) return true;
+
+		return false;
 	}
 
 }

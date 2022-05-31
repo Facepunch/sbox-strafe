@@ -1,6 +1,5 @@
 ﻿
 using Sandbox.UI;
-using Strafe.Api;
 
 namespace Strafe.UI;
 
@@ -19,6 +18,11 @@ internal class StatusHud : Panel
 		{
 			SetClass( "connected", connected );
 			Connection = connected ? "Connected" : "Disconnected";
+		}
+
+		if( StrafeGame.Current.MapState == Map.MapStates.Preview )
+		{
+			SetClass( "preview", true );
 		}
 	}
 

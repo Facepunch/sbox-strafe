@@ -2,7 +2,9 @@
 using Sandbox;
 using Strafe.Api;
 using Strafe.Api.Messages;
+using Strafe.Map;
 using Strafe.Utility;
+using System.Linq;
 
 namespace Strafe;
 
@@ -11,6 +13,8 @@ internal partial class StrafeGame
 
 	[Net]
 	public bool Connected { get; set; }
+	[Net]
+	public MapStates MapState { get; set; }
 
 	private async void NetworkServerLogin()
 	{
@@ -52,5 +56,7 @@ internal partial class StrafeGame
 
 	[Event.Tick.Server]
 	private void OnTick() => Connected = Backend.Connected;
+	[Event.Entity.PostSpawn]
+	private void SetMapState() => MapState = All.OfType<StrafeMapConfig>().FirstOrDefault()?.State ?? MapStates.Released;
 
 }
