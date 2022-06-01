@@ -185,7 +185,7 @@ partial class StrafeController : WalkController
 		var pl = Pawn as Player;
 		if ( !pl.IsValid() ) return 0;
 
-		var me = new BBox( Position + mins, Position + maxs );
+		var me = new BBox( Position + mins + Vector3.Down, Position + maxs );
 
 		foreach ( var ent in Entity.All )
 		{

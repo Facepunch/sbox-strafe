@@ -24,42 +24,42 @@ internal partial class StrafeTriggerPush : StrafeTrigger
 	public Vector3 Direction { get; set; }
 	[Property, Net]
 	public float Speed { get; set; }
-	[Property, Net]
-	public bool Clamp { get; set; }
 
 	public override void SimulatedStartTouch( StrafeController ctrl )
 	{
-		base.SimulatedStartTouch( ctrl );
-
 		if ( TriggerOnJump )
 		{
-			if ( !ctrl.GroundEntity.IsValid() || !Input.Down( InputButton.Jump ) )
-				return;
-
-			ctrl.Velocity += GetPushVector( ctrl );
+			if ( CanTriggerOnJump( ctrl ) )
+				ApplyImpulse( ctrl );
 			return;
 		}
 
 		if ( !Once ) return;
 
-		ctrl.Velocity += GetPushVector( ctrl );
+		ApplyImpulse( ctrl );
 	}
 
 	public override void SimulatedTouch( StrafeController ctrl )
 	{
-		base.SimulatedTouch( ctrl );
-
-		if ( Once ) return;
-
 		if ( TriggerOnJump )
 		{
-			if ( !ctrl.GroundEntity.IsValid() || !Input.Down( InputButton.Jump ) ) 
-				return;
-
-			ctrl.Velocity += GetPushVector( ctrl );
+			if ( CanTriggerOnJump( ctrl ) )
+				ApplyImpulse( ctrl );
 			return;
 		}
 
+		if ( Once ) return;
+
+		ApplyMomentum( ctrl );
+	}
+
+	private void ApplyImpulse( StrafeController ctrl )
+	{
+		ctrl.Velocity += GetPushVector( ctrl );
+	}
+
+	private void ApplyMomentum( StrafeController ctrl )
+	{
 		var vecPush = GetPushVector( ctrl );
 		if ( ctrl.Momentum && !ctrl.GroundEntity.IsValid() )
 		{
@@ -69,13 +69,22 @@ internal partial class StrafeTriggerPush : StrafeTrigger
 		ctrl.Momentum = true;
 	}
 
+	private bool CanTriggerOnJump( StrafeController ctrl )
+	{
+		if ( ctrl.GroundEntity == null ) return false;
+		if ( !Input.Down( InputButton.Jump ) ) return false;
+
+		return true;
+	}
+
 	private Vector3 GetPushVector( StrafeController ctrl )
 	{
 		var result = Direction.Normal * Speed;
 		var tr = ctrl.TraceBBox( Position, Position + Vector3.Down * 4f, 4 );
+
 		if ( !tr.Entity.IsValid() ) return result;
 		if ( Vector3.GetAngle( tr.Normal, Vector3.Up ) < 1f ) return result;
-		
+
 		return result.Clip( tr.Normal );
 	}
 
