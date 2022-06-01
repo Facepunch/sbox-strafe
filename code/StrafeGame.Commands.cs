@@ -71,11 +71,6 @@ internal partial class StrafeGame
 			menu.AddOption( "Option 3", x => Log.Error( "Option 3" ) );
 		}
 
-		if ( cmdName == "testvote" && Host.IsServer )
-		{
-			_ = Current.MapVoteAsync();
-		}
-
 		if ( cmdName == "timeleft" && Host.IsServer )
 		{
 			Current.PrintTimeLeft();

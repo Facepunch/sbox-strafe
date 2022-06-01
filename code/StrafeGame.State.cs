@@ -1,4 +1,5 @@
-﻿using Sandbox;
+﻿
+using Sandbox;
 using Strafe.Menu;
 using Strafe.UI;
 using System;
@@ -19,11 +20,11 @@ internal partial class StrafeGame
 	[Net]
 	public string NextMap { get; set; }
 	[Net]
-	public IDictionary<long, string> MapVotes { get; set; }
+	public IList<string> MapCycle { get; set; }
+	[Net]
+	public bool VoteFinalized { get; set; }
 
-	private bool VotingFinished;
-	private bool VoteInProgress;
-	private List<string> MapCycle = new();
+	private MapVoteEntity MapVote;
 
 	private async Task GameLoopAsync( float gametime = 1200f )
 	{
@@ -41,7 +42,7 @@ internal partial class StrafeGame
 
 			if ( (int)StateTimer == (7 * 60) )
 			{
-				_ = MapVoteAsync();
+				DoMapVote();
 			}
 
 			if ( ShouldPrintTime() )
@@ -84,75 +85,33 @@ internal partial class StrafeGame
 		}
 	}
 
-	private async Task MapVoteAsync()
+	private async void DoMapVote( bool isFinal = false )
 	{
-		Host.AssertServer();
+		if ( MapVote.IsValid() ) return;
+		if ( VoteFinalized ) return;
 
-		if ( VoteInProgress ) return;
+		MapVote = new MapVoteEntity( MapCycle.ToList() );
+		var result = await MapVote.DoVote();
+		MapVote.Delete();
+		MapVote = null;
 
-		MapVotes.Clear();
-		VotingFinished = false;
-		VoteInProgress = true;
-
-		Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has started.", "info" );
-
-		var menu = new SlotMenu();
-		menu.Title = "Vote for the next map";
-
-		foreach ( var m in MapCycle )
+		if ( result.StartsWith( "_extend" ) )
 		{
-			menu.AddOption( m, x => SetMapVote( x, m ) );
-		}
+			var extendMinutes = int.Parse( result.Replace( "_extend", "" ) );
+			StateTimer += extendMinutes * 60f;
 
-		menu.AddOption( "Extend 15 minutes", x => SetMapVote( x, "_extend15" ) );
-
-		while ( menu.IsValid() )
-		{
-			await Task.DelayRealtimeSeconds( 1.0f );
-		}
-
-		if ( NextMap.StartsWith( "_extend" ) )
-		{
-			var len = NextMap.Replace( "_extend", "" );
-			var lenMins = int.Parse( len );
-			StateTimer += lenMins * 60f;
-			MapVotes.Clear();
-			Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the current map has been extended {len} minutes.", "info" );
-			await RollMapCycle();
+			Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the current map has been extended {extendMinutes} minutes.", "info" );
 		}
 		else
 		{
-			VotingFinished = true;
+			NextMap = result;
+
+			if ( isFinal )
+			{
+				VoteFinalized = true;
+			}
 
 			Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the next map will be {NextMap}.", "info" );
-		}
-
-		VoteInProgress = false;
-	}
-
-	private void SetMapVote( Client client, string map )
-	{
-		if ( MapVotes.TryGetValue( client.PlayerId, out var vote ) && vote == map )
-			return;
-
-		MapVotes[client.PlayerId] = map;
-
-		var votemap = new Dictionary<string, int>();
-		MapVotes.Values.ToList().ForEach( x => votemap.Add( x, 0 ) );
-		foreach ( var kvp in MapVotes )
-		{
-			votemap[kvp.Value]++;
-		}
-		NextMap = votemap.OrderByDescending( x => x.Value ).First().Key;
-
-		if ( !map.StartsWith( "_extend" ) )
-		{
-			Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} voted for {map}", "info" );
-		}
-		else
-		{
-			var len = map.Replace( "_extend", "" );
-			Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} voted to extend the map {len} minutes", "info" );
 		}
 	}
 
@@ -181,7 +140,11 @@ internal partial class StrafeGame
 
 	private void RockTheVote( Client client )
 	{
-		if ( VotingFinished || VoteInProgress ) return;
+		if ( VoteFinalized )
+		{
+			Chat.AddChatEntry( To.Single( client ), "Server", $"Map voting is finished, the next map is {NextMap}", "info" );
+			return;
+		}
 
 		client.SetValue( "rtv", true );
 
@@ -192,9 +155,14 @@ internal partial class StrafeGame
 
 		Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} wants to rock the vote.  {remaining} votes remaining." );
 
-		if ( remaining == 0 )
+		if ( remaining == 0 && !MapVote.IsValid() )
 		{
-			_ = MapVoteAsync();
+			foreach( var c in Client.All )
+			{
+				c.SetValue( "rtv", false );
+			}
+
+			DoMapVote( true );
 			StateTimer = 61f;
 		}
 	}
@@ -208,7 +176,7 @@ internal partial class StrafeGame
 			.Take( 5 )
 			.ToList();
 
-		NextMap = Rand.FromList( MapCycle );
+		NextMap = Rand.FromList( MapCycle.ToList() );
 		if ( string.IsNullOrEmpty( NextMap ) ) NextMap = Global.MapName;
 	}
 

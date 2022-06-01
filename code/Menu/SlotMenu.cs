@@ -9,6 +9,9 @@ namespace Strafe.Menu;
 internal partial class SlotMenu : Entity
 {
 
+	private List<Action<Client>> OptionActions = new();
+	private SlotMenuHud Hud;
+
 	[Net]
 	public string Title { get; set; }
 	[Net]
@@ -16,16 +19,18 @@ internal partial class SlotMenu : Entity
 	[Net]
 	public bool CloseButton { get; set; }
 	[Net]
-	public RealTimeUntil TimeUntilClose { get; set; }
+	public RealTimeUntil TimeUntilClose { get; set; } = 30f;
 
-	private List<Action<Client>> OptionActions = new();
-	private SlotMenuHud Hud;
+	public SlotMenu() { }
+
+	public SlotMenu( float duration = 30f )
+	{
+		TimeUntilClose = duration;
+	}
 
 	public override void Spawn()
 	{
 		base.Spawn();
-
-		TimeUntilClose = 30;
 
 		Transmit = TransmitType.Always;
 	}
@@ -50,7 +55,9 @@ internal partial class SlotMenu : Entity
 	private void OnTick()
 	{
 		if ( TimeUntilClose <= 0)
+		{
 			Delete();
+		}
 	}
 
 	public void AddOption( string label, Action<Client> onChosen )
