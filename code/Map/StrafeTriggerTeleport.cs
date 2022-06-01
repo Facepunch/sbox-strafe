@@ -33,6 +33,13 @@ internal partial class StrafeTriggerTeleport : StrafeTrigger
 	[Net]
 	public bool KeepVelocity { get; set; }
 
+	/// <summary>
+	/// If set, the player's view angles will match the target entity's rotation
+	/// </summary>
+	[Property("set_viewangles", Title = "Apply ViewAngles" )]
+	[Net]
+	public bool SetViewAngles { get; set; }
+
 	[Net]
 	public Transform TargetTransform { get; set; }
 
@@ -79,8 +86,12 @@ internal partial class StrafeTriggerTeleport : StrafeTrigger
 		OnTriggered.Fire( ctrl.Pawn );
 
 		ctrl.Position = tx.Position;
-		ctrl.Rotation = tx.Rotation;
 		ctrl.Position += offset;
+
+		if ( SetViewAngles && ctrl.Pawn is StrafePlayer pl )
+		{
+			pl.SetViewAngles( tx.Rotation.Angles() );
+		}
 	}
 
 }

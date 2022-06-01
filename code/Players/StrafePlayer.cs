@@ -43,7 +43,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		Clothing.LoadFromClient( Client );
 		Clothing.DressEntity( this );
 
-		if( !TimersCreated )
+		if ( !TimersCreated )
 		{
 			TimersCreated = true;
 
@@ -127,6 +127,15 @@ internal partial class StrafePlayer : Sandbox.Player
 		}
 	}
 
+	[ClientRpc]
+	public void SetViewAngles( Angles angles )
+	{
+		UpdateViewAngle = true;
+		UpdatedViewAngle = angles;
+	}
+
+	private bool UpdateViewAngle;
+	private Angles UpdatedViewAngle;
 	private float YawSpeed;
 	// Purpose: when typing a command like !r to restart let it run
 	//			through simulate to get properly predicted.
@@ -135,7 +144,13 @@ internal partial class StrafePlayer : Sandbox.Player
 	{
 		base.BuildInput( input );
 
-		if( YawSpeed != 0 )
+		if ( UpdateViewAngle )
+		{
+			UpdateViewAngle = false;
+			input.ViewAngles = UpdatedViewAngle;
+		}
+
+		if ( YawSpeed != 0 )
 		{
 			input.ViewAngles = input.ViewAngles.WithYaw( input.ViewAngles.yaw + YawSpeed * Time.Delta );
 		}
@@ -160,7 +175,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		Velocity = 0;
 		BaseVelocity = 0;
 
-		foreach(var child in Children )
+		foreach ( var child in Children )
 		{
 			if ( child is not TimerEntity t || !t.IsValid() ) continue;
 			t.Stop();
