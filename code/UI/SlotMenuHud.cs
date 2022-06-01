@@ -13,6 +13,7 @@ internal class SlotMenuHud : Panel
 
 	private SlotMenu Menu;
 	private int Hash;
+	private int SelectedOption = -1;
 
 	public string Title => Menu.Title;
 	public string Duration => ((int)Menu.TimeUntilClose).ToString();
@@ -26,6 +27,11 @@ internal class SlotMenuHud : Panel
 	public override void Tick()
 	{
 		base.Tick();
+
+		foreach( var child in OptionsCanvas.Children )
+		{
+			child.SetClass( "active", child.SiblingIndex == SelectedOption + 1 );
+		}
 
 		var hashicorp = Menu.CloseButton.GetHashCode();
 		foreach( var option in Menu.Options )
@@ -54,12 +60,17 @@ internal class SlotMenuHud : Panel
 	{
 		if ( slot < -1 || slot >= Menu.Options.Count ) return;
 
-		if( slot > -1 )
+		if( slot == -1 )
 		{
-			SlotMenu.ChooseOption( Menu.NetworkIdent, slot );
+			Delete();
+			return;
 		}
 
-		Delete();
+		if ( slot > -1 )
+		{
+			SelectedOption = slot;
+			SlotMenu.ChooseOption( Menu.NetworkIdent, slot );
+		}
 	}
 
 	[Event.BuildInput]
