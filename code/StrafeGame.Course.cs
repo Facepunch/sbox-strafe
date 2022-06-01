@@ -96,5 +96,6 @@ public enum CourseTypes
 {
 	Invalid,
 	Staged,
-	Linear
+	Linear,
+	StagedLinear
 }

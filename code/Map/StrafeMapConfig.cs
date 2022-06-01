@@ -1,6 +1,7 @@
 ﻿
 using Sandbox;
 using SandboxEditor;
+using System.Linq;
 
 namespace Strafe.Map;
 
@@ -12,16 +13,26 @@ namespace Strafe.Map;
 internal partial class StrafeMapConfig : Entity
 {
 
+	public static StrafeMapConfig Current;
+
 	[Property, Net]
 	public MapTypes Type { get; set; } = MapTypes.Surf;
 	[Property, Net]
 	public MapStates State { get; set; } = MapStates.Preview;
+	/// <summary>
+	/// If unset, allows the player to maintain speed when exiting
+	/// start zones.  The first stage is always clamped regardless
+	/// of this value.
+	/// </summary>
+	[Property, Net]
+	public bool ClampStartSpeed { get; set; } = true;
 
 	public override void Spawn()
 	{
 		base.Spawn();
 
 		Transmit = TransmitType.Always;
+		Current = this;
 	}
 
 }

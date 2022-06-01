@@ -20,7 +20,6 @@ internal partial class StageStart : BaseZone
 
 	public bool IsFirstStage => Stage <= 1;
 
-
 	public override void SimulatedStartTouch( StrafeController ctrl )
 	{
 		base.SimulatedStartTouch( ctrl );
@@ -49,7 +48,10 @@ internal partial class StageStart : BaseZone
 
 		if ( ctrl.Pawn is not StrafePlayer pl ) return;
 
-		ctrl.LimitSpeed();
+		if( Stage == 1 || ( StrafeMapConfig.Current?.ClampStartSpeed ?? true ) )
+		{
+			ctrl.LimitSpeed();
+		}
 
 		if ( StrafeGame.Current.CourseType == CourseTypes.Linear )
 		{
