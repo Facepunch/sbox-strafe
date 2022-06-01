@@ -67,5 +67,22 @@ internal partial class StrafeGame : Game
 		pawn.Position = pawn.Position.WithZ( (int)(pawn.Position.z + 1) );
 	}
 
+	public override void DoPlayerNoclip( Client player )
+	{
+		if ( player.Pawn is not StrafePlayer pl ) 
+			return;
+
+		if( pl.DevController == null )
+		{
+			pl.DevController = new NoclipController();
+			Chat.AddChatEntry( To.Single( player ), "Server", "Noclip enabled", "server" );
+		}
+		else
+		{
+			pl.DevController = null;
+			Chat.AddChatEntry( To.Single( player ), "Server", "Noclip disabled", "server" );
+		}
+	}
+
 }
 
