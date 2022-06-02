@@ -19,8 +19,6 @@ internal class SplitLabel : Panel
 
 	public override void SetProperty( string name, string value )
 	{
-		base.SetProperty( name, value );
-
 		switch ( name )
 		{
 			case "left":
@@ -28,6 +26,9 @@ internal class SplitLabel : Panel
 				break;
 			case "right":
 				Right.Text = value;
+				break;
+			default:
+				base.SetProperty( name, value );
 				break;
 		}
 	}
