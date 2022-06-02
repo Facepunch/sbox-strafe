@@ -1,14 +1,17 @@
 ﻿
 using Sandbox;
 using Sandbox.UI;
-using Strafe.Api;
-using Strafe.Leaderboards;
 
 namespace Strafe.UI;
 
 [Hud, UseTemplate]
-internal class TabMenu : Panel
+internal class TabMenu : NavigatorPanel
 {
+
+	public TabMenu()
+	{
+		Navigate( "/" );
+	}
 
 	[Event.BuildInput]
 	public void OnBuildInput( InputBuilder b )

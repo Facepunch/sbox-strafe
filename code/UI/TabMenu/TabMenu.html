@@ -1,14 +1,11 @@
 ﻿
-<root>
-
-    <panel class="content">
-        <StrafeScoreboard style="width:70%; margin-right: 20px;" />
-        <panel style="flex-grow: 1; flex-direction: column;">
-            <StrafeLeaderboard class="container" style="flex-grow: 1;" />
-            <panel class="container toolbar" style="margin-top: 20px;">
-                <button onclick="SpawnMyReplay()">Spawn My Replay</button>
-            </panel>
+<root style="flex-direction:column;">
+    <panel class="navbar">
+        <panel class="container">
+            <navlink href="/">Home</navlink>
+            <navlink href="/maps">Maps</navlink>
+            <navlink href="/info">Info</navlink>
         </panel>
     </panel>
-
+    <panel class="content" @ref="NavigatorCanvas"></panel>
 </root>

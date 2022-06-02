@@ -6,13 +6,17 @@ RootPanel {
     font-family: Ubuntu;
     font-size: 16px;
     transition: opacity .15s ease-out;
-
-    &.hidden {
-        opacity: 0;
-    }
 }
 
-button {
+.hidden {
+    display: none;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+button, navlink {
     border-radius: $radius;
     padding: $paddingsmall;
     cursor: pointer;
@@ -23,13 +27,17 @@ button {
     align-items: center;
     justify-content: center;
 
-    &:hover {
+    &.filled {
+        background-color: $darkbg;
+    }
+
+    &:hover, &.active {
         background-color: $lightaccent;
         transform: scale(1.05);
     }
 }
 
-button.disabled {
+button.disabled, navlink.disabled {
     opacity: .25;
     cursor: default;
     transition: none;
@@ -417,6 +425,38 @@ TabMenu {
     justify-content: center;
     background-color: rgba( black .15 );
     backdrop-filter: blur(2px);
+
+    opacity: 1;
+    pointer-events: all;
+
+    .navbar {
+        width: 55%;
+        margin-bottom: 20px;
+        margin-top: -20px;
+
+        button, navlink {
+            margin-right: 4px;
+            border-color: transparent;
+            border-radius:0;
+            font-size: 18px;
+            text-transform: uppercase;
+            padding: 8px 12px;
+
+            &:hover, &.active {
+                transform: scale(1.03);
+                background-color: $orange;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .container {
+            flex-direction: row;
+            padding: 0;
+        }
+    }
 
     .content {
         width: 55%;
