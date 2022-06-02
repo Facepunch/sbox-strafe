@@ -37,6 +37,7 @@ internal partial class StrafeGame
 			if( DisableMapCycle )
 			{
 				await Task.DelayRealtimeSeconds( 1.0f );
+				StateTimer = (int)(StateTimer + 1.5f);
 				continue;
 			}
 
