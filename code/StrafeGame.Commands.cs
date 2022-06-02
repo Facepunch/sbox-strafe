@@ -42,18 +42,6 @@ internal partial class StrafeGame
 			Chat.AddChatEntry( To.Everyone, "Response", result );
 		}
 
-		if ( cmdName == "blobtest" && Host.IsServer )
-		{
-			var result = await Backend.Post<string>( "blobtest/tester", new byte[4] { 1, 2, 3, 4 } );
-			Chat.AddChatEntry( To.Everyone, "Response", result );
-		}
-
-		if ( cmdName == "wsping" && Host.IsServer )
-		{
-			var result = await Backend.Post<string>( "ping", "someData" );
-			Chat.AddChatEntry( To.Everyone, "Response", result );
-		}
-
 		if ( cmdName == "wt" && Host.IsServer )
 		{
 			var result = await Backend.Post<string>( "ping/whitelisted", "someData" );
@@ -97,39 +85,6 @@ internal partial class StrafeGame
 			else Chat.AddChatEntry( "Server", "Trail Disabled" );
 		}
 
-		if ( cmdName == "dl" && Host.IsServer )
-		{
-			var http = new Http( new System.Uri( "https://strafereplays.blob.core.windows.net/replays/67efd50e-586e-475e-b9e7-815f0c97040d.bytes" ) );
-			var data = await http.GetBytesAsync();
-			Log.Info( string.Join( ',', data ) );
-		}
-
-		if ( cmdName == "repsize" && Host.IsServer )
-		{
-			var data = new List<TimerFrame>();
-			for ( int i = 0; i < 180000; i++ )
-			{
-				data.Add( new()
-				{
-					Angles = Angles.Random,
-					Jumps = Rand.Int( 0, 100 ),
-					Strafes = Rand.Int( 0, 100 ),
-					Position = Vector3.Random,
-					Time = Rand.Float( 0, 100 ),
-					Velocity = Vector3.Random
-				} );
-			}
-			var replay = new Replay( 0, data );
-
-			var sw = new System.Diagnostics.Stopwatch();
-			sw.Start();
-			var bytes = replay.ToBytes();
-			sw.Stop();
-
-			Log.Info( "BYTE ARRAY MB: " + bytes.Length / 1024f / 1024f );
-			Log.Info( "COMPRESSED MB: " + bytes.Compress().Length / 1024f / 1024f );
-			Log.Info( "TIME: " + sw.ElapsedMilliseconds );
-		}
 	}
 
 	private static TimeSince TimeSinceReplaySpawned;
