@@ -116,7 +116,7 @@ internal partial class StrafeGame
 		}
 	}
 
-	private static async Task<List<string>> GetAvailableMaps()
+	public static async Task<List<string>> GetAvailableMaps()
 	{
 		var query = new Package.Query
 		{

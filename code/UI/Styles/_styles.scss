@@ -77,6 +77,7 @@ button.disabled, navlink.disabled {
         margin-bottom: $paddingmedium;
         padding-bottom: $paddingmedium;
         border-bottom: 1px solid rgba( $darkaccent .5 );
+        flex-shrink: 0;
     }
 }
 
@@ -430,7 +431,7 @@ TabMenu {
     height: 100%;
     opacity: 0;
     transition: all .15s ease-out;
-    z-index: $z-chat;
+    z-index: $z-menu;
     align-items: center;
     justify-content: center;
     background-color: rgba( black .15 );
@@ -593,6 +594,62 @@ InfoTab {
         :last-child {
             color: $foreground-faded;
             text-align: right;
+        }
+    }
+}
+
+MapList {
+    flex-direction: column;
+    overflow: scroll;
+
+    MapListEntry {
+        flex-shrink: 0;
+        padding: 15px;
+        border-radius: $radius;
+        background-color: rgba(black 0);
+        transition: all .15s ease-out;
+
+        &:hover {
+            background-color: rgba( black .25 );
+
+            .thumbnail {
+                transform: scale(1.15) translateX(-10px);
+            }
+        }
+
+        .thumbnail {
+            min-width: 125px;
+            max-width: 125px;
+            height: 125px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            border-radius: 10px;
+            box-shadow: 2px 2px 20px rgba(black .25);
+            margin-right: 20px;
+            transition: transform .15s ease-out;
+        }
+
+        .text {
+            flex-direction: column;
+            flex-grow: 1;
+            margin-right: 150px;
+
+            .title {
+                font-size: 20px;
+                margin-bottom: 8px;
+            }
+
+            .description {
+                color: $foreground-faded;
+            }
+        }
+
+        .buttons {
+            min-width: 125px;
+
+            button {
+                flex-grow: 1;
+            }
         }
     }
 }
