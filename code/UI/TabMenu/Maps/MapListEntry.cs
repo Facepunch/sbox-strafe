@@ -16,16 +16,31 @@ internal class MapListEntry : EasyListEntry<MapListData>
 		await Thumbnail.Style.SetBackgroundImageAsync( Item.Thumbnail );
 	}
 
+	public override void Tick()
+	{
+		base.Tick();
+
+		var nominated = false;
+		foreach( var kvp in StrafeGame.Current.Nominations )
+		{
+			if ( kvp.Value != Item.FullIdent ) continue;
+			nominated = true;
+			break;
+		}
+
+		SetClass( "nominated", nominated );
+	}
+
 	public void Nominate()
 	{
-		Log.Error( "NOMINATE: " + Item.Ident );
+		StrafeGame.Nominate( Item.FullIdent );
 	}
 
 }
 
 public class MapListData
 {
-	public string Ident { get; set; }
+	public string FullIdent { get; set; }
 	public string Name { get; set; }
 	public string Thumbnail { get; set; }
 	public string Author { get; set; }

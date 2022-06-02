@@ -437,9 +437,6 @@ TabMenu {
     background-color: rgba( black .15 );
     backdrop-filter: blur(2px);
 
-    opacity: 1;
-    pointer-events: all;
-
     .navbar {
         width: 55%;
         margin-bottom: 20px;
@@ -609,11 +606,20 @@ MapList {
         background-color: rgba(black 0);
         transition: all .15s ease-out;
 
-        &:hover {
+        &:hover, &.nominated {
             background-color: rgba( black .25 );
 
             .thumbnail {
                 transform: scale(1.15) translateX(-10px);
+            }
+        }
+
+        &.nominated {
+            background-color: rgba( $darkaccent .01 );
+
+            button {
+                background-color: $lightaccent;
+                transform: scale(1.05);
             }
         }
 

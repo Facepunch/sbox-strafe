@@ -23,6 +23,8 @@ internal partial class StrafeGame
 	public IList<string> MapCycle { get; set; }
 	[Net]
 	public bool VoteFinalized { get; set; }
+	[Net]
+	public IDictionary<long, string> Nominations { get; set; }
 
 	private MapVoteEntity MapVote;
 
@@ -91,7 +93,15 @@ internal partial class StrafeGame
 		if ( MapVote.IsValid() ) return;
 		if ( VoteFinalized ) return;
 
-		MapVote = new MapVoteEntity( MapCycle.ToList() );
+		var maplist = Nominations.Values.ToList();
+		foreach( var m in MapCycle )
+		{
+			if ( maplist.Contains( m ) ) continue;
+			maplist.Add( m );
+		}
+		maplist = maplist.Take( 7 ).ToList();
+
+		MapVote = new MapVoteEntity( maplist );
 		var result = await MapVote.DoVote();
 		MapVote.Delete();
 		MapVote = null;
@@ -114,6 +124,20 @@ internal partial class StrafeGame
 
 			Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the next map will be {NextMap}.", "info" );
 		}
+	}
+
+	[ConCmd.Server]
+	public static void Nominate( string ident )
+	{
+		if ( !ConsoleSystem.Caller.IsValid() ) return;
+
+		var playerid = ConsoleSystem.Caller.PlayerId;
+
+		if ( Current.Nominations.ContainsKey( playerid ) && Current.Nominations[playerid] == ident )
+			return;
+
+		Current.Nominations[playerid] = ident;
+		Chat.AddChatEntry( To.Everyone, "Server", $"{ConsoleSystem.Caller.Name} has nominated {ident}", "server" );
 	}
 
 	public static async Task<List<string>> GetAvailableMaps()
