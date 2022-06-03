@@ -6,16 +6,25 @@
             <heading text="Chat Commands" />
             <label2 onclick="Say('!rtv')" left="!rtv" right="Rocks the vote" />
             <label2 onclick="Say('!r')" left="!r" right="Teleports you to the start of the map" />
-            <label2 onclick="Say('!t')" left="!t" right="Teleports to start of current stage" />
+            <label2 onclick="Say('!t')" left="!t" right="Teleports you to the start of current stage" />
             <label2 onclick="Say('!timeleft')" left="!timeleft" right="Displays time left on this map" />
             <label2 onclick="Say('!nextmap')" left="!nextmap" right="Displays the next map" />
             <label2 onclick="Say('!snailtrail')" left="!snailtrail" right="Toggles your trail" />
         </column>
-        <column class="container 6">
-            <heading text="Keybinds" />
-            <label2 left="+yaw <int:speed>" right="Smoothly turn left or right.  Negative speeds will yaw left, positive speeds will yaw right" />
-            <label2 left="+iv_reload" right="Teleports to start of current stage" />
-            <label2 left="+iv_drop" right="Teleports you to the start of the map" />
+        <column class="6">
+            <panel class="container" style="margin-bottom: 20px;">
+                <heading text="Keybinds" />
+                <label2 left="+yaw <int:speed>" right="Smoothly turn left or right.  Negative speeds will yaw left, positive speeds will yaw right" />
+                <label2 left="+iv_reload" right="Teleports you to the start of current stage" />
+                <label2 left="+iv_drop" right="Teleports you to the start of the map" />
+            </panel>
+            <panel class="container">
+                <heading text="Console Commands" />
+                <label2 left="strafe_disable_mapcycle" right="true/false - pauses the mapcycle (local only)." />
+                <label2 left="strafe_disable_triggers" right="true/false - disables all triggers (local only)." />
+                <label2 left="strafe_player_visibility" right="0 = fade, 1 = always, 2 = never" />
+                <label2 left="strafe_toggle_hud" right="Toggles visibility of the hud" />
+            </panel>
         </column>
     </columns>
 
