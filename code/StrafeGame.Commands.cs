@@ -48,6 +48,11 @@ internal partial class StrafeGame
 			Chat.AddChatEntry( To.Everyone, "Response", result );
 		}
 
+		if( cmdName == "noclip" && Host.IsServer )
+		{
+			Current.DoPlayerNoclip( cl );
+		}
+
 		if ( cmdName == "testmenu" && Host.IsServer )
 		{
 			if ( cl.Pawn is not StrafePlayer pl ) return;
