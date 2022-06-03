@@ -8,6 +8,9 @@ namespace Strafe.UI;
 internal class InfoTab : Panel
 {
 
-
+	public void Say(string input )
+	{
+		Chat.Submit( input );
+	}
 
 }

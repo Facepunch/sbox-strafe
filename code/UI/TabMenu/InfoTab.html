@@ -2,14 +2,14 @@
 <root class="grow">
 
     <columns>
-        <column class="container 6">
+        <column class="container 6 chat-commands">
             <heading text="Chat Commands" />
-            <label2 left="!rtv" right="Rocks the vote" />
-            <label2 left="!r" right="Teleports you to the start of the map" />
-            <label2 left="!t" right="Teleports to start of current stage" />
-            <label2 left="!timeleft" right="Displays time left on this map" />
-            <label2 left="!nextmap" right="Displays the next map" />
-            <label2 left="!snailtrail" right="Toggles your trail" />
+            <label2 onclick="Say('!rtv')" left="!rtv" right="Rocks the vote" />
+            <label2 onclick="Say('!r')" left="!r" right="Teleports you to the start of the map" />
+            <label2 onclick="Say('!t')" left="!t" right="Teleports to start of current stage" />
+            <label2 onclick="Say('!timeleft')" left="!timeleft" right="Displays time left on this map" />
+            <label2 onclick="Say('!nextmap')" left="!nextmap" right="Displays the next map" />
+            <label2 onclick="Say('!snailtrail')" left="!snailtrail" right="Toggles your trail" />
         </column>
         <column class="container 6">
             <heading text="Keybinds" />
