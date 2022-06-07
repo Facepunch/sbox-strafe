@@ -31,6 +31,8 @@ internal partial class TimerEntity : Entity
 	public int Jumps { get; set; }
 	[Net, Predicted]
 	public int Strafes { get; set; }
+	[Net, Predicted]
+	public bool EnforceGroundState { get; set; }
 
 	public TimerFrame Snapshot { get; private set; }
 
@@ -58,6 +60,16 @@ internal partial class TimerEntity : Entity
 
 	public void Start()
 	{
+		if ( EnforceGroundState )
+		{
+			if ( IsServer )
+			{
+				var msg = $"Timer didn't start, stand in the start zone after using noclip!";
+				Chat.AddChatEntry( To.Single( Owner ), "Timer", msg, "timer" );
+			}
+			return;
+		}
+
 		Reset();
 		State = States.Live;
 
@@ -94,7 +106,7 @@ internal partial class TimerEntity : Entity
 		Owner.Children.OfType<TimerEntity>()
 			.ToList()
 			.ForEach( x => x.Current = false );
-		
+
 		State = States.Start;
 		Current = true;
 	}
@@ -109,10 +121,19 @@ internal partial class TimerEntity : Entity
 			return;
 		}
 
-		if( pl.GetActiveController() is not StrafeController )
+		if ( pl.GetActiveController() is not StrafeController ctrl )
+		{
 			Stop();
+			EnforceGroundState = true;
+			return;
+		}
 
-		if ( State != States.Live ) 
+		if ( ctrl.GroundEntity != null && State == States.Start )
+		{
+			EnforceGroundState = false;
+		}
+
+		if ( State != States.Live )
 			return;
 
 		Timer += Time.Delta;
@@ -122,7 +143,7 @@ internal partial class TimerEntity : Entity
 
 	public void TeleportTo()
 	{
-		if ( Owner is not StrafePlayer pl ) 
+		if ( Owner is not StrafePlayer pl )
 			return;
 
 		pl.Transform = TeleportTransform() ?? pl.Transform;
