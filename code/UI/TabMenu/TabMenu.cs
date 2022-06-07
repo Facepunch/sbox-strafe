@@ -31,9 +31,4 @@ internal class TabMenu : NavigatorPanel
 		}
 	}
 
-	public void SpawnMyReplay()
-	{
-		StrafeGame.SpawnMyReplay();
-	}
-
 }

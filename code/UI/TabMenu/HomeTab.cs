@@ -8,6 +8,9 @@ namespace Strafe.UI;
 internal class HomeTab : Panel
 {
 
-
+	public void SpawnMyReplay()
+	{
+		StrafeGame.SpawnMyReplay();
+	}
 
 }
