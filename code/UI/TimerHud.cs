@@ -16,19 +16,51 @@ internal class TimerHud : Panel
 	public Label JumpDiff { get; set; }
 	public Label StrafeDiff { get; set; }
 
-	public int Speedometer => (int)(Local.Pawn?.Velocity.WithZ( 0 ).Length ?? 0);
-	public string Timer
+	public int Speed { get; set; }
+	public string Time { get; set; }
+	public int Stage { get; set; }
+	public int Jumps { get; set; }
+	public int Strafes { get; set; }
+
+	[Event.Frame]
+	private void OnFrame()
 	{
-		get
+		if ( Local.Pawn is not StrafePlayer pl )
 		{
-			if ( Local.Pawn is not StrafePlayer pl )
-				return "Disabled";
+			Time = "Disabled";
+			return;
+		}
 
-			var stage = pl.Stage( 0 );
-			if ( stage.State != TimerEntity.States.Live )
-				return stage.State.ToString();
+		TimerFrame frame;
+		TimerEntity.States state;
+		int stage;
 
-			return stage.Timer.ToTime();
+		if( pl.SpectateTarget is ReplayEntity rep )
+		{
+			frame = rep.Frame;
+			stage = 0;
+			state = TimerEntity.States.Live;
+		}
+		else
+		{
+			var target = (pl.SpectateTarget as StrafePlayer) ?? pl;
+			frame = target.TimerFrame;
+			stage = target.TimerStage;
+			state = target.TimerState;
+		}
+
+		Stage = stage;
+		Speed = (int)frame.Velocity.WithZ( 0 ).Length;
+		Jumps = frame.Jumps;
+		Strafes = frame.Strafes;
+
+		if( state != TimerEntity.States.Live )
+		{
+			Time = state.ToString();
+		}
+		else
+		{
+			Time = frame.Time.ToTime();
 		}
 	}
 
@@ -38,7 +70,7 @@ internal class TimerHud : Panel
 		{
 			if ( StrafeGame.Current.CourseType == CourseTypes.Linear )
 			{
-				return $"CP {Checkpoint}";
+				return $"CP {Stage}";
 			}
 
 			if ( StrafeGame.Current.CourseType == CourseTypes.Staged )
@@ -49,19 +81,6 @@ internal class TimerHud : Panel
 			return "Map is invalid";
 		}
 	}
-
-	public string Stats
-	{
-		get
-		{
-			return $"{Jumps} jumps\n{Strafes} strafes";
-		}
-	}
-
-	public int Stage => (Local.Pawn as StrafePlayer)?.CurrentStage().Stage ?? 0;
-	public int Checkpoint => (Local.Pawn as StrafePlayer)?.CurrentStage().Stage ?? 0;
-	public int Jumps => (Local.Pawn as StrafePlayer)?.Stage( 0 ).Jumps ?? 0;
-	public int Strafes => (Local.Pawn as StrafePlayer)?.Stage( 0 ).Strafes ?? 0;
 
 	private void BuildDiff( TimerEntity timer )
 	{

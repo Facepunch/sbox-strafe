@@ -16,6 +16,8 @@ internal partial class ReplayEntity : AnimatedEntity
 	public long PlayerId { get; set; }
 	[Net]
 	public TimerFrame FinalFrame { get; set; }
+	[Net]
+	public TimerFrame Frame { get; set; }
 
 	public override void Spawn()
 	{
@@ -37,6 +39,7 @@ internal partial class ReplayEntity : AnimatedEntity
 		FinalFrame = Replay.Frames[^1];
 
 		ApplyFrame( Replay.Frames[CurrentFrame] );
+		Frame = Replay.Frames[CurrentFrame];
 
 		CurrentFrame++;
 

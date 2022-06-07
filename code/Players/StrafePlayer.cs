@@ -8,6 +8,13 @@ namespace Strafe.Players;
 internal partial class StrafePlayer : Sandbox.Player
 {
 
+	[Net]
+	public TimerFrame TimerFrame { get; set; }
+	[Net]
+	public int TimerStage { get; set; }
+	[Net]
+	public TimerEntity.States TimerState { get; set; }
+
 	private bool TimersCreated;
 	private ClothingContainer Clothing;
 	private Nametag Nametag;
@@ -80,6 +87,10 @@ internal partial class StrafePlayer : Sandbox.Player
 		if ( SpectateTarget.IsValid() ) return;
 
 		base.Simulate( cl );
+
+		TimerFrame = Stage( 0 )?.GrabFrame() ?? default;
+		TimerStage = CurrentStage()?.Stage ?? 0;
+		TimerState = Stage( 0 )?.State ?? default;
 
 		SimulateAnimatorSounds();
 
