@@ -15,7 +15,7 @@ internal partial class StrafePlayer
 		Never = 2
 	}
 
-	[ConVar.Client( "strafe_player_visibility" )]
+	[ConVar.Client( "strafe_player_visibility", Saved = true )]
 	public static PlayerVisibility Visibility { get; set; } = PlayerVisibility.Fade;
 
 	[Event.Frame]

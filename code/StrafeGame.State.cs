@@ -12,7 +12,7 @@ namespace Strafe;
 internal partial class StrafeGame
 {
 
-	[ConVar.Server("strafe_disable_mapcycle")]
+	[ConVar.Server("strafe_disable_mapcycle", Saved = true)]
 	public static bool DisableMapCycle { get; set; }
 
 	[Net]
