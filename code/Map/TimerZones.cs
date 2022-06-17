@@ -109,7 +109,7 @@ internal partial class StageEnd : BaseZone
 }
 
 [Display( Name = "Checkpoint" )]
-//[Hammer.AutoApplyMaterial( "materials/editor/checkpoint/strafe_trigger_checkpoint.vmat" )]
+[AutoApplyMaterial( "materials/tools/toolscheckpoint.vmat" )]
 [Library( "strafe_trigger_checkpoint", Description = "Where the timer will set a checkpoint" ), Category( "Triggers" ), Icon( "flag_circle" )]
 [HammerEntity]
 internal partial class LinearCheckpoint : BaseZone
