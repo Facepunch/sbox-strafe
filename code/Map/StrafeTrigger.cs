@@ -38,13 +38,7 @@ internal partial class StrafeTrigger : BaseTrigger
 		var pos = WorldSpaceBounds.Center;
 		var height = WorldSpaceBounds.Size.z;
 		var tr = Trace.Ray( pos, pos + Vector3.Down * height * .55f )
-			.HitLayer( CollisionLayer.All, false )
-			.HitLayer( CollisionLayer.Solid, true )
-			.HitLayer( CollisionLayer.GRATE, true )
-			.HitLayer( CollisionLayer.PLAYER_CLIP, true )
-			.HitLayer( CollisionLayer.WINDOW, true )
-			.HitLayer( CollisionLayer.NPC, true )
-			.WithoutTags( "player" )
+			.WorldOnly()
 			.Run();
 
 		if ( !tr.Hit )
