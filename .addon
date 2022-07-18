@@ -26,11 +26,11 @@
       "rival.surf_combov2"
     ],
     "MinPlayers": 1,
-    "MapSelect": 3,
-    "RankType": 2,
-    "LeaderboardType": 2,
+    "MapSelect": "Official",
+    "RankType": "Best",
+    "LeaderboardType": "Ascending",
     "PerMapRanking": true,
-    "GameNetworkType": 0,
+    "GameNetworkType": "Multiplayer",
     "MaxPlayers": 16
   }
 }
