@@ -26,11 +26,12 @@
       "rival.surf_combov2"
     ],
     "MinPlayers": 1,
-    "MapSelect": "Official",
+    "MapSelect": "Tagged",
     "RankType": "Best",
     "LeaderboardType": "Ascending",
     "PerMapRanking": true,
     "GameNetworkType": "Multiplayer",
-    "MaxPlayers": 16
+    "MaxPlayers": 16,
+    "GameCategory": "Parkour"
   }
 }
