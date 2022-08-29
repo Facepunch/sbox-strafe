@@ -16,7 +16,11 @@ internal partial class Chat : Panel
 	public bool Open
 	{
 		get => HasClass( "open" );
-		set => SetClass( "open", value );
+		set
+		{
+			if ( value ) OnOpenChat();
+			else Close();
+		}
 	}
 
 	public Chat()
@@ -25,22 +29,21 @@ internal partial class Chat : Panel
 
 		Input.AddEventListener( "onsubmit", () => Submit( Input.Text ) );
 		Input.AddEventListener( "onblur", Close );
-		Sandbox.Hooks.Chat.OnOpenChat += OnOpenChat;
 
 		Canvas.PreferScrollToBottom = true;
 	}
 
 	private void OnOpenChat()
 	{
-		Open = true;
+		SetClass( "open", true );
 		Input.Focus();
 		Input.Text = string.Empty;
 	}
 
 	private void Close()
 	{
+		SetClass( "open", false );
 		Input.Text = string.Empty;
-		Open = false;
 
 		foreach ( var child in Children )
 		{
@@ -66,6 +69,15 @@ internal partial class Chat : Panel
 		Canvas.TryScrollToBottom();
 
 		Sound.FromScreen( "ui.button.over" );
+	}
+
+	[Event.BuildInput]
+	private void OnBuildInput( InputBuilder b )
+	{
+		if ( b.Pressed( InputButton.Chat ) )
+		{
+			Open = !Open;
+		}
 	}
 
 	[ConCmd.Client( "chat_add_entry", CanBeCalledFromServer = true )]
