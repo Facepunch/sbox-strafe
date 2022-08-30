@@ -24,9 +24,6 @@ internal partial class StrafePlayer : Sandbox.Player
 		base.Respawn();
 
 		SetModel( "models/citizen/citizen.vmdl" );
-		SetInteractsAs( CollisionLayer.Player );
-		SetInteractsExclude( CollisionLayer.Player );
-		SetInteractsWith( CollisionLayer.Trigger | CollisionLayer.Water | CollisionLayer.Solid );
 
 		Controller = new StrafeController()
 		{
