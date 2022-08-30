@@ -254,7 +254,7 @@ partial class StrafeController : WalkController
 		CheckLadder();
 		Swimming = Pawn.WaterLevel > 0.6f;
 
-		if ( !Swimming /*&& !IsTouchingLadder */)
+		if ( !Swimming && !IsTouchingLadder )
 		{
 			Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 			Velocity += new Vector3( 0, 0, BaseVelocity.z ) * Time.Delta;
@@ -298,7 +298,7 @@ partial class StrafeController : WalkController
 		}
 
 
-		if ( !Swimming/* && !IsTouchingLadder*/ )
+		if ( !Swimming && !IsTouchingLadder )
 		{
 			WishVelocity = WishVelocity.WithZ( 0 );
 		}
@@ -316,10 +316,10 @@ partial class StrafeController : WalkController
 
 			WaterMove();
 		}
-		//else if ( IsTouchingLadder )
-		//{
-		//	LadderMove();
-		//}
+		else if ( IsTouchingLadder )
+		{
+			LadderMove();
+		}
 		else if ( GroundEntity != null )
 		{
 			bStayOnGround = true;
@@ -378,6 +378,52 @@ partial class StrafeController : WalkController
 		Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 
 		AddEvent( "jump" );
+	}
+
+	bool IsTouchingLadder = false;
+	Vector3 LadderNormal;
+
+	public override void CheckLadder()
+	{
+		var wishvel = new Vector3( Input.Forward, Input.Left, 0 );
+		wishvel *= Input.Rotation.Angles().WithPitch( 0 ).ToRotation();
+		wishvel = wishvel.Normal;
+
+		if ( IsTouchingLadder )
+		{
+			if ( Input.Pressed( InputButton.Jump ) )
+			{
+				Velocity = LadderNormal * 100.0f;
+				IsTouchingLadder = false;
+
+				return;
+
+			}
+			else if ( GroundEntity != null && LadderNormal.Dot( wishvel ) > 0 )
+			{
+				IsTouchingLadder = false;
+
+				return;
+			}
+		}
+
+		const float ladderDistance = 1.0f;
+		var start = Position;
+		Vector3 end = start + (IsTouchingLadder ? (LadderNormal * -1.0f) : wishvel) * ladderDistance;
+
+		var pm = Trace.Ray( start, end )
+					.Size( mins, maxs )
+					.WithTag( "ladder" )
+					.Ignore( Pawn )
+					.Run();
+
+		IsTouchingLadder = false;
+
+		if ( pm.Hit )
+		{
+			IsTouchingLadder = true;
+			LadderNormal = pm.Normal;
+		}
 	}
 
 	[Net, Predicted]
