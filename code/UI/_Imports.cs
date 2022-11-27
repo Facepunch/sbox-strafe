@@ -1,0 +1,12 @@
+﻿global using Sandbox;
+global using SandboxEditor;
+global using Sandbox.UI;
+global using System;
+global using System.Threading.Tasks;
+global using System.Collections;
+global using System.Collections.Generic;
+global using Strafe.UI;
+global using Strafe;
+global using Strafe.Players;
+global using Strafe.Utility;
+global using Strafe.Leaderboards;

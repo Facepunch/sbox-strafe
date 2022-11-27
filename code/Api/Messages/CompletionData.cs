@@ -16,7 +16,7 @@ internal class CompletionData
 	public DateTimeOffset Date { get; set; }
 	public string ReplayUrl { get; set; }
 
-	public static CompletionData From( TimerEntity timer )
+	public static CompletionData From( Strafe.Players.TimerEntity timer )
 	{
 		if ( timer.Owner is not StrafePlayer pl ) return null;
 
@@ -28,7 +28,7 @@ internal class CompletionData
 
 		if ( timer.Stage == 0 )
 		{
-			var allTimers = timer.Owner?.Children?.OfType<TimerEntity>() ?? new List<TimerEntity>();
+			var allTimers = timer.Owner?.Children?.OfType<Strafe.Players.TimerEntity>() ?? new List<Strafe.Players.TimerEntity>();
 
 			foreach ( var t in allTimers )
 			{

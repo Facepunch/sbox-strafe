@@ -1,0 +1,157 @@
+﻿
+@inherits Panel
+
+<root>
+    <div class="inner">
+        <div class="row">
+            <label style="margin-bottom: 16px;" text=@Time />
+            <label class="diff" @ref="TimeDiff" />
+        </div>
+        <div class="row">
+            <label style="margin-right: 4px;" text=@Speed />
+            <label>u/s</label>
+            <label class="diff" @ref="SpeedDiff" />
+        </div>
+        <div class="row">
+            <label style="margin-right: 4px;" text=@Jumps />
+            <label>jumps</label>
+            <label class="diff" @ref="JumpDiff" />
+        </div>
+        <div class="row">
+            <label style="margin-right: 4px;" text=@Strafes />
+            <label>strafes</label>
+            <label class="diff" @ref="StrafeDiff" />
+        </div>
+        <div class="row">
+            <label style="margin-top: 16px;" text=@Location />
+        </div>
+    </div>
+</root>
+
+@code {
+    int Strafes;
+    int Jumps;
+    int Speed;
+    int Stage;
+    string Time;
+    Label TimeDiff;
+    Label SpeedDiff;
+    Label JumpDiff;
+    Label StrafeDiff;
+    string Location
+    {
+        get
+        {
+            if ( StrafeGame.Current.CourseType == CourseTypes.Linear )
+            {
+                return $"CP {Stage}";
+            }
+
+            if ( StrafeGame.Current.CourseType == CourseTypes.Staged )
+            {
+                return $"Stage {Stage}";
+            }
+
+            return "Map is invalid";
+        }
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        if ( Local.Pawn is not StrafePlayer pl )
+		{
+			Time = "Disabled";
+			return;
+		}
+
+		TimerFrame frame;
+		Strafe.Players.TimerEntity.States state;
+		int stage;
+
+		if( pl.SpectateTarget is ReplayEntity rep )
+		{
+			frame = rep.Frame;
+			stage = 0;
+			state = Strafe.Players.TimerEntity.States.Live;
+		}
+		else
+		{
+			var target = (pl.SpectateTarget as StrafePlayer) ?? pl;
+			frame = target.TimerFrame;
+			stage = target.TimerStage;
+			state = target.TimerState;
+		}
+
+		Stage = stage;
+		Speed = (int)frame.Velocity.WithZ( 0 ).Length;
+		Jumps = frame.Jumps;
+		Strafes = frame.Strafes;
+
+		if( state != Strafe.Players.TimerEntity.States.Live )
+		{
+			Time = state.ToString();
+		}
+		else
+		{
+			Time = frame.Time.ToTime();
+		}
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(Strafes, Jumps, Speed, Time, Location);
+    }
+
+    void BuildDiff(Strafe.Players.TimerEntity timer)
+    {
+        var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
+            ? timer.GrabFrame()
+            : (Local.Pawn as StrafePlayer).Stage(0).GrabFrame();
+
+        if (!CprEntity.TryGetDiff(timer.Stage, snapshot, out var diff)) return;
+
+        TimeDiff.Text = diff.Time.ToTime(true);
+        TimeDiff.SetClass("red", diff.Time < 0);
+
+        var diffSpeed = diff.Velocity.WithZ(0).Length - snapshot.Velocity.WithZ(0).Length;
+        SpeedDiff.Text = $"{(int)diffSpeed} u/s";
+        SpeedDiff.SetClass("red", diffSpeed < 0);
+    }
+
+    [Events.Timer.OnStageStop]
+    void OnStopped(Strafe.Players.TimerEntity timer)
+    {
+        if (timer.Stage != 0) return;
+
+        TimeDiff.Text = "";
+        SpeedDiff.Text = "";
+    }
+
+    [Events.Timer.OnStageStart]
+    void OnStageStart(Strafe.Players.TimerEntity timer)
+    {
+        if (timer.Owner is not StrafePlayer pl) return;
+        if (!pl.IsLocalPawn) return;
+        if (timer.Stage != 0) return;
+
+        if (CprEntity.TryGetDiff(1, default, out var cprframe))
+        {
+            // TODO: Cpr[1].Velocity isn't our start speed, we actually don't even store
+            // start speed anywhere yet
+            var diff = pl.Velocity.Length - CprEntity.Current.Cpr[1].Velocity.Length;
+            SpeedDiff.Text = $"{(int)diff} u/s";
+            SpeedDiff.SetClass("red", diff < 0);
+        }
+    }
+
+    [Events.Timer.OnStageComplete]
+    void OnStage(Strafe.Players.TimerEntity timer)
+    {
+        if (timer.Owner is not StrafePlayer pl) return;
+        if (!pl.IsLocalPawn) return;
+
+        BuildDiff(timer);
+    }
+}

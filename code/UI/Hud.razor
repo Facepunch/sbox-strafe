@@ -1,0 +1,16 @@
+﻿
+@inherits RootPanel
+@attribute [StyleSheet("UI/Styles/_styles.scss")]
+
+<root>
+    <Crosshair />
+    <HudTimer />
+</root>
+
+@code {
+	[ConCmd.Client("strafe_toggle_hud")]
+	public static void ToggleHud()
+	{
+		//SetClass("hidden", !HasClass("hidden"));
+	}
+}

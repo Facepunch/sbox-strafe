@@ -20,7 +20,6 @@ internal partial class StrafeGame : Game
 		{
 			Global.TickRate = 100;
 
-			_ = new UIEntity();
 			_ = new RunSubmitter();
 			_ = new CprEntity();
 			_ = GameLoopAsync();
@@ -31,6 +30,8 @@ internal partial class StrafeGame : Game
 
 		if ( IsClient )
 		{
+			_ = new Hud();
+
 			Log.Info( "------------------------------------------" );
 			Log.Info( "Welcome to Strafe, here's some copyable links" );
 			Log.Info( "Website: https://strafedb.com" );
