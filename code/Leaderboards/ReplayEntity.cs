@@ -23,7 +23,7 @@ internal partial class ReplayEntity : AnimatedEntity
 	{
 		base.Spawn();
 
-		SetModel( "models/citizen_clothes/shoes/trainers.vmdl" );
+		SetModel( "models/citizen/citizen.vmdl" );
 		EnableAllCollisions = false;
 
 		Transmit = TransmitType.Always;
