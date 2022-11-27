@@ -22,7 +22,7 @@ internal class CheckpointHud : Panel
 		}
 	}
 
-	private void Rebuild( int stage, TimerEntity timer )
+	private void Rebuild( int stage, Strafe.Players.TimerEntity timer )
 	{
 		DeleteChildren( true );
 
@@ -63,7 +63,7 @@ internal class CheckpointHud : Panel
 	}
 
 	[Events.Timer.OnStageComplete]
-	public void OnStage( TimerEntity timer )
+	public void OnStage( Strafe.Players.TimerEntity timer )
 	{
 		if ( timer.Owner is not StrafePlayer pl ) return;
 		if ( !pl.IsLocalPawn ) return;

@@ -32,14 +32,14 @@ internal class TimerHud : Panel
 		}
 
 		TimerFrame frame;
-		TimerEntity.States state;
+		Strafe.Players.TimerEntity.States state;
 		int stage;
 
 		if( pl.SpectateTarget is ReplayEntity rep )
 		{
 			frame = rep.Frame;
 			stage = 0;
-			state = TimerEntity.States.Live;
+			state = Strafe.Players.TimerEntity.States.Live;
 		}
 		else
 		{
@@ -54,7 +54,7 @@ internal class TimerHud : Panel
 		Jumps = frame.Jumps;
 		Strafes = frame.Strafes;
 
-		if( state != TimerEntity.States.Live )
+		if( state != Strafe.Players.TimerEntity.States.Live )
 		{
 			Time = state.ToString();
 		}
@@ -82,7 +82,7 @@ internal class TimerHud : Panel
 		}
 	}
 
-	private void BuildDiff( TimerEntity timer )
+	private void BuildDiff( Strafe.Players.TimerEntity timer )
 	{
 		var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
 			? timer.GrabFrame()
@@ -99,7 +99,7 @@ internal class TimerHud : Panel
 	}
 
 	[Events.Timer.OnStageStop]
-	public void OnStopped( TimerEntity timer )
+	public void OnStopped( Strafe.Players.TimerEntity timer )
 	{
 		if ( timer.Stage != 0 ) return;
 
@@ -108,7 +108,7 @@ internal class TimerHud : Panel
 	}
 
 	[Events.Timer.OnStageStart]
-	public void OnStageStart( TimerEntity timer )
+	public void OnStageStart( Strafe.Players.TimerEntity timer )
 	{
 		if ( timer.Owner is not StrafePlayer pl ) return;
 		if ( !pl.IsLocalPawn ) return;
@@ -125,7 +125,7 @@ internal class TimerHud : Panel
 	}
 
 	[Events.Timer.OnStageComplete]
-	public void OnStage( TimerEntity timer )
+	public void OnStage( Strafe.Players.TimerEntity timer )
 	{
 		if ( timer.Owner is not StrafePlayer pl ) return;
 		if ( !pl.IsLocalPawn ) return;

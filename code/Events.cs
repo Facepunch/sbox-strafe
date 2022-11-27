@@ -12,7 +12,7 @@ internal static class Events
 		public class OnStageComplete : EventAttribute
 		{
 			public OnStageComplete() : base( "timer.onstagecomplete" ) { }
-			public static void Run( TimerEntity timer )
+			public static void Run( Strafe.Players.TimerEntity timer )
 			{
 				Event.Run( "timer.onstagecomplete", timer );
 			}
@@ -21,7 +21,7 @@ internal static class Events
 		public class OnStageStart : EventAttribute
 		{
 			public OnStageStart() : base( "timer.onstagelive" ) { }
-			public static void Run( TimerEntity timer )
+			public static void Run( Strafe.Players.TimerEntity timer )
 			{
 				Event.Run( "timer.onstagelive", timer );
 			}
@@ -30,7 +30,7 @@ internal static class Events
 		public class OnStageStop : EventAttribute
 		{
 			public OnStageStop() : base( "timer.onstagestop" ) { }
-			public static void Run( TimerEntity timer )
+			public static void Run( Strafe.Players.TimerEntity timer )
 			{
 				Event.Run( "timer.onstagestop", timer );
 			}
@@ -39,7 +39,7 @@ internal static class Events
 		public class OnReset : EventAttribute
 		{
 			public OnReset() : base( "timer.onreset" ) { }
-			public static void Run( TimerEntity timer )
+			public static void Run( Strafe.Players.TimerEntity timer )
 			{
 				Event.Run( "timer.onreset", timer );
 			}

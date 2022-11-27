@@ -22,7 +22,7 @@ internal class RunSubmitter : Entity
 	}
 
 	[Events.Timer.OnStageComplete]
-	public async void OnStage( TimerEntity timer )
+	public async void OnStage( Strafe.Players.TimerEntity timer )
 	{
 		if ( !IsServer ) return;
 
