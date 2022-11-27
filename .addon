@@ -3,7 +3,7 @@
   "Type": "game",
   "Org": "facepunch",
   "Ident": "strafe",
-  "Tags": null,
+  "Tags": "",
   "Schema": 1,
   "HasAssets": true,
   "AssetsPath": "",
@@ -68,6 +68,7 @@
           "r": "Collide"
         }
       ]
-    }
+    },
+    "DefaultLeaderboards": null
   }
 }
