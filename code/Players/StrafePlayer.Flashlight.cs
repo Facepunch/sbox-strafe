@@ -34,12 +34,13 @@ internal partial class StrafePlayer
 		PlaySound( Flashlight.Enabled ? "flashlight-on" : "flashlight-off" );
 	}
 
-	[Event.Tick.Client]
+	[Event.Frame]
 	private void UpdateFlashlight()
 	{
 		if ( !Flashlight.IsValid() ) return;
 		if ( !Flashlight.Enabled ) return;
 
+		Flashlight.Position = EyePosition;
 		Flashlight.Rotation = EyeRotation;
 	}
 
