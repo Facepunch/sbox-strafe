@@ -69,12 +69,12 @@ internal partial class MapVoteEntity : Entity
 
 		if ( !map.StartsWith( "_extend" ) )
 		{
-			Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} voted for {map}", "info" );
+			Chatbox.AddChatEntry( To.Everyone, "Server", $"{client.Name} voted for {map}", "info" );
 		}
 		else
 		{
 			var len = map.Replace( "_extend", "" );
-			Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} voted to extend the map {len} minutes", "info" );
+			Chatbox.AddChatEntry( To.Everyone, "Server", $"{client.Name} voted to extend the map {len} minutes", "info" );
 		}
 	}
 

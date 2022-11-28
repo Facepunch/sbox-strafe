@@ -1,0 +1,71 @@
+﻿
+@inherits Panel
+@namespace Strafe.UI
+
+<root class=@(IsOpen ? "open" : "closed")>
+    <div class="messages" @ref="Canvas">
+        @foreach(var msg in Messages)
+        {
+            <div class="chat-entry @(msg.TimeSinceCreated > 8 ? "faded" : "new")">
+                <label class="name" text=@msg.Name />
+                <label class="message" text=@msg.Message />
+            </div>
+        }
+    </div>
+    <div class="input">
+        <textentry @onblur=@InputBlurred @onsubmit=@InputSubmitted @ref="Input"></textentry>
+    </div>
+</root>
+
+@code {
+    record class MessageInfo(string Name, string Message, string ClassNames, TimeSince TimeSinceCreated);
+
+    Panel Canvas;
+    TextEntry Input;
+    bool IsOpen;
+    List<MessageInfo> Messages = new();
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        Canvas.PreferScrollToBottom = true;
+    }
+
+    protected override int BuildHash()
+    {
+        var result = HashCode.Combine(IsOpen, Messages.Count);
+
+        foreach( var msg in Messages )
+        {
+            result = HashCode.Combine(result, msg.TimeSinceCreated > 8 ? 1 : 0);
+        }
+
+        return result;
+    }
+
+    void AddEntry( string name, string message, string classNames )
+    {
+        var entry = new MessageInfo(name, message, classNames, 0);
+
+        Messages.Add(entry);
+
+        Sound.FromScreen("ui.button.over");
+    }
+
+    void InputBlurred()
+    {
+        IsOpen = false;
+        Input.Text = string.Empty;
+        Canvas.TryScrollToBottom();
+        Canvas.ScrollOffset = 0;
+    }
+
+    void InputSubmitted()
+    {
+        if ( string.IsNullOrWhiteSpace( Input.Text ) ) 
+            return;
+
+        Say(Input.Text);
+    }
+}

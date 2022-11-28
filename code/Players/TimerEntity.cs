@@ -65,7 +65,7 @@ internal partial class TimerEntity : Entity
 			if ( IsServer )
 			{
 				var msg = $"Timer didn't start, stand in the start zone after using noclip!";
-				Chat.AddChatEntry( To.Single( Owner ), "Timer", msg, "timer" );
+				Chatbox.AddChatEntry( To.Single( Owner ), "Timer", msg, "timer" );
 			}
 			return;
 		}
@@ -78,7 +78,7 @@ internal partial class TimerEntity : Entity
 		if ( Prediction.FirstTime && IsClient && Stage == 0 )
 		{
 			var msg = $"Timer started | {Owner.Velocity.ToHuman()}";
-			Chat.AddChatEntry( "Timer", msg, "timer" );
+			Chatbox.AddChatEntry( "Timer", msg, "timer" );
 		}
 	}
 

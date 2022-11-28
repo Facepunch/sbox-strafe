@@ -39,13 +39,13 @@ internal partial class StrafeGame
 		if ( cmdName == "ping" && Host.IsServer )
 		{
 			var result = await Backend.Get<string>( "ping" );
-			Chat.AddChatEntry( To.Everyone, "Response", result );
+			Chatbox.AddChatEntry( To.Everyone, "Response", result );
 		}
 
 		if ( cmdName == "wt" && Host.IsServer )
 		{
 			var result = await Backend.Post<string>( "ping/whitelisted", "someData" );
-			Chat.AddChatEntry( To.Everyone, "Response", result );
+			Chatbox.AddChatEntry( To.Everyone, "Response", result );
 		}
 
 		if( cmdName == "noclip" && Host.IsServer )
@@ -76,7 +76,7 @@ internal partial class StrafeGame
 
 		if ( cmdName == "nextmap" && Host.IsServer )
 		{
-			Chat.AddChatEntry( To.Everyone, "Server", $"The next map is {Current.NextMap ?? "undecided"}" );
+			Chatbox.AddChatEntry( To.Everyone, "Server", $"The next map is {Current.NextMap ?? "undecided"}" );
 		}
 
 		if ( cmdName == "snailtrail" && Host.IsClient )
@@ -86,8 +86,8 @@ internal partial class StrafeGame
 			Log.Info( Time.Now );
 			
 			var enabled = pl.ToggleTrail();
-			if ( enabled ) Chat.AddChatEntry( "Server", "Trail Enabled" );
-			else Chat.AddChatEntry( "Server", "Trail Disabled" );
+			if ( enabled ) Chatbox.AddChatEntry( "Server", "Trail Enabled" );
+			else Chatbox.AddChatEntry( "Server", "Trail Disabled" );
 		}
 
 	}
@@ -102,25 +102,25 @@ internal partial class StrafeGame
 
 		if ( TimeSinceReplaySpawned < 10 )
 		{
-			Chat.AddChatEntry( To.Single( caller ), "Timer", $"A replay was requested recently, try again in a few seconds.", "timer" );
+			Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"A replay was requested recently, try again in a few seconds.", "timer" );
 			return;
 		}
 
 		if ( All.Any( x => x is ReplayEntity rep && rep.PlayerId == caller.PlayerId ) )
 		{
-			Chat.AddChatEntry( To.Single( caller ), "Timer", $"There's already a replay spawned for this player.", "timer" );
+			Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"There's already a replay spawned for this player.", "timer" );
 			return;
 		}
 
 		TimeSinceReplaySpawned = 0f;
 
-		Chat.AddChatEntry( To.Single( caller ), "Timer", $"Fetching your replay...", "timer" );
+		Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"Fetching your replay...", "timer" );
 
 		var pb = await Backend.FetchPersonalBest( Global.MapName, 0, caller.PlayerId );
 
 		if ( pb == null )
 		{
-			Chat.AddChatEntry( To.Single( caller ), "Timer", $"You haven't completed this map yet.", "timer" );
+			Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"You haven't completed this map yet.", "timer" );
 			return;
 		}
 
@@ -128,11 +128,11 @@ internal partial class StrafeGame
 
 		if ( replay == null )
 		{
-			Chat.AddChatEntry( To.Single( caller ), "Timer", $"You don't have a replay on this map.", "timer" );
+			Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"You don't have a replay on this map.", "timer" );
 			return;
 		}
 
-		Chat.AddChatEntry( To.Single( caller ), "Timer", $"Your replay has been spawned, it will play 4 times.", "timer" );
+		Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"Your replay has been spawned, it will play 4 times.", "timer" );
 
 		ReplayEntity.Play( replay, 4 );
 	}

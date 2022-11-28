@@ -10,7 +10,7 @@ internal class InfoTab : Panel
 
 	public void Say(string input )
 	{
-		Chat.Submit( input );
+		Chatbox.Say( input );
 	}
 
 }

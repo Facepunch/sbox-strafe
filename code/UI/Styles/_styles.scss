@@ -168,7 +168,7 @@ Crosshair {
     background-color: rgba(white .5);
 }
 
-Chat {
+Chatbox {
     position: absolute;
     width: 550px;
     height: 325px;
@@ -196,7 +196,7 @@ Chat {
             }
         }
 
-        StrafeChatEntry {
+        .chat-entry {
             opacity: 1;
         }
     }
@@ -228,7 +228,7 @@ Chat {
     }
 }
 
-StrafeChatEntry {
+.chat-entry {
     flex-shrink: 0;
     flex-grow: 0;
     padding: 2px;
@@ -256,6 +256,7 @@ StrafeChatEntry {
         .name {
             color: $orange;
         }
+
         color: rgba(white .8);
     }
 

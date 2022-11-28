@@ -48,7 +48,7 @@ internal class RunSubmitter : Entity
 				msg += " | WR " + diff.Time.ToTime( true );
 			}
 
-			Chat.AddChatEntry( To.Single( timer ), "Timer", msg, "timer" );
+			Chatbox.AddChatEntry( To.Single( timer ), "Timer", msg, "timer" );
 
 			return;
 		}
@@ -60,7 +60,7 @@ internal class RunSubmitter : Entity
 
 		if ( !CanSubmit() )
 		{
-			Chat.AddChatEntry( To.Everyone, "Timer", $"{client.Name} finished in {stageFrame.Time.ToTime()}", "timer" );
+			Chatbox.AddChatEntry( To.Everyone, "Timer", $"{client.Name} finished in {stageFrame.Time.ToTime()}", "timer" );
 			return;
 		}
 
@@ -94,7 +94,7 @@ internal class RunSubmitter : Entity
 	{
 		if ( result == null || !result.IsPersonalBest )
 		{
-			Chat.AddChatEntry( To.Single( client ), "Timer", $"Map finished in {stageFrame.Time.ToTime()}", "timer" );
+			Chatbox.AddChatEntry( To.Single( client ), "Timer", $"Map finished in {stageFrame.Time.ToTime()}", "timer" );
 			return;
 		}
 
@@ -109,15 +109,15 @@ internal class RunSubmitter : Entity
 
 		if ( result.NewRank == 1 )
 		{
-			Chat.AddChatEntry( To.Everyone, "Timer", "**WORLD RECORD**", "important" );
+			Chatbox.AddChatEntry( To.Everyone, "Timer", "**WORLD RECORD**", "important" );
 		}
 		else if ( result.NewRank <= 5 )
 		{
-			Chat.AddChatEntry( To.Everyone, "Timer", "Top 5", "important" );
+			Chatbox.AddChatEntry( To.Everyone, "Timer", "Top 5", "important" );
 		}
 
-		Chat.AddChatEntry( To.Everyone, "Timer", completionMsg, "timer" );
-		Chat.AddChatEntry( To.Everyone, "Timer", $"New rank: {result.NewRank}, Old rank: {result.OldRank}", "timer" );
+		Chatbox.AddChatEntry( To.Everyone, "Timer", completionMsg, "timer" );
+		Chatbox.AddChatEntry( To.Everyone, "Timer", $"New rank: {result.NewRank}, Old rank: {result.OldRank}", "timer" );
 	}
 
 	private bool CanSubmit()

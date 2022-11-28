@@ -49,16 +49,16 @@ internal partial class StrafeGame : Game
 
 		NetworkClientLogin( cl );
 
-		Chat.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has joined the game", "connect" );
-		Chat.AddChatEntry( To.Single( cl ), "Server", "Website: https://strafedb.com", "important" );
-		Chat.AddChatEntry( To.Single( cl ), "Server", "Discord: https://discord.gg/UG2KQdrkA5", "important" );
+		Chatbox.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has joined the game", "connect" );
+		Chatbox.AddChatEntry( To.Single( cl ), "Server", "Website: https://strafedb.com", "important" );
+		Chatbox.AddChatEntry( To.Single( cl ), "Server", "Discord: https://discord.gg/UG2KQdrkA5", "important" );
 	}
 
 	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
 	{
 		base.ClientDisconnect( cl, reason );
 
-		Chat.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has disconnected", "connect" );
+		Chatbox.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has disconnected", "connect" );
 	}
 
 	public override void MoveToSpawnpoint( Entity pawn )
@@ -76,12 +76,12 @@ internal partial class StrafeGame : Game
 		if( pl.DevController == null )
 		{
 			pl.DevController = new NoclipController();
-			Chat.AddChatEntry( To.Single( player ), "Server", "Noclip enabled", "server" );
+			Chatbox.AddChatEntry( To.Single( player ), "Server", "Noclip enabled", "server" );
 		}
 		else
 		{
 			pl.DevController = null;
-			Chat.AddChatEntry( To.Single( player ), "Server", "Noclip disabled", "server" );
+			Chatbox.AddChatEntry( To.Single( player ), "Server", "Noclip disabled", "server" );
 		}
 	}
 

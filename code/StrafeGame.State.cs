@@ -80,11 +80,11 @@ internal partial class StrafeGame
 		{
 			var minutes = (int)(StateTimer / 60f);
 
-			Chat.AddChatEntry( To.Everyone, "Server", $"{minutes} minutes remaining.", "info" );
+			Chatbox.AddChatEntry( To.Everyone, "Server", $"{minutes} minutes remaining.", "info" );
 		}
 		else
 		{
-			Chat.AddChatEntry( To.Everyone, "Server", $"{tl} seconds remaining.", "info" );
+			Chatbox.AddChatEntry( To.Everyone, "Server", $"{tl} seconds remaining.", "info" );
 		}
 	}
 
@@ -111,7 +111,7 @@ internal partial class StrafeGame
 			var extendMinutes = int.Parse( result.Replace( "_extend", "" ) );
 			StateTimer += extendMinutes * 60f;
 
-			Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the current map has been extended {extendMinutes} minutes.", "info" );
+			Chatbox.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the current map has been extended {extendMinutes} minutes.", "info" );
 		}
 		else
 		{
@@ -122,7 +122,7 @@ internal partial class StrafeGame
 				VoteFinalized = true;
 			}
 
-			Chat.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the next map will be {NextMap}.", "info" );
+			Chatbox.AddChatEntry( To.Everyone, "Server", $"Map voting has ended, the next map will be {NextMap}.", "info" );
 		}
 	}
 
@@ -137,7 +137,7 @@ internal partial class StrafeGame
 			return;
 
 		Current.Nominations[playerid] = ident;
-		Chat.AddChatEntry( To.Everyone, "Server", $"{ConsoleSystem.Caller.Name} has nominated {ident}", "server" );
+		Chatbox.AddChatEntry( To.Everyone, "Server", $"{ConsoleSystem.Caller.Name} has nominated {ident}", "server" );
 	}
 
 	public static async Task<List<string>> GetAvailableMaps()
@@ -167,7 +167,7 @@ internal partial class StrafeGame
 	{
 		if ( VoteFinalized )
 		{
-			Chat.AddChatEntry( To.Single( client ), "Server", $"Map voting is finished, the next map is {NextMap}", "info" );
+			Chatbox.AddChatEntry( To.Single( client ), "Server", $"Map voting is finished, the next map is {NextMap}", "info" );
 			return;
 		}
 
@@ -178,7 +178,7 @@ internal partial class StrafeGame
 		var needed = MathX.CeilToInt(totalcount / 2f);
 		var remaining = Math.Max( 0, needed - rtvcount );
 
-		Chat.AddChatEntry( To.Everyone, "Server", $"{client.Name} wants to rock the vote.  {remaining} votes remaining." );
+		Chatbox.AddChatEntry( To.Everyone, "Server", $"{client.Name} wants to rock the vote.  {remaining} votes remaining." );
 
 		if ( remaining == 0 && !MapVote.IsValid() )
 		{
