@@ -1,0 +1,73 @@
+﻿
+@inherits Panel
+
+<root>
+
+	<div class="title">
+		<label text=@Title />
+	</div>
+
+	<div class="options">
+		@foreach( var option in Menu.Options )
+		{
+			var idx = Menu.Options.IndexOf(option);
+			var className = SelectedOption == idx ? "active" : "inactive";
+			var text = $"{idx + 1}. {option}";
+
+			<label class=@className text=@text />
+		}
+		<panel style="height: 16px;" />
+		<label>0. Close</label>
+	</div>
+
+	<label class="duration" @text=@Duration />
+
+</root>
+
+@code {
+	private SlotMenu Menu;
+	private int Hash;
+	private int SelectedOption = -1;
+
+	public string Title => Menu.Title;
+	public string Duration => ((int)Menu.TimeUntilClose).ToString();
+
+	internal HudSlotMenu(SlotMenu menu)
+	{
+		Menu = menu;
+	}
+
+	protected override int BuildHash()
+	{
+		return SelectedOption;
+	}
+
+	private void SubmitOption(int slot)
+	{
+		if (slot < -1 || slot >= Menu.Options.Count) return;
+
+		if (slot == -1)
+		{
+			Delete();
+			return;
+		}
+
+		if (slot > -1)
+		{
+			SelectedOption = slot;
+			SlotMenu.ChooseOption(Menu.NetworkIdent, slot);
+		}
+	}
+
+	[Event.BuildInput]
+	public void OnBuildInput(InputBuilder b)
+	{
+		if (this.IsDeleting) return;
+
+		for (int i = 0; i <= 9; i++)
+		{
+			var e = Enum.Parse<InputButton>($"Slot{i}");
+			if (b.Pressed(e)) SubmitOption(i - 1);
+		}
+	}
+}

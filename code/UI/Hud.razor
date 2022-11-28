@@ -10,6 +10,12 @@
 </root>
 
 @code {
+
+	internal Hud()
+	{
+		Local.Hud = this;
+	}
+
 	[ConCmd.Client("strafe_toggle_hud")]
 	public static void ToggleHud()
 	{

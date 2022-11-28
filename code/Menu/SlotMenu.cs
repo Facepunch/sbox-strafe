@@ -10,7 +10,7 @@ internal partial class SlotMenu : Entity
 {
 
 	private List<Action<Client>> OptionActions = new();
-	private SlotMenuHud Hud;
+	private HudSlotMenu Hud;
 
 	[Net]
 	public string Title { get; set; }
@@ -39,7 +39,7 @@ internal partial class SlotMenu : Entity
 	{
 		base.ClientSpawn();
 
-		Hud = new SlotMenuHud( this );
+		Hud = new HudSlotMenu( this );
 		Local.Hud.AddChild( Hud );
 	}
 
