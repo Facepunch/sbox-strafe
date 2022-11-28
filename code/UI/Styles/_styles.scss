@@ -285,48 +285,6 @@ Chatbox {
     }
 }
 
-CheckpointHud {
-    position: absolute;
-    bottom: 150px;
-    right: 150px;
-    flex-direction: column;
-    font-weight: 700;
-    align-items: flex-end;
-    text-shadow: 1px 1px 1px black;
-    transition: all .15s ease-in;
-
-    CprRow, .row {
-        min-width: 240px;
-        padding: 8px;
-        background-color: rgba( $darkbg .5 );
-        margin-bottom: 4px;
-        border-radius: $smallradius;
-        background-image: url( ui/border.png );
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 98%;
-        text-align: center;
-        justify-content: center;
-
-        .green {
-            color: $green;
-        }
-
-        .red {
-            color: $red;
-        }
-
-        .title {
-            text-align: left;
-        }
-
-        .diff {
-            flex-grow: 1;
-            text-align: right;
-        }
-    }
-}
-
 StatusHud {
     width: 100%;
     height: 100%;

@@ -8,14 +8,20 @@ using System;
 
 namespace Strafe.UI;
 
-[Hud, UseTemplate]
+[Hud]
 internal class SpectatorList : Panel
 {
 
 	private int Hash;
 
-	public string Heading { get; set; }
+	public Label Heading { get; set; }
 	public Panel Canvas { get; set; }
+
+	public SpectatorList()
+	{
+		Heading = Add.Label( string.Empty, "heading" );
+		Canvas = Add.Panel( "entries" );
+	}
 
 	[Event.Frame]
 	private void OnFrame()
@@ -49,7 +55,7 @@ internal class SpectatorList : Panel
 
 		var specTarget = pl.SpectateTarget ?? pl;
 
-		Heading = $"Spectating {GetName( specTarget )}";
+		Heading.Text = $"Spectating {GetName( specTarget )}";
 
 		foreach ( var ent in Entity.All )
 		{
