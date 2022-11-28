@@ -10,3 +10,4 @@ global using Strafe;
 global using Strafe.Players;
 global using Strafe.Utility;
 global using Strafe.Leaderboards;
+global using Strafe.Map;

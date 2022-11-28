@@ -1,0 +1,39 @@
+﻿
+@inherits Panel;
+
+<root>
+    <div class="inner">
+        <div class="status api">
+            <div class="dot"></div>
+            <label text=@Connection></label>
+        </div>
+
+        <div class="status map">
+            <div class="dot"></div>
+            <label text=@MapState />
+        </div>
+    </div>
+</root>
+
+@code {
+    string Connection = "Disconnected";
+    string MapState = "Map Preview";
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        var connected = StrafeGame.Current.Connected;
+        if (HasClass("connected") != connected)
+        {
+            SetClass("connected", connected);
+            Connection = connected ? "Connected" : "Disconnected";
+        }
+
+        if (StrafeGame.Current.MapState == Strafe.Map.MapStates.Preview)
+        {
+            SetClass("preview", true);
+        }
+    }
+
+}
