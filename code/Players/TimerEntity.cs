@@ -128,11 +128,6 @@ internal partial class TimerEntity : Entity
 			return;
 		}
 
-		if ( ctrl.GroundEntity != null && State == States.Start )
-		{
-			EnforceGroundState = false;
-		}
-
 		if ( State != States.Live )
 			return;
 

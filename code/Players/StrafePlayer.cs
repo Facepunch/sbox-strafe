@@ -101,6 +101,16 @@ internal partial class StrafePlayer : Sandbox.Player
 			{
 				ctrl.OnActivate();
 			}
+
+			if ( ctrl.GroundEntity.IsValid() )
+			{
+				foreach( var child in Children )
+				{
+					if ( child is not TimerEntity t ) 
+						continue;
+					t.EnforceGroundState = false;
+				}
+			}
 		}
 
 		foreach ( var child in Children )
