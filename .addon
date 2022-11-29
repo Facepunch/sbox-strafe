@@ -39,7 +39,8 @@
         "solid": "Collide",
         "trigger": "Trigger",
         "ladder": "Ignore",
-        "water": "Trigger"
+        "water": "Trigger",
+        "player": "Trigger"
       },
       "Pairs": [
         {
@@ -66,6 +67,11 @@
           "a": "playerclip",
           "b": "solid",
           "r": "Collide"
+        },
+        {
+          "a": "player",
+          "b": "player",
+          "r": "Ignore"
         }
       ]
     },

@@ -99,6 +99,18 @@ partial class StrafeController : WalkController
 		base.AirMove();
 	}
 
+	public override void Move()
+	{
+		MoveHelper mover = new MoveHelper( Position, Velocity );
+		mover.Trace = mover.Trace.Size( mins, maxs ).Ignore( Pawn ).WithoutTags( "player" );
+		mover.MaxStandableAngle = GroundAngle;
+
+		mover.TryMove( Time.Delta );
+
+		Position = mover.Position;
+		Velocity = mover.Velocity;
+	}
+
 	public override void CategorizePosition( bool bStayOnGround )
 	{
 		SurfaceFriction = 1.0f;
@@ -138,7 +150,7 @@ partial class StrafeController : WalkController
 			return;
 		}
 
-		var pm = TraceBBox( vBumpOrigin, point, 4.0f );
+		var pm = TraceBBox( vBumpOrigin, point, mins, maxs, 4.0f );
 
 		if ( FrictionLevel == FrictionLevels.Floating || pm.Entity == null || Vector3.GetAngle( Vector3.Up, pm.Normal ) > GroundAngle )
 		{
@@ -532,6 +544,7 @@ partial class StrafeController : WalkController
 		var tr = Trace.Ray( start + TraceOffset, end + TraceOffset )
 					.Size( mins, maxs )
 					.WithAnyTags( "solid", "playerclip", "passbullets" )
+					.WithoutTags( "player" )
 					.Ignore( Pawn )
 					.Run();
 

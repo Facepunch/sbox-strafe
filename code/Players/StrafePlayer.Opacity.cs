@@ -34,7 +34,7 @@ internal partial class StrafePlayer
 			var a = 1f - dist.LerpInverse( MaxRenderDistance, MaxRenderDistance * .1f );
 			a = Easing.EaseOut( a );
 
-			return a;
+			return a.Clamp( 0.3f, 1 );
 		}
 
 		return 1f;
