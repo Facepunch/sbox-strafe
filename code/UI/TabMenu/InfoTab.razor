@@ -1,16 +1,18 @@
 ﻿
-<InfoTab class="grow">
+@inherits Panel
+@attribute [NavigatorTarget("/info")]
 
+<root class="grow">
     <columns>
         <column class="container 6 chat-commands">
             <heading text="Chat Commands" />
-            <label2 onclick="Say('!rtv')" left="!rtv" right="Rocks the vote" />
-            <label2 onclick="Say('!r')" left="!r" right="Teleports you to the start of the map" />
-            <label2 onclick="Say('!t')" left="!t" right="Teleports you to the start of current stage" />
-            <label2 onclick="Say('!noclip')" left="!noclip" right="Toggles noclip mode (disables timer)" />
-            <label2 onclick="Say('!timeleft')" left="!timeleft" right="Displays time left on this map" />
-            <label2 onclick="Say('!nextmap')" left="!nextmap" right="Displays the next map" />
-            <label2 onclick="Say('!snailtrail')" left="!snailtrail" right="Toggles your trail" />
+            <label2 @onclick=@(() => Chatbox.Say("!rtv")) left="!rtv" right="Rocks the vote" />
+            <label2 @onclick=@(() => Chatbox.Say("!r")) left="!r" right="Teleports you to the start of the map" />
+            <label2 @onclick=@(() => Chatbox.Say("!t")) left="!t" right="Teleports you to the start of current stage" />
+            <label2 @onclick=@(() => Chatbox.Say("!noclip")) left="!noclip" right="Toggles noclip mode (disables timer)" />
+            <label2 @onclick=@(() => Chatbox.Say("!timeleft")) left="!timeleft" right="Displays time left on this map" />
+            <label2 @onclick=@(() => Chatbox.Say("!nextmap")) left="!nextmap" right="Displays the next map" />
+            <label2 @onclick=@(() => Chatbox.Say("!snailtrail")) left="!snailtrail" right="Toggles your trail" />
         </column>
         <column class="6">
             <panel class="container" style="margin-bottom: 20px;">
@@ -28,5 +30,4 @@
             </panel>
         </column>
     </columns>
-
-</InfoTab>
+</root>

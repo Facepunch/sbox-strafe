@@ -1,0 +1,34 @@
+﻿
+@inherits Panel
+
+<root>
+
+    <label class="heading">Top 10</label>
+    <panel class="entries">
+        @foreach( var entry in Entries )
+        {
+            <StrafeLeaderboardEntry Entry=@entry />
+        }
+    </panel>
+
+</root>
+
+@code {
+    List<PersonalBestEntry> Entries = new();
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if(firstTime)
+        {
+            GameTask.RunInThreadAsync(async () =>
+            {
+                Entries = await Backend.FetchPersonalBests(Global.MapName, 0, 10, 0);
+                StateHasChanged();
+
+                await GameTask.DelaySeconds(60);
+            });
+        }
+    }
+}

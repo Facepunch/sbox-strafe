@@ -1,0 +1,43 @@
+﻿
+@inherits NavigatorPanel
+
+<root style="flex-direction:column;">
+    <panel class="navbar">
+        <panel class="container">
+            <navlink href="/">Home</navlink>
+            <navlink href="/maps">Maps</navlink>
+            <navlink href="/info">Info</navlink>
+        </panel>
+    </panel>
+    <panel class="content" @ref="NavigatorCanvas"></panel>
+</root>
+
+@code {
+	protected override void OnAfterTreeRender(bool firstTime)
+	{
+		base.OnAfterTreeRender(firstTime);
+
+		if(firstTime)
+		{
+			Navigate("/");
+		}
+	}
+
+	[Event.BuildInput]
+	public void OnBuildInput(InputBuilder b)
+	{
+		SetClass("open", b.Down(InputButton.Score));
+
+		if (!HasClass("open"))
+		{
+			RemoveClass("cursor");
+		}
+		else
+		{
+			if (Input.Down(InputButton.PrimaryAttack) || Input.Down(InputButton.SecondaryAttack))
+			{
+				AddClass("cursor");
+			}
+		}
+	}
+}

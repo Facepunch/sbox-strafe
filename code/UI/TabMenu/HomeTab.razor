@@ -1,11 +1,14 @@
 ﻿
+@inherits Panel
+@attribute [NavigatorTarget("/")]
+
 <root style="flex-grow:1;">
 
     <StrafeScoreboard style="width:70%; margin-right: 20px;" />
     <panel style="flex-grow: 1; flex-direction: column;">
         <StrafeLeaderboard class="container" style="flex-grow: 1;" />
         <panel class="toolbar" style="margin-top: 20px;">
-            <button class="filled" onclick="SpawnMyReplay()" style="flex-grow: 1;">Spawn My Replay</button>
+            <button class="filled" @onclick=@StrafeGame.SpawnMyReplay style="flex-grow: 1;">Spawn My Replay</button>
         </panel>
     </panel>
 

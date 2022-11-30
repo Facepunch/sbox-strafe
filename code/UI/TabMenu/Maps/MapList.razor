@@ -1,0 +1,25 @@
+﻿
+@inherits Panel
+
+<root>
+	@foreach(var map in Maps)
+	{
+		<MapListEntry Map=@map />
+	}
+</root>
+
+@code {
+	List<Package> Maps = new();
+
+	protected override async Task OnParametersSetAsync()
+	{
+		var mapidents = await StrafeGame.GetAvailableMaps();
+
+		foreach( var ident in mapidents.Distinct() )
+		{
+			var pkg = await Package.Fetch( ident, true );
+			if (pkg == null) continue;
+			Maps.Add(pkg);
+		}
+	}
+}

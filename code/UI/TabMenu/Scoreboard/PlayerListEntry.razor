@@ -1,0 +1,35 @@
+﻿
+@inherits Panel
+
+<root>
+
+    <label class="name" text=@Client.Name />
+    <panel>
+        <label text=@Client.Ping />
+        <label>ms</label>
+    </panel>
+
+</root>
+
+@code {
+
+	public Client Client { get; set; }
+
+	protected override void OnMouseDown(MousePanelEvent e)
+	{
+		base.OnMouseDown(e);
+
+		if (Client.Pawn is not StrafePlayer pl) return;
+
+		StrafePlayer.SetSpectateTarget(pl.NetworkIdent);
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		var p = Local.Pawn as StrafePlayer;
+		SetClass("active", p.SpectateTarget == Client.Pawn);
+	}
+
+}

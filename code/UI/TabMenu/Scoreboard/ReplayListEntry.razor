@@ -1,0 +1,30 @@
+﻿
+@inherits Panel
+
+<root 
+    class="@((Local.Pawn as StrafePlayer).SpectateTarget == Replay ? "active" : "")"
+    @onclick=@(() => StrafePlayer.SetSpectateTarget(Replay.NetworkIdent))>
+
+    <label class="name" text=@(new Friend(Replay.PlayerId).Name) />
+
+    <panel>
+        <label @text=@Replay.FinalFrame.Time.ToTime() />
+    </panel>
+
+    <panel>
+        <label style="margin-right: 4px;" text="Jumps:" />
+        <label @text=@Replay.FinalFrame.Jumps />
+    </panel>
+
+    <panel>
+        <label style="margin-right: 4px;" text="Strafes:" />
+        <label @text=@Replay.FinalFrame.Strafes />
+    </panel>
+
+
+</root>
+
+@code {
+    internal ReplayEntity Replay { get; set; }
+}
+

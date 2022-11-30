@@ -1,0 +1,18 @@
+﻿
+@inherits Panel;
+
+<root>
+    @if(Entry != null)
+    {
+        <panel>
+            <label text="#" />
+            <label text="@Entry.Rank" style="width: 25px" />
+            <label text="@Entry.PlayerName" />
+        </panel>
+        <label text="@Entry.Time.ToTime()" />
+    }
+</root>
+
+@code {
+    internal PersonalBestEntry Entry { get; set; }
+}

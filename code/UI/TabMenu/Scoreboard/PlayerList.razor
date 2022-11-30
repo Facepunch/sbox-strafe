@@ -1,0 +1,24 @@
+﻿
+@inherits Panel
+
+<root>
+    @foreach( var client in Client.All )
+    {
+        <PlayerListEntry Client=@client />
+    }
+</root>
+
+@code {
+    protected override int BuildHash()
+    {
+        var result = 0;
+
+        foreach( var client in Client.All )
+        {
+            if (client.Pawn is not StrafePlayer pl) 
+                continue;
+            result = HashCode.Combine(result, client.Ping);
+        }
+        return result;
+    }
+}

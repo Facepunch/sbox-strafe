@@ -1,0 +1,19 @@
+﻿
+@inherits Panel
+
+<root>
+    @foreach( var ent in Entity.All )
+    {
+        if (ent is not ReplayEntity replay) 
+            continue;
+
+        <ReplayListEntry Replay=@replay />
+    }
+</root>
+
+@code {
+    protected override int BuildHash()
+    {
+        return Entity.All.Count( x => x is ReplayEntity );
+    }
+}

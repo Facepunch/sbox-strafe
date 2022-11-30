@@ -1,0 +1,30 @@
+﻿
+@inherits Panel
+
+<style>
+    .thumbnail {
+        background-image: url(@Map.Thumb);
+    }
+</style>
+
+<root>
+
+    <panel class="thumbnail" />
+    <panel class="text">
+        <label class="title" text=@Map.Title />
+        <label class="description" text=@Map.Description />
+    </panel>
+    <panel class="buttons">
+        <button @onclick=@Nominate text="Nominate" />
+    </panel>
+
+</root>
+
+@code {
+    public Package Map { get; set; }
+
+    private void Nominate()
+    {
+        StrafeGame.Nominate(Map.FullIdent);
+    }
+}

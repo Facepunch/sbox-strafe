@@ -1,0 +1,34 @@
+﻿
+@inherits Panel
+
+<root class="container">
+
+    <panel class="columns">
+        <panel class="column">
+            <label class="heading">Players</label>
+            <PlayerList />
+        </panel>
+
+        <panel class="column">
+            <label class="heading">Replays</label>
+            <ReplayList />
+        </panel>
+    </panel>
+
+    <panel class="footer">
+        <button 
+            @onclick=@(() => StrafePlayer.SetSpectateTarget( -1 )) 
+            class="button @(Spectating ? "enabled" : "disabled")" 
+            text="Stop Spectating" />
+    </panel>
+
+</root>
+
+@code {
+    bool Spectating => Local.Pawn is StrafePlayer pl && pl.SpectateTarget.IsValid();
+
+    protected override int BuildHash()
+    {
+        return Spectating.GetHashCode();
+    }
+}
