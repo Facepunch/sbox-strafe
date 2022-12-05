@@ -142,17 +142,8 @@ internal partial class StrafeGame
 
 	public static async Task<List<string>> GetAvailableMaps()
 	{
-		var query = new Package.Query
-		{
-			Type = Package.Type.Map,
-			Order = Package.Order.User,
-			Take = 16,
-		};
-
-		query.Tags.Add( "game:facepunch.strafe" ); // maybe this should be a "for this game" type of thing instead
-
-		var packages = await query.RunAsync( default );
-		var maps = packages.Select( x => x.FullIdent ).ToList();
+		var packages = await Package.FindAsync( "type:map game:facepunch.strafe", 16 );
+		var maps = packages.Packages?.Select( x => x.FullIdent ).ToList();
 
 		var pkg = await Package.Fetch( Global.GameIdent, true );
 		if ( pkg != null )

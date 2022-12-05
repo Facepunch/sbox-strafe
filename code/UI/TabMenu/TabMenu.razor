@@ -24,9 +24,9 @@
 	}
 
 	[Event.BuildInput]
-	public void OnBuildInput(InputBuilder b)
+	public void OnBuildInput()
 	{
-		SetClass("open", b.Down(InputButton.Score));
+		SetClass("open", Input.Down(InputButton.Score));
 
 		if (!HasClass("open"))
 		{

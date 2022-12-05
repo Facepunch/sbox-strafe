@@ -22,6 +22,7 @@ partial class StrafeController : WalkController
 	private Vector3 LastBaseVelocity;
 	private float LastLeft;
 	private bool LastGrounded;
+	private StrafePlayer Player => Pawn as StrafePlayer;
 
 	public StrafeController()
 	{
@@ -52,9 +53,9 @@ partial class StrafeController : WalkController
 
 		BaseSimulate();
 
-		if ( Input.Left != 0 )
+		if ( Player.InputDirection.y != 0 )
 		{
-			if ( MathF.Sign( Input.Left ) != MathF.Sign( LastLeft ) )
+			if ( MathF.Sign( Player.InputDirection.y ) != MathF.Sign( LastLeft ) )
 				AddEvent( "strafe" );
 		}
 
@@ -63,7 +64,7 @@ partial class StrafeController : WalkController
 			AddEvent( "grounded" );
 		}
 
-		LastLeft = Input.Left;
+		LastLeft = Player.InputDirection.y;
 		LastGrounded = GroundEntity.IsValid();
 	}
 
@@ -261,7 +262,7 @@ partial class StrafeController : WalkController
 		UpdateBBox();
 
 		EyeLocalPosition += TraceOffset;
-		EyeRotation = Input.Rotation;
+		EyeRotation = Rotation.From( Player.ViewAngles );
 
 		CheckLadder();
 		Swimming = Pawn.WaterLevel > 0.6f;
@@ -297,16 +298,16 @@ partial class StrafeController : WalkController
 			}
 		}
 
-		WishVelocity = new Vector3( Input.Forward, Input.Left, 0 );
+		WishVelocity = new Vector3( Player.InputDirection.x, Player.InputDirection.y, 0 );
 		var inSpeed = WishVelocity.Length.Clamp( 0, 1 );
 
 		if ( !Swimming )
 		{
-			WishVelocity *= Input.Rotation.Angles().WithPitch( 0 ).ToRotation();
+			WishVelocity *= Player.ViewAngles.WithPitch( 0 ).ToRotation();
 		}
 		else
 		{
-			WishVelocity *= Input.Rotation.Angles().ToRotation();
+			WishVelocity *= Player.ViewAngles.ToRotation();
 		}
 
 
@@ -397,8 +398,8 @@ partial class StrafeController : WalkController
 
 	public override void CheckLadder()
 	{
-		var wishvel = new Vector3( Input.Forward, Input.Left, 0 );
-		wishvel *= Input.Rotation.Angles().WithPitch( 0 ).ToRotation();
+		var wishvel = new Vector3( Player.InputDirection.x, Player.InputDirection.y, 0 );
+		wishvel *= Player.ViewAngles.WithPitch( 0 ).ToRotation();
 		wishvel = wishvel.Normal;
 
 		if ( IsTouchingLadder )
@@ -501,9 +502,9 @@ partial class StrafeController : WalkController
 		}
 		else
 		{
-			float upwardMovememnt = Input.Forward * (Rotation * Vector3.Forward).z * 2;
+			float upwardMovememnt = Player.InputDirection.x * (Rotation * Vector3.Forward).z * 2;
 			upwardMovememnt = Math.Clamp( upwardMovememnt, 0f, DefaultSpeed );
-			wishvel[2] += Input.Up + upwardMovememnt;
+			wishvel[2] += Player.InputDirection.z + upwardMovememnt;
 		}
 
 		var speed = Velocity.Length;

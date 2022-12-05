@@ -158,24 +158,24 @@ internal partial class StrafePlayer : Sandbox.Player
 	// Purpose: when typing a command like !r to restart let it run
 	//			through simulate to get properly predicted.
 	public InputButton ButtonToSet { get; set; } = InputButton.Slot9;
-	public override void BuildInput( InputBuilder input )
+	public override void BuildInput()
 	{
-		base.BuildInput( input );
+		base.BuildInput();
 
 		if ( UpdateViewAngle )
 		{
 			UpdateViewAngle = false;
-			input.ViewAngles = UpdatedViewAngle;
+			ViewAngles = UpdatedViewAngle;
 		}
 
 		if ( YawSpeed != 0 )
 		{
-			input.ViewAngles = input.ViewAngles.WithYaw( input.ViewAngles.yaw + YawSpeed * Time.Delta );
+			ViewAngles = ViewAngles.WithYaw( ViewAngles.yaw + YawSpeed * Time.Delta );
 		}
 
 		if ( ButtonToSet == InputButton.Slot9 ) return;
 
-		input.SetButton( ButtonToSet, true );
+		Input.SetButton( ButtonToSet, true );
 	}
 
 	public TimerEntity Stage( int stage )

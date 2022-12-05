@@ -12,9 +12,9 @@ public partial class Chatbox
 	}
 
 	[Event.BuildInput]
-	void OnBuildInput( InputBuilder b )
+	void OnBuildInput()
 	{
-		if ( !b.Pressed( InputButton.Chat ) ) return;
+		if ( !Sandbox.Input.Pressed( InputButton.Chat ) ) return;
 
 		IsOpen = !IsOpen;
 

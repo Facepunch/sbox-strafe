@@ -47,7 +47,7 @@ internal class Nametag : WorldPanel
 		var from = CurrentView.Position;
 		var to = from + CurrentView.Rotation.Forward * 600f;
 		var tr = Trace.Ray( from, to )
-			.HitLayer( CollisionLayer.Player )
+			.WithTag( "player" )
 			.Ignore( Local.Pawn )
 			.Run();
 

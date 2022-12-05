@@ -29,7 +29,7 @@ public struct GridLayout
 
 		var margin = Margin * ScaleFromScreen;
 		var spacing = Spacing * ScaleFromScreen;
-		var sz = (Rect.width - spacing) / Columns * ScaleFromScreen;
+		var sz = (Rect.Width - spacing) / Columns * ScaleFromScreen;
 
 		if ( size > 0 ) sz = size;
 
@@ -47,13 +47,13 @@ public struct GridLayout
 	/// <returns></returns>
 	public int SlotIndex( Vector2 localPosition )
 	{
-		if ( localPosition.x < 0 || localPosition.x > Rect.width ) return -1;
-		if ( localPosition.y < 0 || localPosition.y > Rect.height ) return -1;
+		if ( localPosition.x < 0 || localPosition.x > Rect.Width ) return -1;
+		if ( localPosition.y < 0 || localPosition.y > Rect.Height ) return -1;
 
 		localPosition *= ScaleFromScreen;
 
 		var spacing = Spacing * ScaleFromScreen;
-		var sz = (Rect.width - spacing) / Columns * ScaleFromScreen;
+		var sz = (Rect.Width - spacing) / Columns * ScaleFromScreen;
 
 		var x = (int)(localPosition.x / sz);
 		var y = (int)(localPosition.y / sz);
