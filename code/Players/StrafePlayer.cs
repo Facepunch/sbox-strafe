@@ -36,9 +36,6 @@ internal partial class StrafePlayer : Sandbox.Player
 			GroundFriction = 4 //Do this just for safety if player respawns inside friction volume.
 		};
 
-		CameraMode = new StrafeCamera();
-		Animator = new StandardPlayerAnimator();
-
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
@@ -145,6 +142,36 @@ internal partial class StrafePlayer : Sandbox.Player
 		}
 	}
 
+	public override void FrameSimulate( Client cl )
+	{
+		//base.FrameSimulate( cl );
+
+		if ( !cl.IsOwnedByLocalClient ) return;
+
+		if( SpectateTarget is ReplayEntity replay )
+		{
+			Camera.Rotation = replay.Frame.Angles.ToRotation();
+			Camera.Position = replay.Frame.Position + Vector3.Up * 64;
+			Camera.FirstPersonViewer = replay;
+		}
+		else if( SpectateTarget is StrafePlayer pl )
+		{
+			Camera.Rotation = pl.ViewAngles.ToRotation();
+			Camera.Position = pl.EyePosition;
+			Camera.FirstPersonViewer = pl;
+		}
+		else
+		{
+			Camera.Rotation = ViewAngles.ToRotation();
+			Camera.Position = EyePosition;
+			Camera.FirstPersonViewer = this;
+		}
+
+		Camera.FieldOfView = Local.UserPreference.FieldOfView;
+		Camera.ZNear = 1f;
+		Camera.ZFar = 5000.0f;
+	}
+
 	[ClientRpc]
 	public void SetViewAngles( Angles angles )
 	{
@@ -245,16 +272,16 @@ internal partial class StrafePlayer : Sandbox.Player
 
 		using var _ = Prediction.Off();
 
-		if ( Animator.HasEvent( "jump" ) && TimeSinceGroundedSound > .2f )
-		{
-			Sound.FromEntity( "footstep-concrete", this );
-		}
+		//if ( Animator.HasEvent( "jump" ) && TimeSinceGroundedSound > .2f )
+		//{
+		//	Sound.FromEntity( "footstep-concrete", this );
+		//}
 
-		if ( Animator.HasEvent( "grounded" ) )
-		{
-			Sound.FromEntity( "footstep-concrete-land", this );
-			TimeSinceGroundedSound = 0f;
-		}
+		//if ( Animator.HasEvent( "grounded" ) )
+		//{
+		//	Sound.FromEntity( "footstep-concrete-land", this );
+		//	TimeSinceGroundedSound = 0f;
+		//}
 	}
 
 	[ConCmd.Client( "+yaw", CanBeCalledFromServer = false )]

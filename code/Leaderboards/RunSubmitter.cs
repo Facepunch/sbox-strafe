@@ -73,7 +73,7 @@ internal class RunSubmitter : Entity
 
 		if(/* result.NewRank == 1 && */result.IsPersonalBest )
 		{
-			var replay = new Replay( client.PlayerId, timer.Frames.ToList() );
+			var replay = new Replay( client.SteamId, timer.Frames.ToList() );
 
 			var upload = new UploadReplay()
 			{

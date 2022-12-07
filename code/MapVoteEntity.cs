@@ -54,10 +54,10 @@ internal partial class MapVoteEntity : Entity
 
 	private void SetMapVote( Client client, string map )
 	{
-		if ( MapVotes.TryGetValue( client.PlayerId, out var vote ) && vote == map )
+		if ( MapVotes.TryGetValue( client.SteamId, out var vote ) && vote == map )
 			return;
 
-		MapVotes[client.PlayerId] = map;
+		MapVotes[client.SteamId] = map;
 
 		var votemap = new Dictionary<string, int>();
 		MapVotes.Values.ToList().ForEach( x => votemap.Add( x, 0 ) );

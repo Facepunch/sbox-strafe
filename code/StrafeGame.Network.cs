@@ -20,7 +20,7 @@ internal partial class StrafeGame
 	{
 		Host.AssertServer();
 
-		if ( !Global.IsDedicatedServer ) return;
+		if ( !Global.IsServerHost ) return;
 
 		var pkg = await Package.Fetch( Global.MapName, true );
 		var mapTitle = pkg?.Title ?? string.Empty;
@@ -41,13 +41,13 @@ internal partial class StrafeGame
 	{
 		Host.AssertServer();
 
-		if ( !Global.IsDedicatedServer ) return;
+		if ( !Global.IsServerHost ) return;
 
 		var msg = new ClientLogin()
 		{
 			ServerSteamId = (long)Global.ServerSteamId,
 			Name = client.Name,
-			PlayerId = client.PlayerId,
+			PlayerId = client.SteamId,
 			MapIdent = Global.MapName
 		};
 

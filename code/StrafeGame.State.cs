@@ -131,7 +131,7 @@ internal partial class StrafeGame
 	{
 		if ( !ConsoleSystem.Caller.IsValid() ) return;
 
-		var playerid = ConsoleSystem.Caller.PlayerId;
+		var playerid = ConsoleSystem.Caller.SteamId;
 
 		if ( Current.Nominations.ContainsKey( playerid ) && Current.Nominations[playerid] == ident )
 			return;

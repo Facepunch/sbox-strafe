@@ -34,7 +34,7 @@ internal partial class StrafePlayer
 		PlaySound( Flashlight.Enabled ? "flashlight-on" : "flashlight-off" );
 	}
 
-	[Event.Frame]
+	[Event.Client.Frame]
 	private void UpdateFlashlight()
 	{
 		if ( !Flashlight.IsValid() ) return;

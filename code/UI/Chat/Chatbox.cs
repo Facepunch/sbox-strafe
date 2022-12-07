@@ -11,7 +11,7 @@ public partial class Chatbox
 		Instance = this;
 	}
 
-	[Event.BuildInput]
+	[Event.Client.BuildInput]
 	void OnBuildInput()
 	{
 		if ( !Sandbox.Input.Pressed( InputButton.Chat ) ) return;

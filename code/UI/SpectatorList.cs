@@ -23,7 +23,7 @@ internal class SpectatorList : Panel
 		Canvas = Add.Panel( "entries" );
 	}
 
-	[Event.Frame]
+	[Event.Client.Frame]
 	private void OnFrame()
 	{
 		SetClass( "open", ShouldBeOpen() );

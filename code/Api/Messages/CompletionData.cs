@@ -21,7 +21,7 @@ internal class CompletionData
 		if ( timer.Owner is not StrafePlayer pl ) return null;
 
 		var result = new CompletionData();
-		result.PlayerId = pl.Client.PlayerId;
+		result.PlayerId = pl.Client.SteamId;
 		result.Stage = timer.Stage;
 		result.MapIdent = Global.MapName;
 		result.Date = DateTimeOffset.UtcNow;

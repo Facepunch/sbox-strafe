@@ -22,7 +22,7 @@ internal class Nametag : WorldPanel
 		SetClass( "local", player.IsLocalPawn );
 	}
 
-	[Event.Frame]
+	[Event.Client.Frame]
 	private void OnFrame()
 	{
 		if ( !Player.IsValid() ) return;
@@ -44,8 +44,9 @@ internal class Nametag : WorldPanel
 	[Event.Tick.Client]
 	public static void LookingAtAnybody()
 	{
-		var from = CurrentView.Position;
-		var to = from + CurrentView.Rotation.Forward * 600f;
+		if ( Camera.Current == null ) return;
+		var from = Camera.Current.Position;
+		var to = from + Camera.Current.Rotation.Forward * 600f;
 		var tr = Trace.Ray( from, to )
 			.WithTag( "player" )
 			.Ignore( Local.Pawn )

@@ -106,7 +106,7 @@ internal partial class StrafeGame
 			return;
 		}
 
-		if ( All.Any( x => x is ReplayEntity rep && rep.PlayerId == caller.PlayerId ) )
+		if ( All.Any( x => x is ReplayEntity rep && rep.PlayerId == caller.SteamId ) )
 		{
 			Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"There's already a replay spawned for this player.", "timer" );
 			return;
@@ -116,7 +116,7 @@ internal partial class StrafeGame
 
 		Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"Fetching your replay...", "timer" );
 
-		var pb = await Backend.FetchPersonalBest( Global.MapName, 0, caller.PlayerId );
+		var pb = await Backend.FetchPersonalBest( Global.MapName, 0, caller.SteamId );
 
 		if ( pb == null )
 		{

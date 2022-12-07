@@ -1,13 +1,9 @@
 ﻿
-using Sandbox;
-using Strafe.Leaderboards;
-using Strafe.Players;
-using Strafe.UI;
-using System.Linq;
-
 namespace Strafe;
 
-internal partial class StrafeGame : Game
+using System.Linq;
+
+internal partial class StrafeGame : GameManager
 {
 
 	public static new StrafeGame Current;
