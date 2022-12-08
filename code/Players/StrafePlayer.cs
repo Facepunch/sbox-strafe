@@ -169,7 +169,7 @@ internal partial class StrafePlayer : Sandbox.Player
 
 		Camera.FieldOfView = Local.UserPreference.FieldOfView;
 		Camera.ZNear = 1f;
-		Camera.ZFar = 5000.0f;
+		Camera.ZFar = 10000.0f;
 	}
 
 	[ClientRpc]
