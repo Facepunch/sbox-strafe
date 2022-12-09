@@ -1,6 +1,6 @@
 ﻿
+using Editor;
 using Sandbox;
-using SandboxEditor;
 using System.Linq;
 
 namespace Strafe.Map;

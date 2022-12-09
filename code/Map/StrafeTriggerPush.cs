@@ -1,6 +1,6 @@
 ﻿
 using Sandbox;
-using SandboxEditor;
+using Editor;
 using Strafe.Players;
 using Strafe.Utility;
 using System;

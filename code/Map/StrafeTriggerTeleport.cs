@@ -1,6 +1,6 @@
 ﻿
 using Sandbox;
-using SandboxEditor;
+using Editor;
 using Strafe.Players;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;

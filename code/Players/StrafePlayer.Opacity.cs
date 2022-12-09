@@ -32,7 +32,7 @@ internal partial class StrafePlayer
 			const float MaxRenderDistance = 900f;
 			var dist = Local.Pawn.Position.Distance( Position );
 			var a = 1f - dist.LerpInverse( MaxRenderDistance, MaxRenderDistance * .1f );
-			a = Easing.EaseOut( a );
+			a = Sandbox.Utility.Easing.EaseOut( a );
 
 			return a.Clamp( 0.3f, 1 );
 		}
