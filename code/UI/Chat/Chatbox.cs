@@ -1,4 +1,6 @@
 ﻿
+using Sandbox.Diagnostics;
+
 namespace Strafe.UI;
 
 public partial class Chatbox
@@ -32,7 +34,7 @@ public partial class Chatbox
 		Instance?.AddEntry( name, message, classes );
 
 		// Only log clientside if we're not the listen server host
-		if ( !Global.IsListenServer )
+		if ( !Game.IsListenServer )
 		{
 			Log.Info( $"{name}: {message}" );
 		}
@@ -43,7 +45,7 @@ public partial class Chatbox
 	{
 		if ( message[0] == '!' )
 		{
-			StrafeGame.ExecuteChatCommand( Local.Client, message );
+			StrafeGame.ExecuteChatCommand( Game.LocalClient, message );
 		}
 
 		Say2( message );

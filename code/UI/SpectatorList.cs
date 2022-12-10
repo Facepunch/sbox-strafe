@@ -29,7 +29,7 @@ internal class SpectatorList : Panel
 		SetClass( "open", ShouldBeOpen() );
 
 		if ( !HasClass( "open" ) ) return;
-		if ( Local.Pawn is not StrafePlayer pl ) return;
+		if ( Game.LocalPawn is not StrafePlayer pl ) return;
 
 		var specTarget = pl.SpectateTarget ?? pl;
 		var hash = specTarget.NetworkIdent;
@@ -50,7 +50,7 @@ internal class SpectatorList : Panel
 	{
 		Canvas.DeleteChildren( true );
 
-		if ( Local.Pawn is not StrafePlayer pl )
+		if ( Game.LocalPawn is not StrafePlayer pl )
 			return;
 
 		var specTarget = pl.SpectateTarget ?? pl;
@@ -67,7 +67,7 @@ internal class SpectatorList : Panel
 
 	private bool ShouldBeOpen()
 	{
-		if ( Local.Pawn is not StrafePlayer pl )
+		if ( Game.LocalPawn is not StrafePlayer pl )
 			return false;
 
 		var checkfor = pl.SpectateTarget ?? pl;

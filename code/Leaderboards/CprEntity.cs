@@ -31,7 +31,7 @@ internal partial class CprEntity : Entity
 
 	private async Task<bool> UpdateCpr()
 	{
-		var wrcp = await Backend.FetchCompletion( Global.MapName, 0, 1 );
+		var wrcp = await Backend.FetchCompletion( Game.Server.MapIdent, 0, 1 );
 		if ( wrcp == null ) return false;
 
 		Cpr = wrcp.Stats;

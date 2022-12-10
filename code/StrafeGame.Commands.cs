@@ -10,13 +10,14 @@ using Strafe.Utility;
 using System.IO;
 using Strafe.Leaderboards;
 using System.Linq;
+using Sandbox.Diagnostics;
 
 namespace Strafe;
 
 internal partial class StrafeGame
 {
 
-	public static async void ExecuteChatCommand( Client cl, string command )
+	public static async void ExecuteChatCommand( IClient cl, string command )
 	{
 		Assert.True( cl.IsValid() );
 
@@ -26,34 +27,34 @@ internal partial class StrafeGame
 		var args = command.Remove( 0, 1 ).Split( ' ' );
 		var cmdName = args[0].ToLower();
 
-		if ( cmdName == "r" && Host.IsClient )
+		if ( cmdName == "r" && Game.IsClient )
 		{
-			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Drop;
+			(Game.LocalPawn as StrafePlayer).ButtonToSet = InputButton.Drop;
 		}
 
-		if ( cmdName == "t" && Host.IsClient )
+		if ( cmdName == "t" && Game.IsClient )
 		{
-			(Local.Pawn as StrafePlayer).ButtonToSet = InputButton.Reload;
+			(Game.LocalPawn as StrafePlayer).ButtonToSet = InputButton.Reload;
 		}
 
-		if ( cmdName == "ping" && Host.IsServer )
+		if ( cmdName == "ping" && Game.IsServer )
 		{
 			var result = await Backend.Get<string>( "ping" );
 			Chatbox.AddChatEntry( To.Everyone, "Response", result );
 		}
 
-		if ( cmdName == "wt" && Host.IsServer )
+		if ( cmdName == "wt" && Game.IsServer )
 		{
 			var result = await Backend.Post<string>( "ping/whitelisted", "someData" );
 			Chatbox.AddChatEntry( To.Everyone, "Response", result );
 		}
 
-		if( cmdName == "noclip" && Host.IsServer )
+		if( cmdName == "noclip" && Game.IsServer )
 		{
 			Current.DoPlayerNoclip( cl );
 		}
 
-		if ( cmdName == "testmenu" && Host.IsServer )
+		if ( cmdName == "testmenu" && Game.IsServer )
 		{
 			if ( cl.Pawn is not StrafePlayer pl ) return;
 
@@ -64,22 +65,22 @@ internal partial class StrafeGame
 			menu.AddOption( "Option 3", x => Log.Error( "Option 3" ) );
 		}
 
-		if ( cmdName == "timeleft" && Host.IsServer )
+		if ( cmdName == "timeleft" && Game.IsServer )
 		{
 			Current.PrintTimeLeft();
 		}
 
-		if ( cmdName == "rtv" && Host.IsServer )
+		if ( cmdName == "rtv" && Game.IsServer )
 		{
 			Current.RockTheVote( cl );
 		}
 
-		if ( cmdName == "nextmap" && Host.IsServer )
+		if ( cmdName == "nextmap" && Game.IsServer )
 		{
 			Chatbox.AddChatEntry( To.Everyone, "Server", $"The next map is {Current.NextMap ?? "undecided"}" );
 		}
 
-		if ( cmdName == "snailtrail" && Host.IsClient )
+		if ( cmdName == "snailtrail" && Game.IsClient )
 		{
 			if ( cl.Pawn is not StrafePlayer pl ) return;
 
@@ -116,7 +117,7 @@ internal partial class StrafeGame
 
 		Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"Fetching your replay...", "timer" );
 
-		var pb = await Backend.FetchPersonalBest( Global.MapName, 0, caller.SteamId );
+		var pb = await Backend.FetchPersonalBest( Game.Server.MapIdent, 0, caller.SteamId );
 
 		if ( pb == null )
 		{
@@ -124,7 +125,7 @@ internal partial class StrafeGame
 			return;
 		}
 
-		var replay = await Backend.FetchReplay( Global.MapName, 0, pb.Rank );
+		var replay = await Backend.FetchReplay( Game.Server.MapIdent, 0, pb.Rank );
 
 		if ( replay == null )
 		{

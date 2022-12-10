@@ -111,7 +111,7 @@ internal partial class TimerEntity : Entity
 		Current = true;
 	}
 
-	public override void Simulate( Client cl )
+	public override void Simulate( IClient cl )
 	{
 		base.Simulate( cl );
 

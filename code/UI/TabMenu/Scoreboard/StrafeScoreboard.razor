@@ -25,7 +25,7 @@
 </root>
 
 @code {
-    bool Spectating => Local.Pawn is StrafePlayer pl && pl.SpectateTarget.IsValid();
+    bool Spectating => Game.LocalPawn is StrafePlayer pl && pl.SpectateTarget.IsValid();
 
     protected override int BuildHash()
     {

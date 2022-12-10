@@ -59,7 +59,7 @@ internal partial class ReplayEntity : AnimatedEntity
 	[Event.Tick.Client]
 	public void OnTickClient()
 	{
-		if ( Local.Pawn is not StrafePlayer pl ) return;
+		if ( Game.LocalPawn is not StrafePlayer pl ) return;
 		var a = pl.SpectateTarget == this ? 0 : .5f;
 		RenderColor = RenderColor.WithAlpha( a );
 	}

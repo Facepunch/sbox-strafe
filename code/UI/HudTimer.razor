@@ -60,7 +60,7 @@
     {
         base.Tick();
 
-        if ( Local.Pawn is not StrafePlayer pl )
+        if ( Game.LocalPawn is not StrafePlayer pl )
 		{
 			Time = "Disabled";
 			return;
@@ -108,7 +108,7 @@
     {
         var snapshot = StrafeGame.Current.CourseType == CourseTypes.Staged
             ? timer.GrabFrame()
-            : (Local.Pawn as StrafePlayer).Stage(0).GrabFrame();
+            : (Game.LocalPawn as StrafePlayer).Stage(0).GrabFrame();
 
         if (!CprEntity.TryGetDiff(timer.Stage, snapshot, out var diff)) return;
 

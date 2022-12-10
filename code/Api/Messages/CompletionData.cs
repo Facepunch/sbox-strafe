@@ -23,7 +23,7 @@ internal class CompletionData
 		var result = new CompletionData();
 		result.PlayerId = pl.Client.SteamId;
 		result.Stage = timer.Stage;
-		result.MapIdent = Global.MapName;
+		result.MapIdent = Game.Server.MapIdent;
 		result.Date = DateTimeOffset.UtcNow;
 
 		if ( timer.Stage == 0 )

@@ -90,7 +90,7 @@ internal class RunSubmitter : Entity
 		}
 	}
 
-	private void PrintResult( Client client, int stage, TimerFrame stageFrame, TimerFrame courseFrame, CompletionSubmitResult result )
+	private void PrintResult( IClient client, int stage, TimerFrame stageFrame, TimerFrame courseFrame, CompletionSubmitResult result )
 	{
 		if ( result == null || !result.IsPersonalBest )
 		{

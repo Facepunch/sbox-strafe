@@ -24,7 +24,7 @@
         {
             GameTask.RunInThreadAsync(async () =>
             {
-                Entries = await Backend.FetchPersonalBests(Global.MapName, 0, 10, 0);
+                Entries = await Backend.FetchPersonalBests(Game.Server.MapIdent, 0, 10, 0);
                 StateHasChanged();
 
                 await GameTask.DelaySeconds(60);

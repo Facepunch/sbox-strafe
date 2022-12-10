@@ -1,5 +1,6 @@
 ﻿
 using Sandbox;
+using Sandbox.Diagnostics;
 using Strafe.Players;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ internal class Replay
 	{
 		Frames = frames;
 		PlayerId = playerid;
-		MapIdent = Global.MapName;
+		MapIdent = Game.Server.MapIdent;
 		Date = DateTimeOffset.UtcNow;
 	}
 

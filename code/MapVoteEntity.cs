@@ -21,7 +21,7 @@ internal partial class MapVoteEntity : Entity
 	public MapVoteEntity( List<string> maps )
 	{
 		MapCycle = maps;
-		Outcome = Rand.FromList( maps );
+		Outcome = Game.Random.FromList( maps );
 
 		Transmit = TransmitType.Never;
 	}
@@ -46,13 +46,13 @@ internal partial class MapVoteEntity : Entity
 		if ( string.IsNullOrEmpty( Outcome ) )
 		{
 			Log.Error( "Map vote ended up null or empty, defaulting to current map" );
-			Outcome = Global.MapName;
+			Outcome = Game.Server.MapIdent;
 		}
 
 		return Outcome;
 	}
 
-	private void SetMapVote( Client client, string map )
+	private void SetMapVote( IClient client, string map )
 	{
 		if ( MapVotes.TryGetValue( client.SteamId, out var vote ) && vote == map )
 			return;

@@ -149,7 +149,7 @@ internal partial class Backend
 	private static TimeSince TimeSinceConnectionAttempt;
 	private static async Task<bool> EnsureWebSocket()
 	{
-		Host.AssertServer();
+		Game.AssertServer();
 
 		if ( WebSocket?.IsConnected ?? false ) return true;
 

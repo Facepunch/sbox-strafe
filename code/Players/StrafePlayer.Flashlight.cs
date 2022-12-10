@@ -10,7 +10,7 @@ internal partial class StrafePlayer
 
 	private void ToggleFlashlight()
 	{
-		Host.AssertClient();
+		Game.AssertClient();
 
 		if( Flashlight == null )
 		{

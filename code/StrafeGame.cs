@@ -14,7 +14,7 @@ internal partial class StrafeGame : GameManager
 
 		if ( IsServer )
 		{
-			Global.TickRate = 100;
+			Game.TickRate = 100;
 
 			_ = new RunSubmitter();
 			_ = new CprEntity();
@@ -36,7 +36,7 @@ internal partial class StrafeGame : GameManager
 		}
 	}
 
-	public override void ClientJoined( Client cl )
+	public override void ClientJoined( IClient cl )
 	{
 		base.ClientJoined( cl );
 
@@ -50,7 +50,7 @@ internal partial class StrafeGame : GameManager
 		Chatbox.AddChatEntry( To.Single( cl ), "Server", "Discord: https://discord.gg/UG2KQdrkA5", "important" );
 	}
 
-	public override void ClientDisconnect( Client cl, NetworkDisconnectionReason reason )
+	public override void ClientDisconnect( IClient cl, NetworkDisconnectionReason reason )
 	{
 		base.ClientDisconnect( cl, reason );
 
@@ -64,7 +64,7 @@ internal partial class StrafeGame : GameManager
 		pawn.Position = pawn.Position.WithZ( (int)(pawn.Position.z + 1) );
 	}
 
-	public override void DoPlayerNoclip( Client player )
+	public void DoPlayerNoclip( IClient player )
 	{
 		if ( player.Pawn is not StrafePlayer pl ) 
 			return;

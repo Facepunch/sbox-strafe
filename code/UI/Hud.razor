@@ -14,12 +14,12 @@
 
 	internal Hud()
 	{
-		Local.Hud = this;
+		Game.RootPanel = this;
 	}
 
 	[ConCmd.Client("strafe_toggle_hud")]
 	public static void ToggleHud()
 	{
-		Local.Hud.SetClass("hidden", !Local.Hud.HasClass("hidden"));
+		Game.RootPanel.SetClass("hidden", !Game.RootPanel.HasClass("hidden"));
 	}
 }

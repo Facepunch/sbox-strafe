@@ -18,18 +18,18 @@ internal partial class StrafeGame
 
 	private async void NetworkServerLogin()
 	{
-		Host.AssertServer();
+		Game.AssertServer();
 
-		if ( !Global.IsServerHost ) return;
+		if ( !Game.IsServerHost ) return;
 
-		var pkg = await Package.Fetch( Global.MapName, true );
+		var pkg = await Package.Fetch( Game.Server.MapIdent, true );
 		var mapTitle = pkg?.Title ?? string.Empty;
 
 		var msg = new ServerLogin()
 		{
-			SteamId = Global.ServerSteamId,
+			SteamId = Game.ServerSteamId,
 			ServerName = string.Empty, // no way to grab this yet?
-			MapIdent = Global.MapName,
+			MapIdent = Game.Server.MapIdent,
 			MapTitle = mapTitle,
 			CourseType = CourseType
 		};
@@ -37,18 +37,18 @@ internal partial class StrafeGame
 		await Backend.Post<bool>( "server/login", msg.Serialize() );
 	}
 
-	private async void NetworkClientLogin( Client client )
+	private async void NetworkClientLogin( IClient client )
 	{
-		Host.AssertServer();
+		Game.AssertServer();
 
-		if ( !Global.IsServerHost ) return;
+		if ( !Game.IsServerHost ) return;
 
 		var msg = new ClientLogin()
 		{
-			ServerSteamId = (long)Global.ServerSteamId,
+			ServerSteamId = (long)Game.ServerSteamId,
 			Name = client.Name,
 			PlayerId = client.SteamId,
-			MapIdent = Global.MapName
+			MapIdent = Game.Server.MapIdent
 		};
 
 		await Backend.Post<bool>( "player/login", msg.Serialize() );

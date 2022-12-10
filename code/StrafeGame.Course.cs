@@ -75,7 +75,7 @@ internal partial class StrafeGame
 	private ReplayEntity WrReplay;
 	private async Task DownloadWrReplay()
 	{
-		var replay = await Backend.FetchReplay( Global.MapName, 0, 1 );
+		var replay = await Backend.FetchReplay( Game.Server.MapIdent, 0, 1 );
 		if ( replay == null ) return;
 
 		SetWrReplay( replay );

@@ -49,7 +49,7 @@ internal class Nametag : WorldPanel
 		var to = from + Camera.Current.Rotation.Forward * 600f;
 		var tr = Trace.Ray( from, to )
 			.WithTag( "player" )
-			.Ignore( Local.Pawn )
+			.Ignore( Game.LocalPawn )
 			.Run();
 
 		Target = tr.Entity;

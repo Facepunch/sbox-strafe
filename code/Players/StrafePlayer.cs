@@ -76,7 +76,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		Nametag?.Delete();
 	}
 
-	public override void Simulate( Client cl )
+	public override void Simulate( IClient cl )
 	{
 		if ( SpectateTarget.IsValid() ) return;
 
@@ -142,7 +142,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		}
 	}
 
-	public override void FrameSimulate( Client cl )
+	public override void FrameSimulate( IClient cl )
 	{
 		//base.FrameSimulate( cl );
 
@@ -167,7 +167,7 @@ internal partial class StrafePlayer : Sandbox.Player
 			Camera.FirstPersonViewer = this;
 		}
 
-		Camera.FieldOfView = Local.UserPreference.FieldOfView;
+		Camera.FieldOfView = Game.Preferences.FieldOfView;
 		Camera.ZNear = 1f;
 		Camera.ZFar = 10000.0f;
 	}
@@ -287,7 +287,7 @@ internal partial class StrafePlayer : Sandbox.Player
 	[ConCmd.Client( "+yaw", CanBeCalledFromServer = false )]
 	public static void OnYaw( float spd = 0 )
 	{
-		if ( Local.Pawn is not StrafePlayer pl ) return;
+		if ( Game.LocalPawn is not StrafePlayer pl ) return;
 
 		pl.YawSpeed = spd;
 	}
@@ -295,7 +295,7 @@ internal partial class StrafePlayer : Sandbox.Player
 	[ConCmd.Client( "-yaw", CanBeCalledFromServer = false )]
 	public static void OnYawRelease()
 	{
-		if ( Local.Pawn is not StrafePlayer pl ) return;
+		if ( Game.LocalPawn is not StrafePlayer pl ) return;
 
 		pl.YawSpeed = 0;
 	}

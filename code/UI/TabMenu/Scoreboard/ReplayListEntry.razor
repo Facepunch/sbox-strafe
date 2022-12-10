@@ -1,8 +1,7 @@
 ﻿
 @inherits Panel
 
-<root 
-    class="@((Local.Pawn as StrafePlayer).SpectateTarget == Replay ? "active" : "")"
+<root class="@((Game.LocalPawn as StrafePlayer).SpectateTarget == Replay ? "active" : "")"
     @onclick=@(() => StrafePlayer.SetSpectateTarget(Replay.NetworkIdent))>
 
     <label class="name" text=@(new Friend(Replay.PlayerId).Name) />

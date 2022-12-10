@@ -13,7 +13,7 @@
 
 @code {
 
-	public Client Client { get; set; }
+	public IClient Client { get; set; }
 
 	protected override void OnMouseDown(MousePanelEvent e)
 	{
@@ -28,7 +28,7 @@
 	{
 		base.Tick();
 
-		var p = Local.Pawn as StrafePlayer;
+		var p = Game.LocalPawn as StrafePlayer;
 		SetClass("active", p.SpectateTarget == Client.Pawn);
 	}
 

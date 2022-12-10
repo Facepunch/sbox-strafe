@@ -20,7 +20,7 @@ internal class ServerHeartbeat
 			TimeSincePing = 0;
 			var ping = new ServerHeartbeat()
 			{
-				PlayerCount = Client.All.Count
+				PlayerCount = Game.Clients.Count
 			};
 			await Backend.Post( "server/heartbeat", ping.Serialize() );
 		}

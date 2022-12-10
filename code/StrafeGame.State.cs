@@ -56,7 +56,7 @@ internal partial class StrafeGame
 			await Task.DelayRealtimeSeconds( 1.0f );
 		}
 
-		Global.ChangeLevel( NextMap );
+		Game.ChangeLevel( NextMap );
 	}
 
 	private bool ShouldPrintTime()
@@ -73,7 +73,7 @@ internal partial class StrafeGame
 
 	private void PrintTimeLeft()
 	{
-		Host.AssertServer();
+		Game.AssertServer();
 
 		var tl = (int)StateTimer;
 		if( tl > 60 )
@@ -145,7 +145,7 @@ internal partial class StrafeGame
 		var packages = await Package.FindAsync( "type:map game:facepunch.strafe", 16 );
 		var maps = packages.Packages?.Select( x => x.FullIdent ).ToList();
 
-		var pkg = await Package.Fetch( Global.GameIdent, true );
+		var pkg = await Package.Fetch( Game.Server.GameIdent, true );
 		if ( pkg != null )
 		{
 			maps.AddRange( pkg.GetMeta<List<string>>( "MapList", new() ) );
@@ -154,7 +154,7 @@ internal partial class StrafeGame
 		return maps;
 	}
 
-	private void RockTheVote( Client client )
+	private void RockTheVote( IClient client )
 	{
 		if ( VoteFinalized )
 		{
@@ -164,8 +164,8 @@ internal partial class StrafeGame
 
 		client.SetValue( "rtv", true );
 
-		var rtvcount = Client.All.Where( x => x.GetValue( "rtv", false ) == true ).Count();
-		var totalcount = Client.All.Count;
+		var rtvcount = Game.Clients.Where( x => x.GetValue( "rtv", false ) == true ).Count();
+		var totalcount = Game.Clients.Count;
 		var needed = MathX.CeilToInt(totalcount / 2f);
 		var remaining = Math.Max( 0, needed - rtvcount );
 
@@ -173,7 +173,7 @@ internal partial class StrafeGame
 
 		if ( remaining == 0 && !MapVote.IsValid() )
 		{
-			foreach( var c in Client.All )
+			foreach( var c in Game.Clients )
 			{
 				c.SetValue( "rtv", false );
 			}
@@ -186,14 +186,14 @@ internal partial class StrafeGame
 	private async Task RollMapCycle()
 	{
 		MapCycle = await GetAvailableMaps();
-		MapCycle = MapCycle.OrderBy( x => Rand.Int( 9999 ) )
+		MapCycle = MapCycle.OrderBy( x => Game.Random.Int( 9999 ) )
 			.Distinct()
-			.Where( x => x != Global.MapName )
+			.Where( x => x != Game.Server.MapIdent )
 			.Take( 5 )
 			.ToList();
 
-		NextMap = Rand.FromList( MapCycle.ToList() );
-		if ( string.IsNullOrEmpty( NextMap ) ) NextMap = Global.MapName;
+		NextMap = Game.Random.FromList( MapCycle.ToList() );
+		if ( string.IsNullOrEmpty( NextMap ) ) NextMap = Game.Server.MapIdent;
 	}
 
 }

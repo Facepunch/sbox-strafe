@@ -27,10 +27,10 @@ internal partial class StrafePlayer
 		if ( Visibility == PlayerVisibility.Never ) return 0;
 		if ( Visibility == PlayerVisibility.Fade )
 		{
-			if ( !Local.Pawn.IsValid() ) return 1f;
+			if ( !Game.LocalPawn.IsValid() ) return 1f;
 
 			const float MaxRenderDistance = 900f;
-			var dist = Local.Pawn.Position.Distance( Position );
+			var dist = Game.LocalPawn.Position.Distance( Position );
 			var a = 1f - dist.LerpInverse( MaxRenderDistance, MaxRenderDistance * .1f );
 			a = Sandbox.Utility.Easing.EaseOut( a );
 

@@ -9,7 +9,7 @@ namespace Strafe.Menu;
 internal partial class SlotMenu : Entity
 {
 
-	private List<Action<Client>> OptionActions = new();
+	private List<Action<IClient>> OptionActions = new();
 	private HudSlotMenu Hud;
 
 	[Net]
@@ -40,7 +40,7 @@ internal partial class SlotMenu : Entity
 		base.ClientSpawn();
 
 		Hud = new HudSlotMenu( this );
-		Local.Hud.AddChild( Hud );
+		Game.RootPanel.AddChild( Hud );
 	}
 
 	protected override void OnDestroy()
@@ -60,9 +60,9 @@ internal partial class SlotMenu : Entity
 		}
 	}
 
-	public void AddOption( string label, Action<Client> onChosen )
+	public void AddOption( string label, Action<IClient> onChosen )
 	{
-		Host.AssertServer();
+		Game.AssertServer();
 
 		Options.Add( label );
 		OptionActions.Add( onChosen );
