@@ -62,7 +62,7 @@ internal partial class TimerEntity : Entity
 	{
 		if ( EnforceGroundState )
 		{
-			if ( IsServer )
+			if ( Game.IsServer )
 			{
 				var msg = $"Timer didn't start, stand in the start zone after using noclip!";
 				Chatbox.AddChatEntry( To.Single( Owner ), "Timer", msg, "timer" );
@@ -75,7 +75,7 @@ internal partial class TimerEntity : Entity
 
 		Events.Timer.OnStageStart.Run( this );
 
-		if ( Prediction.FirstTime && IsClient && Stage == 0 )
+		if ( Prediction.FirstTime && Game.IsClient && Stage == 0 )
 		{
 			var msg = $"Timer started | {Owner.Velocity.ToHuman()}";
 			Chatbox.AddChatEntry( "Timer", msg, "timer" );

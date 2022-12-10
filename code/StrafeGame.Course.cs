@@ -21,7 +21,7 @@ internal partial class StrafeGame
 	[Event.Entity.PostSpawn]
 	private void SetupCourse()
 	{
-		if ( !IsServer ) return;
+		if ( !Game.IsServer ) return;
 
 		var stageStarts = All.OfType<StageStart>();
 		if( !stageStarts.Any() )

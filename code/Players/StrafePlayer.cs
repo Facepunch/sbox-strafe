@@ -118,7 +118,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		// HACK:should be setting ButtonToSet back to default in BuildInput
 		//		after adding it to this player's input but sometimes the button we
 		//		want gets missed in simulate.. so just keep trying right here
-		if ( IsClient && ButtonToSet != InputButton.Slot9 )
+		if ( Game.IsClient && ButtonToSet != InputButton.Slot9 )
 		{
 			if ( Input.Pressed( ButtonToSet ) )
 			{
@@ -136,7 +136,7 @@ internal partial class StrafePlayer : Sandbox.Player
 			GoBack();
 		}
 
-		if ( Input.Pressed( InputButton.Flashlight ) && IsClient )
+		if ( Input.Pressed( InputButton.Flashlight ) && Game.IsClient )
 		{
 			ToggleFlashlight();
 		}
@@ -245,7 +245,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		if ( LifeState != LifeState.Alive )
 			return;
 
-		if ( !IsServer )
+		if ( !Game.IsServer )
 			return;
 
 		if ( timeSinceLastFootstep < 0.2f )
@@ -268,7 +268,7 @@ internal partial class StrafePlayer : Sandbox.Player
 	private TimeSince TimeSinceGroundedSound = 0f;
 	private void SimulateAnimatorSounds()
 	{
-		if ( !IsClient ) return;
+		if ( !Game.IsClient ) return;
 
 		using var _ = Prediction.Off();
 

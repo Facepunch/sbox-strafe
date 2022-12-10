@@ -24,7 +24,7 @@ internal class RunSubmitter : Entity
 	[Events.Timer.OnStageComplete]
 	public async void OnStage( Strafe.Players.TimerEntity timer )
 	{
-		if ( !IsServer ) return;
+		if ( !Game.IsServer ) return;
 
 		var player = timer.Owner as StrafePlayer;
 		if ( !player.IsValid() ) return;

@@ -12,7 +12,7 @@ internal partial class StrafeGame : GameManager
 	{
 		Current = this;
 
-		if ( IsServer )
+		if ( Game.IsServer )
 		{
 			Game.TickRate = 100;
 
@@ -24,7 +24,7 @@ internal partial class StrafeGame : GameManager
 			All.OfType<SpawnPoint>().ToList().ForEach( x => x.Transmit = TransmitType.Always );
 		}
 
-		if ( IsClient )
+		if ( Game.IsClient )
 		{
 			_ = new Hud();
 
