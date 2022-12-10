@@ -41,6 +41,31 @@ partial class StrafeController : WalkController
 		Activated = true;
 	}
 
+	private void JustStrafed()
+	{
+		foreach ( var ent in Pawn.Children )
+		{
+			if ( ent is not TimerEntity t ) continue;
+			if ( t.State != TimerEntity.States.Live ) continue;
+			t.Strafes++;
+		}
+	}
+
+	private void JustGrounded()
+	{
+
+	}
+
+	private void JustJumped()
+	{
+		foreach ( var ent in Pawn.Children )
+		{
+			if ( ent is not TimerEntity t ) continue;
+			if ( t.State != TimerEntity.States.Live ) continue;
+			t.Jumps++;
+		}
+	}
+
 	public override void Simulate()
 	{
 		FrictionLevel = FrictionLevels.Normal;
@@ -56,41 +81,18 @@ partial class StrafeController : WalkController
 		if ( Player.InputDirection.y != 0 )
 		{
 			if ( MathF.Sign( Player.InputDirection.y ) != MathF.Sign( LastLeft ) )
-				AddEvent( "strafe" );
+			{
+				JustStrafed();
+			}
 		}
 
 		if( !LastGrounded && GroundEntity.IsValid() )
 		{
-			AddEvent( "grounded" );
+			JustGrounded();
 		}
 
 		LastLeft = Player.InputDirection.y;
 		LastGrounded = GroundEntity.IsValid();
-	}
-
-	public override void OnEvent( string name )
-	{
-		base.OnEvent( name );
-
-		if ( name.Equals( "jump" ) )
-		{
-			foreach ( var ent in Pawn.Children )
-			{
-				if ( ent is not TimerEntity t ) continue;
-				if ( t.State != TimerEntity.States.Live ) continue;
-				t.Jumps++;
-			}
-		}
-
-		if ( name.Equals( "strafe" ) )
-		{
-			foreach ( var ent in Pawn.Children )
-			{
-				if ( ent is not TimerEntity t ) continue;
-				if ( t.State != TimerEntity.States.Live ) continue;
-				t.Strafes++;
-			}
-		}
 	}
 
 	public override void AirMove()
@@ -390,7 +392,7 @@ partial class StrafeController : WalkController
 		Velocity = Velocity.WithZ( startz + flMul * flGroundFactor );
 		Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 
-		AddEvent( "jump" );
+		JustJumped();
 	}
 
 	bool IsTouchingLadder = false;
