@@ -167,7 +167,7 @@ internal partial class StrafePlayer : Sandbox.Player
 			Camera.FirstPersonViewer = this;
 		}
 
-		Camera.FieldOfView = Game.Preferences.FieldOfView;
+		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
 		Camera.ZNear = 1f;
 		Camera.ZFar = 10000.0f;
 	}
