@@ -15,7 +15,7 @@ internal partial class SlotMenu : Entity
 	[Net]
 	public string Title { get; set; }
 	[Net]
-	public List<string> Options { get; set; }
+	public IList<string> Options { get; set; }
 	[Net]
 	public bool CloseButton { get; set; }
 	[Net]

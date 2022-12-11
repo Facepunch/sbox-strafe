@@ -142,7 +142,7 @@ internal partial class StrafeGame
 
 	public static async Task<List<string>> GetAvailableMaps()
 	{
-		var packages = await Package.FindAsync( "type:map game:facepunch.strafe", 16 );
+		var packages = await Package.FindAsync( "type:map game:facepunch.strafe sort:updated", 16 );
 		var maps = packages.Packages?.Select( x => x.FullIdent ).ToList();
 
 		var pkg = await Package.Fetch( Game.Server.GameIdent, true );
