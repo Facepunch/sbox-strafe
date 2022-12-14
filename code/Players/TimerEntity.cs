@@ -168,7 +168,7 @@ internal partial class TimerEntity : Entity
 		{
 			Velocity = Owner.Velocity,
 			Position = Owner.Position,
-			Angles = Owner.Rotation.Angles(),
+			Angles = (Owner as StrafePlayer).ViewAngles,
 			Time = Timer,
 			Jumps = Jumps,
 			Strafes = Strafes
