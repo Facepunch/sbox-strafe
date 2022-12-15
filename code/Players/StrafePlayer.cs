@@ -136,6 +136,11 @@ internal partial class StrafePlayer : Sandbox.Player
 			GoBack();
 		}
 
+		if ( Input.Pressed( InputButton.Slot8 ) )
+		{
+			StrafeGame.Current.DoPlayerNoclip( Client );
+		}
+
 		if ( Input.Pressed( InputButton.Flashlight ) && Game.IsClient )
 		{
 			ToggleFlashlight();
@@ -298,6 +303,14 @@ internal partial class StrafePlayer : Sandbox.Player
 		if ( Game.LocalPawn is not StrafePlayer pl ) return;
 
 		pl.YawSpeed = 0;
+	}
+
+	[ConCmd.Client( "noclip", CanBeCalledFromServer = false )]
+	public static void DoNoclip()
+	{
+		if ( Game.LocalPawn is not StrafePlayer pl ) return;
+
+		pl.ButtonToSet = InputButton.Slot8;
 	}
 
 }

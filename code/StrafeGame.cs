@@ -68,15 +68,19 @@ internal partial class StrafeGame : GameManager
 	{
 		if ( player.Pawn is not StrafePlayer pl ) 
 			return;
+		if ( pl.Controller is not StrafeController ctrl ) 
+			return;
 
-		if( pl.DevController == null )
+		ctrl.Noclip = !ctrl.Noclip;
+
+		if ( !Game.IsServer ) return;
+
+		if ( ctrl.Noclip )
 		{
-			pl.DevController = new NoclipController();
 			Chatbox.AddChatEntry( To.Single( player ), "Server", "Noclip enabled", "server" );
 		}
 		else
 		{
-			pl.DevController = null;
 			Chatbox.AddChatEntry( To.Single( player ), "Server", "Noclip disabled", "server" );
 		}
 	}

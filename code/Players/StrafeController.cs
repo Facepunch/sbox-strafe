@@ -17,6 +17,8 @@ partial class StrafeController : WalkController
 	public bool Activated { get; set; }
 	[Net, Predicted]
 	public FrictionLevels FrictionLevel { get; set; }
+	[Net, Predicted]
+	public bool Noclip { get; set; }
 
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
@@ -68,6 +70,12 @@ partial class StrafeController : WalkController
 
 	public override void Simulate()
 	{
+		if( Noclip )
+		{
+			NoclipMove();
+			return;
+		}
+
 		FrictionLevel = FrictionLevels.Normal;
 
 		DoTriggers();
@@ -553,6 +561,17 @@ partial class StrafeController : WalkController
 
 		tr.EndPosition -= TraceOffset;
 		return tr;
+	}
+
+	private void NoclipMove()
+	{
+		var speed = Input.Down( InputButton.Run ) ? 1500 : 1000;
+
+		Velocity = new Vector3( Player.InputDirection.x, Player.InputDirection.y, 0 );
+		Velocity *= Player.ViewAngles.ToRotation();
+		Velocity *= speed;
+
+		Position += Velocity * Time.Delta;
 	}
 
 }
