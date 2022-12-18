@@ -121,7 +121,7 @@ internal partial class TimerEntity : Entity
 			return;
 		}
 
-		if ( pl.GetActiveController() is not StrafeController ctrl )
+		if ( pl.Controller is not StrafeController ctrl || ctrl.Noclip )
 		{
 			Stop();
 			EnforceGroundState = true;
