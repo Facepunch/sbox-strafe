@@ -156,469 +156,515 @@ HudTimer {
         background-tint: rgba( white .25 );
     }
 }
-
-Crosshair {
+HudMovement {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50% -50%);
-    width: 8px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: rgba(white .5);
-}
-
-Chatbox {
-    position: absolute;
-    width: 550px;
-    height: 325px;
-    left: 170px;
-    bottom: 175px;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 10px;
-    border-right: 2px solid transparent;
-    border-bottom: 2px solid transparent;
-    border-radius: $largeradius;
-    z-index: $z-chat;
-
-    &.open {
-        pointer-events: all;
-        background-color: rgba( $darkbg .5 );
-
-        .input {
-            opacity: 1;
-            transition: all .15s ease-out;
-            transform: scale(1.05);
-
-            &:hover {
-                background-color: $bg;
-            }
-        }
-
-        .chat-entry {
-            opacity: 1;
-        }
-    }
-
-    .messages {
-        flex-direction: column;
-        overflow: scroll;
-        margin-bottom: 10px;
-    }
-
-    .input {
-        align-items: center;
-        background-color: $darkbg;
-        border-radius: $smallradius;
-        opacity: 0;
-        flex-shrink: 0;
-
-        textentry {
-            align-items: center;
-            flex-grow: 1;
-            padding: 8px;
-            cursor: text;
-            background-image: url( ui/border.png );
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: 50% 99%;
-            background-tint: $lightaccent;
-        }
-    }
-}
-
-.chat-entry {
-    flex-shrink: 0;
-    flex-grow: 0;
-    padding: 2px;
-    text-shadow: 1px 1px 0 black;
-    align-items: center;
-    font-weight: 600;
-    transition: all .15s ease-out;
-    align-items: flex-start;
-
-    &.faded {
-        opacity: 0;
-    }
-
-    &.connect {
-        font-style: italic;
-        color: rgba(white .8);
-    }
-
-    &.important {
-        color: $orange;
-        font-weight: heavy;
-    }
-
-    &.timer {
-        .name {
-            color: $orange;
-        }
-
-        color: rgba(white .8);
-    }
-
-    .name {
-        margin-right: 4px;
-        font-weight: 800;
-        color: $lightaccent;
-        cursor: text;
-        flex-shrink: 0;
-    }
-
-    .message {
-        cursor: text;
-    }
-
-    &.bold {
-        .message {
-            font-weight: 800;
-        }
-    }
-
-    &.purple {
-        .message {
-            color: $purple;
-        }
-    }
-}
-
-HudStatus {
     width: 100%;
     height: 100%;
-    position: absolute;
-
-    &.connected .api {
-        display: none;
-    }
-
-    .map {
-        display: none;
-    }
-
-    &.preview .map {
-        display: flex;
-
-        .dot {
-            background-color: $orange;
-        }
-    }
+    text-shadow: 1px 1px 1px black;
+    opacity: 0;
 
     .inner {
-        position: absolute;
-        left: 175px;
-        bottom: 128px;
-    }
+        .down {
+            justify-content: center;
 
-    .status {
-        align-items: center;
-        padding: 4px 8px;
-        background-color: rgba( $bg .5 );
-        margin-right: 4px;
+            .arrow {
+                position: absolute;
+                color: $green;
+                transform: translate(-50% -50%);
+                width: 40px;
+                background-size: cover;
+                aspect-ratio: 1;
+                background-image: url("ui/movementhint.png");
+            }
 
-        .dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-            background-color: #ff0000;
-            margin-right: 5px;
+            .jump {
+                position: absolute;
+                color: $green;
+                transform: translate(-50% -50%);
+                width: 40px;
+                background-size: cover;
+                aspect-ratio: 1;
+                background-image: url("ui/movementhint-jump.png");
+            }
         }
+
+        .up {
+            opacity: 0;
+            position: absolute;
+        }
+
+        position: absolute;
+        left: 50%;
+        top: 90%;
     }
 
-    &.connected .api-status .dot {
-        background-color: #00ff90;
+    &.active {
+        opacity:1;
     }
 }
 
-HudSlotMenu {
-    position: absolute;
-    padding: 15px;
-    background-color: rgba($darkbg .25);
-    border-radius: $radius;
-    top: 40%;
-    left: 100px;
-    flex-direction: column;
-    text-shadow: 1px 1px 1px black;
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity .15s ease-in;
-    transition: transform .8s bounce-out;
-
-    &:intro {
-        opacity: 0;
-        transform: scale(0);
-    }
-
-    &:outro {
-        opacity: 0;
-        transform: scale(0);
-    }
-
-    .title {
-        font-weight: heavy;
-        margin-bottom: 10px;
-        color: $orange;
-    }
-
-    .duration {
+    Crosshair {
         position: absolute;
-        left: -14px;
-        top: -14px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50% -50%);
+        width: 8px;
+        height: 4px;
         border-radius: 50%;
-        background-color: $darkbg;
-        width: 28px;
-        height: 28px;
+        background-color: rgba(white .5);
+    }
+
+    Chatbox {
+        position: absolute;
+        width: 550px;
+        height: 325px;
+        left: 170px;
+        bottom: 175px;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 10px;
+        border-right: 2px solid transparent;
+        border-bottom: 2px solid transparent;
+        border-radius: $largeradius;
+        z-index: $z-chat;
+
+        &.open {
+            pointer-events: all;
+            background-color: rgba( $darkbg .5 );
+
+            .input {
+                opacity: 1;
+                transition: all .15s ease-out;
+                transform: scale(1.05);
+
+                &:hover {
+                    background-color: $bg;
+                }
+            }
+
+            .chat-entry {
+                opacity: 1;
+            }
+        }
+
+        .messages {
+            flex-direction: column;
+            overflow: scroll;
+            margin-bottom: 10px;
+        }
+
+        .input {
+            align-items: center;
+            background-color: $darkbg;
+            border-radius: $smallradius;
+            opacity: 0;
+            flex-shrink: 0;
+
+            textentry {
+                align-items: center;
+                flex-grow: 1;
+                padding: 8px;
+                cursor: text;
+                background-image: url( ui/border.png );
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 50% 99%;
+                background-tint: $lightaccent;
+            }
+        }
+    }
+
+    .chat-entry {
+        flex-shrink: 0;
+        flex-grow: 0;
+        padding: 2px;
+        text-shadow: 1px 1px 0 black;
         align-items: center;
-        text-align: center;
-    }
+        font-weight: 600;
+        transition: all .15s ease-out;
+        align-items: flex-start;
 
-    .options {
-        flex-direction: column;
-        padding-left: 10px;
-
-        .active {
-            color: $lightaccent;
+        &.faded {
+            opacity: 0;
         }
-    }
-}
 
-TabMenu {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: all .15s ease-out;
-    z-index: $z-menu;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba( black .15 );
-    backdrop-filter: blur(2px);
+        &.connect {
+            font-style: italic;
+            color: rgba(white .8);
+        }
 
-    .navbar {
-        width: 55%;
-        margin-bottom: 20px;
-        margin-top: -20px;
+        &.important {
+            color: $orange;
+            font-weight: heavy;
+        }
 
-        button, navlink {
-            margin-right: 4px;
-            border-color: transparent;
-            border-radius:0;
-            font-size: 18px;
-            text-transform: uppercase;
-            padding: 8px 12px;
-
-            &:hover, &.active {
-                transform: scale(1.03);
-                background-color: $darkaccent;
+        &.timer {
+            .name {
+                color: $orange;
             }
 
-            &:last-child {
-                margin-right: 0;
-            }
-        }
-
-        .container {
-            flex-direction: row;
-            padding: 0;
-        }
-    }
-
-    .content {
-        width: 55%;
-        height: 50%;
-    }
-
-    &.open {
-        opacity: 1;
-    }
-
-    &.cursor {
-        pointer-events: all;
-    }
-}
-
-StrafeScoreboard {
-    PlayerList, ReplayList {
-        flex-direction: column;
-    }
-
-    PlayerListEntry, ReplayListEntry {
-        padding: $paddingsmall;
-        justify-content: space-between;
-        flex-grow: 1;
-        transition: all .1s ease-out;
-        border-radius: $radius;
-        cursor: pointer;
-
-        &.active {
-            border: 2px solid $orange;
-            transform: scale(1.02);
+            color: rgba(white .8);
         }
 
         .name {
-            color: $darkaccent;
+            margin-right: 4px;
             font-weight: 800;
+            color: $lightaccent;
+            cursor: text;
+            flex-shrink: 0;
         }
 
-        &:hover:not(.active) {
-            background-color: $darkaccent;
-            text-shadow: 1px 1px 2px black;
-            transform: scale(1.02);
-            box-shadow: 3px 3px 0px black;
+        .message {
+            cursor: text;
+        }
+
+        &.bold {
+            .message {
+                font-weight: 800;
+            }
+        }
+
+        &.purple {
+            .message {
+                color: $purple;
+            }
+        }
+    }
+
+    HudStatus {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+
+        &.connected .api {
+            display: none;
+        }
+
+        .map {
+            display: none;
+        }
+
+        &.preview .map {
+            display: flex;
+
+            .dot {
+                background-color: $orange;
+            }
+        }
+
+        .inner {
+            position: absolute;
+            left: 175px;
+            bottom: 128px;
+        }
+
+        .status {
+            align-items: center;
+            padding: 4px 8px;
+            background-color: rgba( $bg .5 );
+            margin-right: 4px;
+
+            .dot {
+                width: 12px;
+                height: 12px;
+                border-radius: 2px;
+                background-color: #ff0000;
+                margin-right: 5px;
+            }
+        }
+
+        &.connected .api-status .dot {
+            background-color: #00ff90;
+        }
+    }
+
+    HudSlotMenu {
+        position: absolute;
+        padding: 15px;
+        background-color: rgba($darkbg .25);
+        border-radius: $radius;
+        top: 40%;
+        left: 100px;
+        flex-direction: column;
+        text-shadow: 1px 1px 1px black;
+        opacity: 1;
+        transform: scale(1);
+        transition: opacity .15s ease-in;
+        transition: transform .8s bounce-out;
+
+        &:intro {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        &:outro {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        .title {
+            font-weight: heavy;
+            margin-bottom: 10px;
+            color: $orange;
+        }
+
+        .duration {
+            position: absolute;
+            left: -14px;
+            top: -14px;
+            border-radius: 50%;
+            background-color: $darkbg;
+            width: 28px;
+            height: 28px;
+            align-items: center;
+            text-align: center;
+        }
+
+        .options {
+            flex-direction: column;
+            padding-left: 10px;
+
+            .active {
+                color: $lightaccent;
+            }
+        }
+    }
+
+    TabMenu {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: all .15s ease-out;
+        z-index: $z-menu;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba( black .15 );
+        backdrop-filter: blur(2px);
+
+        .navbar {
+            width: 55%;
+            margin-bottom: 20px;
+            margin-top: -20px;
+
+            button, navlink {
+                margin-right: 4px;
+                border-color: transparent;
+                border-radius: 0;
+                font-size: 18px;
+                text-transform: uppercase;
+                padding: 8px 12px;
+
+                &:hover, &.active {
+                    transform: scale(1.03);
+                    background-color: $darkaccent;
+                }
+
+                &:last-child {
+                    margin-right: 0;
+                }
+            }
+
+            .container {
+                flex-direction: row;
+                padding: 0;
+            }
+        }
+
+        .content {
+            width: 55%;
+            height: 50%;
+        }
+
+        &.open {
+            opacity: 1;
+        }
+
+        &.cursor {
+            pointer-events: all;
+        }
+    }
+
+    StrafeScoreboard {
+        PlayerList, ReplayList {
+            flex-direction: column;
+        }
+
+        PlayerListEntry, ReplayListEntry {
+            padding: $paddingsmall;
+            justify-content: space-between;
+            flex-grow: 1;
+            transition: all .1s ease-out;
+            border-radius: $radius;
+            cursor: pointer;
+
+            &.active {
+                border: 2px solid $orange;
+                transform: scale(1.02);
+            }
 
             .name {
-                color: white;
+                color: $darkaccent;
+                font-weight: 800;
+            }
+
+            &:hover:not(.active) {
+                background-color: $darkaccent;
+                text-shadow: 1px 1px 2px black;
+                transform: scale(1.02);
+                box-shadow: 3px 3px 0px black;
+
+                .name {
+                    color: white;
+                }
             }
         }
-    }
 
-    ReplayListEntry .name {
-        color: $orange;
-    }
-}
-
-StrafeLeaderboard {
-    .entries {
-        flex-direction: column;
-        text-shadow: 1px 1px 0px black;
-        font-weight: 600;
-    }
-
-    StrafeLeaderboardEntry {
-        justify-content: space-between;
-    }
-}
-
-SpectatorList {
-    position: absolute;
-    right: 64px;
-    top: 40%;
-    opacity: 0;
-    flex-direction: column;
-
-    &.open {
-        opacity: 1;
-    }
-
-    .entries {
-        flex-direction: column;
-        padding: 4px 8px;
-        text-align: center;
-    }
-}
-
-Nametag {
-    font-family: Ubuntu;
-    font-size: 32px;
-    color: white;
-    align-items: center;
-    justify-content: center;
-    text-stroke: 9px black;
-    text-shadow: 2px 2px 2px black;
-    font-weight: 800;
-    opacity: 0;
-    transition: opacity .15s ease-out;
-
-    &.open {
-        opacity: 1;
-    }
-}
-
-InfoTab {
-    label2 {
-        justify-content: space-between;
-        padding: 8px;
-        background-color: rgba(black .25);
-        border-radius: $radius;
-        margin-bottom: 1px;
-        transition: all .15s ease-out;
-
-        &:hover {
-            background-color: rgba(black .45);
-            transform: scale(1.03);
-            margin: 2px 0;
-        }
-
-        :first-child {
-            font-weight: heavy;
+        ReplayListEntry .name {
             color: $orange;
-            min-width: 200px;
-        }
-
-        :last-child {
-            color: $foreground-faded;
-            text-align: right;
         }
     }
 
-    .chat-commands label2 {
-        cursor: pointer;
+    StrafeLeaderboard {
+        .entries {
+            flex-direction: column;
+            text-shadow: 1px 1px 0px black;
+            font-weight: 600;
+        }
+
+        StrafeLeaderboardEntry {
+            justify-content: space-between;
+        }
     }
-}
 
-MapList {
-    flex-direction: column;
-    overflow: scroll;
+    SpectatorList {
+        position: absolute;
+        right: 64px;
+        top: 40%;
+        opacity: 0;
+        flex-direction: column;
 
-    MapListEntry {
-        flex-shrink: 0;
-        padding: 15px;
-        border-radius: $radius;
-        background-color: rgba(black 0);
-        transition: all .15s ease-out;
+        &.open {
+            opacity: 1;
+        }
 
-        &:hover, &.nominated {
-            background-color: rgba( black .25 );
+        .entries {
+            flex-direction: column;
+            padding: 4px 8px;
+            text-align: center;
+        }
+    }
+
+    Nametag {
+        font-family: Ubuntu;
+        font-size: 32px;
+        color: white;
+        align-items: center;
+        justify-content: center;
+        text-stroke: 9px black;
+        text-shadow: 2px 2px 2px black;
+        font-weight: 800;
+        opacity: 0;
+        transition: opacity .15s ease-out;
+
+        &.open {
+            opacity: 1;
+        }
+    }
+
+    InfoTab {
+        label2 {
+            justify-content: space-between;
+            padding: 8px;
+            background-color: rgba(black .25);
+            border-radius: $radius;
+            margin-bottom: 1px;
+            transition: all .15s ease-out;
+
+            &:hover {
+                background-color: rgba(black .45);
+                transform: scale(1.03);
+                margin: 2px 0;
+            }
+
+            :first-child {
+                font-weight: heavy;
+                color: $orange;
+                min-width: 200px;
+            }
+
+            :last-child {
+                color: $foreground-faded;
+                text-align: right;
+            }
+        }
+
+        .chat-commands label2 {
+            cursor: pointer;
+        }
+    }
+
+    MapList {
+        flex-direction: column;
+        overflow: scroll;
+
+        MapListEntry {
+            flex-shrink: 0;
+            padding: 15px;
+            border-radius: $radius;
+            background-color: rgba(black 0);
+            transition: all .15s ease-out;
+
+            &:hover, &.nominated {
+                background-color: rgba( black .25 );
+
+                .thumbnail {
+                    transform: scale(1.15) translateX(-10px);
+                }
+            }
+
+            &.nominated {
+                background-color: rgba( $darkaccent .01 );
+
+                button {
+                    background-color: $lightaccent;
+                    transform: scale(1.05);
+                }
+            }
 
             .thumbnail {
-                transform: scale(1.15) translateX(-10px);
-            }
-        }
-
-        &.nominated {
-            background-color: rgba( $darkaccent .01 );
-
-            button {
-                background-color: $lightaccent;
-                transform: scale(1.05);
-            }
-        }
-
-        .thumbnail {
-            min-width: 125px;
-            max-width: 125px;
-            height: 125px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            border-radius: 10px;
-            box-shadow: 2px 2px 20px rgba(black .25);
-            margin-right: 20px;
-            transition: transform .15s ease-out;
-        }
-
-        .text {
-            flex-direction: column;
-            flex-grow: 1;
-            margin-right: 150px;
-
-            .title {
-                font-size: 20px;
-                margin-bottom: 8px;
+                min-width: 125px;
+                max-width: 125px;
+                height: 125px;
+                background-size: contain;
+                background-repeat: no-repeat;
+                border-radius: 10px;
+                box-shadow: 2px 2px 20px rgba(black .25);
+                margin-right: 20px;
+                transition: transform .15s ease-out;
             }
 
-            .description {
-                color: $foreground-faded;
-            }
-        }
-
-        .buttons {
-            min-width: 125px;
-
-            button {
+            .text {
+                flex-direction: column;
                 flex-grow: 1;
+                margin-right: 150px;
+
+                .title {
+                    font-size: 20px;
+                    margin-bottom: 8px;
+                }
+
+                .description {
+                    color: $foreground-faded;
+                }
+            }
+
+            .buttons {
+                min-width: 125px;
+
+                button {
+                    flex-grow: 1;
+                }
             }
         }
     }
-}

@@ -15,6 +15,8 @@ internal partial class StrafePlayer : Sandbox.Player
 	[Net]
 	public TimerEntity.States TimerState { get; set; }
 
+	public bool DisplayInput;
+
 	private bool TimersCreated;
 	private ClothingContainer Clothing;
 	private Nametag Nametag;

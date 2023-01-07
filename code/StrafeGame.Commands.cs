@@ -90,6 +90,17 @@ internal partial class StrafeGame
 			if ( enabled ) Chatbox.AddChatEntry( "Server", "Trail Enabled" );
 			else Chatbox.AddChatEntry( "Server", "Trail Disabled" );
 		}
+		if ( cmdName == "showkeys" && Game.IsClient )
+		{
+			if ( cl.Pawn is not StrafePlayer pl ) return;
+
+			Log.Info( Time.Now );
+
+			pl.DisplayInput = !pl.DisplayInput;
+			
+			if ( pl.DisplayInput ) Chatbox.AddChatEntry( "Server", "Input Display Enabled" );
+			else Chatbox.AddChatEntry( "Server", "Input Display Disabled" );
+		}
 
 	}
 
