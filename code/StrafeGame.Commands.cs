@@ -84,8 +84,6 @@ internal partial class StrafeGame
 		{
 			if ( cl.Pawn is not StrafePlayer pl ) return;
 
-			Log.Info( Time.Now );
-			
 			var enabled = pl.ToggleTrail();
 			if ( enabled ) Chatbox.AddChatEntry( "Server", "Trail Enabled" );
 			else Chatbox.AddChatEntry( "Server", "Trail Disabled" );
@@ -93,8 +91,6 @@ internal partial class StrafeGame
 		if ( cmdName == "showkeys" && Game.IsClient )
 		{
 			if ( cl.Pawn is not StrafePlayer pl ) return;
-
-			Log.Info( Time.Now );
 
 			pl.DisplayInput = !pl.DisplayInput;
 			
