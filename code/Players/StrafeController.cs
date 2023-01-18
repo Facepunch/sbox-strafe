@@ -19,6 +19,8 @@ partial class StrafeController : WalkController
 	public FrictionLevels FrictionLevel { get; set; }
 	[Net, Predicted]
 	public bool Noclip { get; set; }
+	[Net, Predicted]
+	public int GroundedTickCount { get; set; }
 
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
@@ -101,6 +103,15 @@ partial class StrafeController : WalkController
 
 		LastLeft = Player.InputDirection.y;
 		LastGrounded = GroundEntity.IsValid();
+
+		if( !GroundEntity.IsValid() )
+		{
+			GroundedTickCount = 0;
+		}
+		else
+		{
+			GroundedTickCount++;
+		}
 	}
 
 	public override void AirMove()
