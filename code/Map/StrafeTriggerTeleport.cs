@@ -20,6 +20,12 @@ internal partial class StrafeTriggerTeleport : StrafeTrigger
 	public string TargetEntity { get; set; }
 
 	/// <summary>
+	/// If true, teleports the player to their last touched checkpoint instead of a target entity.
+	/// </summary>
+	[Net, Property]
+	public bool UseLastCheckpoint { get; set; }
+
+	/// <summary>
 	/// If set, teleports the entity with an offset depending on where the entity was in the trigger teleport. Think world portals. Place the target entity accordingly.
 	/// </summary>
 	[Property( "teleport_relative", Title = "Teleport Relatively" )]
@@ -71,6 +77,15 @@ internal partial class StrafeTriggerTeleport : StrafeTrigger
 			if ( ent.IsValid() )
 			{
 				tx = ent.Transform;
+			}
+		}
+
+		if( UseLastCheckpoint && ctrl.Pawn is StrafePlayer pla )
+		{
+			var cptx = pla.CurrentStage()?.TeleportTransform();
+			if( cptx != null )
+			{
+				tx = cptx.Value;
 			}
 		}
 
