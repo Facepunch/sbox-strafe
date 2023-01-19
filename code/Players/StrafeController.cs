@@ -1,11 +1,4 @@
 ﻿
-using Sandbox;
-using Strafe.Map;
-using Strafe.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Strafe.Players;
 
 partial class StrafeController : WalkController
@@ -26,6 +19,8 @@ partial class StrafeController : WalkController
 	private Vector3 LastBaseVelocity;
 	private float LastLeft;
 	private bool LastGrounded;
+	private Vector3 LastVelocity;
+	private float LastYaw;
 	private StrafePlayer Player => Pawn as StrafePlayer;
 
 	public StrafeController()
@@ -80,6 +75,7 @@ partial class StrafeController : WalkController
 
 		FrictionLevel = FrictionLevels.Normal;
 
+		CheckSync();
 		DoTriggers();
 
 		LastBaseVelocity = BaseVelocity;
@@ -101,9 +97,6 @@ partial class StrafeController : WalkController
 			JustGrounded();
 		}
 
-		LastLeft = Player.InputDirection.y;
-		LastGrounded = GroundEntity.IsValid();
-
 		if( !GroundEntity.IsValid() )
 		{
 			GroundedTickCount = 0;
@@ -111,6 +104,36 @@ partial class StrafeController : WalkController
 		else
 		{
 			GroundedTickCount++;
+		}
+
+		LastLeft = Player.InputDirection.y;
+		LastGrounded = GroundEntity.IsValid();
+		LastYaw = Player.ViewAngles.yaw;
+		LastVelocity = Velocity;
+	}
+
+	private void CheckSync()
+	{
+		if ( GroundEntity.IsValid() ) return;
+
+		var angleDiff = Player.ViewAngles.yaw - LastYaw;
+		if ( angleDiff == 0 ) return;
+
+		var goodSync = false;
+
+		var wishDir = Player.InputDirection.WithZ( 0 );
+		wishDir *= Player.ViewAngles.WithPitch( 0 ).ToRotation();
+		wishDir = wishDir.WithZ( 0 ).Normal;
+
+		var dot = Vector3.Dot( LastVelocity.WithZ( 0 ), wishDir );
+		goodSync = dot < AirControl;
+
+		foreach ( var ent in Pawn.Children )
+		{
+			if ( ent is not TimerEntity t ) continue;
+			if ( t.State != TimerEntity.States.Live ) continue;
+			t.TotalSync++;
+			if ( goodSync ) t.GoodSync++;
 		}
 	}
 

@@ -13,13 +13,11 @@
             <label class="diff" @ref="SpeedDiff" />
         </div>
         <div class="row">
-            <label style="margin-right: 4px;" text=@Jumps />
-            <label>jumps</label>
+            <label text=@($"Jumps: {Jumps}") />
             <label class="diff" @ref="JumpDiff" />
         </div>
         <div class="row">
-            <label style="margin-right: 4px;" text=@Strafes />
-            <label>strafes</label>
+            <label text=@($"Strafes: {Strafes} ({Sync}%)") />
             <label class="diff" @ref="StrafeDiff" />
         </div>
         <div class="row">
@@ -33,6 +31,7 @@
     int Jumps;
     int Speed;
     int Stage;
+    int Sync;
     string Time;
     Label TimeDiff;
     Label SpeedDiff;
@@ -61,33 +60,34 @@
         base.Tick();
 
         if ( Game.LocalPawn is not StrafePlayer pl )
-		{
-			Time = "Disabled";
-			return;
-		}
+        {
+            Time = "Disabled";
+            return;
+        }
 
-		TimerFrame frame;
-		Strafe.Players.TimerEntity.States state;
-		int stage;
+        TimerFrame frame;
+        Strafe.Players.TimerEntity.States state;
+        int stage;
 
-		if( pl.SpectateTarget is ReplayEntity rep )
-		{
-			frame = rep.Frame;
-			stage = 0;
-			state = Strafe.Players.TimerEntity.States.Live;
-		}
-		else
-		{
-			var target = (pl.SpectateTarget as StrafePlayer) ?? pl;
-			frame = target.TimerFrame;
-			stage = target.TimerStage;
-			state = target.TimerState;
-		}
+        if( pl.SpectateTarget is ReplayEntity rep )
+        {
+            frame = rep.Frame;
+            stage = 0;
+            state = Strafe.Players.TimerEntity.States.Live;
+        }
+        else
+        {
+            var target = (pl.SpectateTarget as StrafePlayer) ?? pl;
+            frame = target.TimerFrame;
+            stage = target.TimerStage;
+            state = target.TimerState;
+        }
 
-		Stage = stage;
-		Speed = (int)frame.Velocity.WithZ( 0 ).Length;
-		Jumps = frame.Jumps;
-		Strafes = frame.Strafes;
+        Stage = stage;
+        Speed = (int)frame.Velocity.WithZ( 0 ).Length;
+        Jumps = frame.Jumps;
+        Strafes = frame.Strafes;
+        Sync = frame.Sync;
 
 		if( state != Strafe.Players.TimerEntity.States.Live )
 		{

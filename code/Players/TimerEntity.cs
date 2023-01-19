@@ -33,6 +33,10 @@ internal partial class TimerEntity : Entity
 	public int Strafes { get; set; }
 	[Net, Predicted]
 	public bool EnforceGroundState { get; set; }
+	[Net, Predicted]
+	public int TotalSync { get; set; }
+	[Net, Predicted]
+	public int GoodSync { get; set; }
 
 	public TimerFrame Snapshot { get; private set; }
 
@@ -53,6 +57,8 @@ internal partial class TimerEntity : Entity
 		Timer = 0f;
 		Jumps = 0;
 		Strafes = 0;
+		TotalSync = 0;
+		GoodSync = 0;
 		frames.Clear();
 
 		Events.Timer.OnReset.Run( this );
@@ -164,6 +170,10 @@ internal partial class TimerEntity : Entity
 
 	public TimerFrame GrabFrame()
 	{
+		var sync = TotalSync > 0
+			? (int)(GoodSync / (float)TotalSync * 100)
+			: 0;
+
 		return new TimerFrame()
 		{
 			Velocity = Owner.Velocity,
@@ -171,7 +181,8 @@ internal partial class TimerEntity : Entity
 			Angles = (Owner as StrafePlayer).ViewAngles,
 			Time = Timer,
 			Jumps = Jumps,
-			Strafes = Strafes
+			Strafes = Strafes,
+			Sync = sync
 		};
 	}
 

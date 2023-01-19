@@ -1,9 +1,5 @@
 ﻿
-using Sandbox;
 using Sandbox.Diagnostics;
-using Strafe.Players;
-using System;
-using System.Collections.Generic;
 using System.IO;
 
 namespace Strafe.Leaderboards;
@@ -19,7 +15,7 @@ internal class Replay
 		Date = DateTimeOffset.UtcNow;
 	}
 
-	public int Version { get; set; } = 1;
+	public int Version { get; set; } = 2;
 	public long PlayerId { get; set; }
 	public string MapIdent { get; set; }
 	public DateTimeOffset Date { get; set; }
@@ -78,7 +74,7 @@ internal static class ReplayIO
 
 	internal static TimerFrame ReadTimerFrame( this BinaryReader br, int version )
 	{
-		return new TimerFrame()
+		var frame = new TimerFrame()
 		{
 			Velocity = br.ReadVector3(),
 			Position = br.ReadVector3(),
@@ -87,6 +83,14 @@ internal static class ReplayIO
 			Jumps = br.ReadInt32(),
 			Strafes = br.ReadInt32(),
 		};
+
+		// this kinda sucks, but I don't think it's gonna change much after this
+		if ( version >= 2 )
+		{
+			frame.Sync = br.ReadByte();
+		}
+
+		return frame;
 	}
 
 	internal static void WriteTimerFrame( this BinaryWriter bw, TimerFrame frame, int version )
@@ -97,6 +101,11 @@ internal static class ReplayIO
 		bw.Write( frame.Time );
 		bw.Write( frame.Jumps );
 		bw.Write( frame.Strafes );
+
+		if( version >= 2 )
+		{
+			bw.Write( (byte)frame.Sync );
+		}
 	}
 
 }

@@ -12,6 +12,7 @@ internal struct TimerFrame
 	public float Time { get; set; }
 	public int Jumps { get; set; }
 	public int Strafes { get; set; }
+	public int Sync { get; set; } // FORMAT VERSION 2
 
 	public static bool operator ==( TimerFrame a, TimerFrame b )
 	{
