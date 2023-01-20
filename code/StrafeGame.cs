@@ -84,6 +84,9 @@ internal partial class StrafeGame : GameManager
 			Chatbox.AddChatEntry( To.Single( player ), "Server", "Noclip disabled", "server" );
 		}
 	}
-
+	public override void OnVoicePlayed( IClient cl )
+	{
+		VoiceChatList.Current?.OnVoicePlayed( cl.SteamId, cl.Voice.CurrentLevel );
+	}
 }
 
