@@ -11,38 +11,39 @@ VoiceChatList {
 	font-size: 16px;
 	flex-direction: row-reverse;
 
-	VoiceChatEntry {
-		flex-direction: row;
-		padding: 6px;
-		margin-bottom: 5px;
-		align-items: center;
-		align-content: center;
-		overflow: hidden;
+
+}
+.VoiceChatEntry {
+	flex-direction: row;
+	padding: 6px;
+	margin-bottom: 5px;
+	align-items: center;
+	align-content: center;
+	overflow: hidden;
+	transition: all 0.1s ease-out;
+	left: 0px;
+	background-color: rgba( $darkbg .65 );
+	border-radius: $radius;
+	border-bottom: 1px solid rgba( $darkaccent .5 );
+
+	&:intro {
+		opacity: 0;
+		margin-left: 20px;
+	}
+
+	&:outro {
+		opacity: 0;
+		margin-left: 20px;
 		transition: all 0.1s ease-out;
-		left: 0px;
-		background-color: rgba( $darkbg .65 );
-		border-bottom: 1px solid rgba( $darkaccent .5 );
+	}
 
-		&:intro {
-			opacity: 0;
-			margin-left: 20px;
-		}
+	.avatar {
+		width: 32px;
+		aspect-ratio: 1;
+	}
 
-		&:outro {
-			opacity: 0;
-			margin-left: 20px;
-			transition: all 0.1s ease-out;
-		}
-
-		.avatar {
-			width: 48px;
-			aspect-ratio:1;
-		}
-
-		.name {
-			padding-right: 20px;
-			padding-left: 10px;
-			text-shadow: 1px 1px 1px black;
-		}
+	.name {
+		padding-right: 20px;
+		text-shadow: 1px 1px 1px black;
 	}
 }

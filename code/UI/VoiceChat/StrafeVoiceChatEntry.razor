@@ -1,0 +1,69 @@
+﻿@inherits Panel
+@attribute [StyleSheet("UI/VoiceChat/VoiceChatList.scss")]
+
+<root class="VoiceChatList">
+	<div class="VoiceChatEntry">
+		<label class="name" text="@(Friend.Name)"/>
+		<img class="avatar" src=@($"avatar:{Friend.Id}") />
+
+	</div>
+</root>
+
+@code
+{
+	public Friend Friend;
+
+	public long PlayerId;
+
+	private float VoiceLevel = 0.0f;
+	private float TargetVoiceLevel = 0;
+
+	RealTimeSince timeSincePlayed;
+
+	public StrafeVoiceChatEntry(Panel parent, long steamId)
+	{
+		Parent = parent;
+
+		Friend = new Friend(steamId);
+
+		SteamId(steamId);
+	}
+
+	public long SteamId(long id)
+	{
+		Log.Info(id);
+		return id;
+	}
+
+	public void Update(float level)
+	{
+		timeSincePlayed = 0;
+		TargetVoiceLevel = level;
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		if (IsDeleting)
+			return;
+
+		var SpeakTimeout = 2.0f;
+		var timeoutInv = 1 - (timeSincePlayed / SpeakTimeout);
+		timeoutInv = MathF.Min(timeoutInv * 2.0f, 1.0f);
+
+		if (timeoutInv <= 0)
+		{
+			Delete();
+			return;
+		}
+
+		Style.Dirty();
+	}
+
+	protected override int BuildHash()
+	{
+
+		return HashCode.Combine(Friend);
+	}
+}

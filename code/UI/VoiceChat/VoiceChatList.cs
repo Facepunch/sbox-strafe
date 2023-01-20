@@ -11,8 +11,8 @@ public class VoiceChatList : Panel{
 
 	public void OnVoicePlayed( long steamId, float level )
 	{
-		var entry = ChildrenOfType<VoiceChatEntry>().FirstOrDefault( x => x.Friend.Id == steamId );
-		if ( entry == null ) entry = new VoiceChatEntry( this, steamId );
+		var entry = ChildrenOfType<StrafeVoiceChatEntry>().FirstOrDefault( x => x.Friend.Id == steamId );
+		if ( entry == null ) entry = new StrafeVoiceChatEntry( this, steamId );
 
 		entry.Update( level );
 	}
