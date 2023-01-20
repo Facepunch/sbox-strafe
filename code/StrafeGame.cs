@@ -45,6 +45,8 @@ internal partial class StrafeGame : GameManager
 
 		NetworkClientLogin( cl );
 
+		cl.Voice.WantsStereo = false;
+
 		Chatbox.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has joined the game", "connect" );
 		Chatbox.AddChatEntry( To.Single( cl ), "Server", "Website: https://strafedb.com", "important" );
 		Chatbox.AddChatEntry( To.Single( cl ), "Server", "Discord: https://discord.gg/UG2KQdrkA5", "important" );
