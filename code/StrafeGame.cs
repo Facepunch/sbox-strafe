@@ -91,4 +91,3 @@ internal partial class StrafeGame : GameManager
 		VoiceChatList.Current?.OnVoicePlayed( cl.SteamId, cl.Voice.CurrentLevel );
 	}
 }
-

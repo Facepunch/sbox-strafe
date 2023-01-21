@@ -12,9 +12,6 @@
 {
 	public Friend Friend;
 
-	public long PlayerId;
-
-	private float VoiceLevel = 0.0f;
 	private float TargetVoiceLevel = 0;
 
 	RealTimeSince timeSincePlayed;
@@ -24,13 +21,6 @@
 		Parent = parent;
 
 		Friend = new Friend(steamId);
-
-		SteamId(steamId);
-	}
-
-	public long SteamId(long id)
-	{
-		return id;
 	}
 
 	public void Update(float level)
@@ -46,22 +36,11 @@
 		if (IsDeleting)
 			return;
 
-		var SpeakTimeout = 2.0f;
-		var timeoutInv = 1 - (timeSincePlayed / SpeakTimeout);
-		timeoutInv = MathF.Min(timeoutInv * 2.0f, 1.0f);
-
-		if (timeoutInv <= 0)
+		if (timeSincePlayed > 2f)
 		{
 			Delete();
 			return;
 		}
-
 		Style.Dirty();
-	}
-
-	protected override int BuildHash()
-	{
-
-		return HashCode.Combine(Friend);
 	}
 }
