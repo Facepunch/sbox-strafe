@@ -1,0 +1,34 @@
+﻿
+@inherits Panel
+
+<root>
+	<label class="name" text="@(Friend.Name)" />
+	<img class="avatar" src=@($"avatar:{Friend.Id}") />
+</root>
+
+@code
+{
+	public readonly Friend Friend;
+
+	private RealTimeSince timeSincePlayed;
+
+	public VoiceChatEntry(long steamId)
+	{
+		Friend = new Friend(steamId);
+	}
+
+	public void Update(float level)
+	{
+		timeSincePlayed = 0;
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		if (timeSincePlayed > 2f)
+		{
+			Delete();
+		}
+	}
+}

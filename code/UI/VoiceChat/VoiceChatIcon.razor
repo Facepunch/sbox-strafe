@@ -1,0 +1,40 @@
+﻿@inherits Panel
+
+<style>
+	VoiceChatIcon {
+		position: absolute;
+		bottom: 24px;
+		right: 32px;
+		opacity: 0.0;
+		padding: 8px;
+		background-image: url("ui/mic.png");
+		background-size: 100%;
+		width: 32px;
+		aspect-ratio: 1;
+	}
+
+		VoiceChatIcon.active {
+			opacity: .25;
+		}
+</style>
+
+@code
+{
+	private float VoiceLevel;
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		SetClass("active", Voice.IsRecording);
+
+		if (!Voice.IsRecording) return;
+
+		VoiceLevel = VoiceLevel.LerpTo(Voice.Level, Time.Delta * 40.0f);
+
+		var tr = new PanelTransform();
+		tr.AddScale(1.0f.LerpTo(1.5f, VoiceLevel));
+
+		Style.Transform = tr;
+	}
+}

@@ -1,0 +1,38 @@
+﻿
+@inherits Panel
+
+<root>
+
+</root>
+
+@code
+{
+	public static VoiceChatList Current { get; private set; }
+
+	public VoiceChatList()
+	{
+		Current = this;
+	}
+
+	public void OnVoicePlayed( long steamId, float level )
+	{
+		VoiceChatEntry entry = null;
+
+		foreach(var child in Children)
+		{
+			if (child is not VoiceChatEntry e) continue;
+			if (e.Friend.Id != steamId) continue;
+
+			entry = e;
+			break;
+		}
+
+		if(entry == null)
+		{
+			entry = new VoiceChatEntry(steamId);
+			entry.Parent = this;
+		}
+
+		entry.Update( level );
+	}
+}
