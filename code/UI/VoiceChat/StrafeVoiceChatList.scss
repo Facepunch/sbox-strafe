@@ -11,7 +11,7 @@ StrafeVoiceChatList {
 	font-size: 16px;
 	flex-direction: row-reverse;
 
-	StrafeVoiceChatEntry {
+	.StrafeVoiceChatEntry {
 		flex-direction: row;
 		padding: 6px;
 		margin-bottom: 5px;
@@ -19,10 +19,9 @@ StrafeVoiceChatList {
 		align-content: center;
 		overflow: hidden;
 		transition: all 0.1s ease-out;
-		left: 0px;
 		background-color: rgba( $darkbg .65 );
+		border-radius: $radius;
 		border-bottom: 1px solid rgba( $darkaccent .5 );
-
 		&:intro {
 			opacity: 0;
 			margin-left: 20px;
@@ -35,15 +34,13 @@ StrafeVoiceChatList {
 		}
 
 		.avatar {
-			width: 48px;
-			aspect-ratio:1;
+			width: 32px;
+			aspect-ratio: 1;
 		}
 
 		.name {
 			padding-right: 20px;
-			padding-left: 10px;
 			text-shadow: 1px 1px 1px black;
-
 		}
 	}
 }

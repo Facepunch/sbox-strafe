@@ -1,8 +1,8 @@
 ﻿@inherits Panel
-@attribute [StyleSheet("UI/VoiceChat/VoiceChatList.scss")]
+@attribute [StyleSheet("/UI/VoiceChat/StrafeVoiceChatList.scss")]
 
-<root class="VoiceChatList">
-	<div class="VoiceChatEntry">
+<root class="StrafeVoiceChatList">
+	<div class="StrafeVoiceChatEntry">
 		<label class="name" text="@(Friend.Name)"/>
 		<img class="avatar" src=@($"avatar:{Friend.Id}") />
 	</div>
@@ -12,9 +12,7 @@
 {
 	public Friend Friend;
 
-	private float TargetVoiceLevel = 0;
-
-	RealTimeSince timeSincePlayed;
+	private RealTimeSince timeSincePlayed;
 
 	public StrafeVoiceChatEntry(Panel parent, long steamId)
 	{
@@ -26,7 +24,6 @@
 	public void Update(float level)
 	{
 		timeSincePlayed = 0;
-		TargetVoiceLevel = level;
 	}
 
 	public override void Tick()

@@ -1,19 +1,19 @@
-﻿using System.Linq;
+﻿@using System.Linq;
+@attribute [StyleSheet("/UI/VoiceChat/StrafeVoiceChatList.scss")]
 
-public class VoiceChatList : Panel{
-	public static VoiceChatList Current { get; internal set; }
+@code
+{
+	public static StrafeVoiceChatList Current { get; internal set; }
 
-	public VoiceChatList()
+	public StrafeVoiceChatList()
 	{
 		Current = this;
-		StyleSheet.Load( "/UI/VoiceChat/VoiceChatList.scss" );
 	}
 
 	public void OnVoicePlayed( long steamId, float level )
 	{
 		var entry = ChildrenOfType<StrafeVoiceChatEntry>().FirstOrDefault( x => x.Friend.Id == steamId );
 		if ( entry == null ) entry = new StrafeVoiceChatEntry( this, steamId );
-
 		entry.Update( level );
 	}
 }

@@ -88,6 +88,6 @@ internal partial class StrafeGame : GameManager
 	}
 	public override void OnVoicePlayed( IClient cl )
 	{
-		VoiceChatList.Current?.OnVoicePlayed( cl.SteamId, cl.Voice.CurrentLevel );
+		StrafeVoiceChatList.Current?.OnVoicePlayed( cl.SteamId, cl.Voice.CurrentLevel );
 	}
 }
