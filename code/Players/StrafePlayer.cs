@@ -112,6 +112,8 @@ internal partial class StrafePlayer : AnimatedEntity
 	{
 		if ( SpectateTarget.IsValid() ) return;
 
+		SimulateAnimator();
+
 		Controller?.Simulate( cl, this );
 
 		TimerFrame = Stage( 0 )?.GrabFrame() ?? default;
@@ -165,6 +167,22 @@ internal partial class StrafePlayer : AnimatedEntity
 		if ( Input.Pressed( InputButton.Flashlight ) && Game.IsClient )
 		{
 			ToggleFlashlight();
+		}
+	}
+
+	private void SimulateAnimator()
+	{
+		var helper = new CitizenAnimationHelper( this );
+		helper.WithVelocity( Velocity );
+		helper.WithLookAt( EyePosition + EyeRotation.Forward * 500f );
+
+		if( Controller is StrafeController ctrl )
+		{
+			if ( ctrl.Jumped )
+			{
+				helper.TriggerJump();
+			}
+			helper.IsGrounded = ctrl.GroundEntity.IsValid();
 		}
 	}
 

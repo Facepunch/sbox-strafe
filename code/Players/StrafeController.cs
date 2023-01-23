@@ -15,6 +15,8 @@ partial class StrafeController : WalkController
 	[Net, Predicted]
 	public int GroundedTickCount { get; set; }
 
+	public bool Jumped { get; private set; }
+
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
 	private float LastLeft;
@@ -52,6 +54,8 @@ partial class StrafeController : WalkController
 			if ( t.State != TimerEntity.States.Live ) continue;
 			t.Jumps++;
 		}
+
+		Jumped = true;
 	}
 
 	public override void BuildInput()
@@ -92,6 +96,7 @@ partial class StrafeController : WalkController
 		CheckSync();
 		DoTriggers();
 
+		Jumped = false;
 		LastBaseVelocity = BaseVelocity;
 
 		ApplyMomentum();
@@ -317,6 +322,7 @@ partial class StrafeController : WalkController
 
 		Player.EyeLocalPosition += TraceOffset;
 		Player.EyeRotation = Rotation.From( Player.ViewAngles );
+		Rotation = Rotation.From( Player.ViewAngles.WithPitch( 0 ) );
 
 		CheckLadder();
 		Swimming = Pawn.GetWaterLevel() > 0.6f;
