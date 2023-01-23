@@ -348,4 +348,19 @@ internal partial class StrafePlayer : AnimatedEntity
 		pl.ButtonToSet = InputButton.Slot8;
 	}
 
+	[ConCmd.Server]
+	public static void SetTimerStyle( TimerStyles style )
+	{
+		if ( ConsoleSystem.Caller?.Pawn is not StrafePlayer pl ) 
+			return;
+
+		if( pl.TimerState == TimerEntity.States.Live )
+		{
+			Chatbox.AddChatEntry( To.Single( pl ), "Server", "Style can't be changed when your timer is live." );
+			return;
+		}
+
+		pl.Style = style;
+	}
+
 }

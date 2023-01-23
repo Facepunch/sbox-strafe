@@ -1,0 +1,27 @@
+﻿
+@inherits Panel
+@attribute [NavigatorTarget("/styles")]
+
+<root class="grow container">
+    <div class="stylelist">
+        @foreach (var style in Enum.GetValues<TimerStyles>())
+        {
+            var active = IsActive(style) ? "active" : "inactive";
+            <button class="@active" @onclick=@(() => SetStyle(style)) text=@style />
+        }
+    </div>
+</root>
+
+@code {
+    void SetStyle(TimerStyles style)
+    {
+        StrafePlayer.SetTimerStyle(style);
+    }
+
+    bool IsActive(TimerStyles style)
+    {
+        if (Game.LocalPawn is not StrafePlayer pl) 
+            return false;
+        return pl.Style == style;
+    }
+}

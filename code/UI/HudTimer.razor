@@ -21,6 +21,9 @@
             <label class="diff" @ref="StrafeDiff" />
         </div>
         <div class="row">
+            <label text=@Style />
+        </div>
+        <div class="row">
             <label style="margin-top: 16px;" text=@Location />
         </div>
     </div>
@@ -54,6 +57,7 @@
             return "Map is invalid";
         }
     }
+    TimerStyles Style;
 
     public override void Tick()
     {
@@ -64,6 +68,8 @@
             Time = "Disabled";
             return;
         }
+
+        Style = pl.Style;
 
         TimerFrame frame;
         Strafe.Players.TimerEntity.States state;
@@ -101,7 +107,7 @@
 
     protected override int BuildHash()
     {
-        return HashCode.Combine(Strafes, Jumps, Speed, Time, Location);
+        return HashCode.Combine(Strafes, Jumps, Speed, Time, Location, Style);
     }
 
     void BuildDiff(Strafe.Players.TimerEntity timer)

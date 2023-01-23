@@ -715,3 +715,19 @@ VoiceChatList {
         }
     }
 }
+
+.stylelist {
+    flex-direction: column;
+
+    button {
+        margin-bottom: 8px;
+        justify-content: flex-start;
+        font-size: 20px;
+        border: 0;
+
+        &:hover, &.active {
+            transform: scale(1);
+            background-color: $orange;
+        }
+    }
+}
