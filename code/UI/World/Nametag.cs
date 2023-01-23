@@ -44,9 +44,14 @@ internal class Nametag : WorldPanel
 	[Event.Tick.Client]
 	public static void LookingAtAnybody()
 	{
-		if ( Camera.Current == null ) return;
-		var from = Camera.Current.Position;
-		var to = from + Camera.Current.Rotation.Forward * 600f;
+		if ( Game.LocalPawn is not StrafePlayer pl )
+		{
+			Target = null;
+			return;
+		}
+
+		var from = pl.EyePosition;
+		var to = from + pl.EyeRotation.Forward * 600f;
 		var tr = Trace.Ray( from, to )
 			.WithTag( "player" )
 			.Ignore( Game.LocalPawn )
