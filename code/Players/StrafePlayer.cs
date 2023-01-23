@@ -1,19 +1,41 @@
 ﻿
-using Sandbox;
-using Strafe.UI;
 using System.Linq;
 
 namespace Strafe.Players;
 
-internal partial class StrafePlayer : Sandbox.Player
+internal partial class StrafePlayer : AnimatedEntity
 {
 
+	[Net]
+	public TimerStyles Style { get; set; }
 	[Net]
 	public TimerFrame TimerFrame { get; set; }
 	[Net]
 	public int TimerStage { get; set; }
 	[Net]
 	public TimerEntity.States TimerState { get; set; }
+	[Net, Predicted]
+	public PawnController Controller { get; set; }
+	[Net, Predicted]
+	public Vector3 EyeLocalPosition { get; set; }
+	[Net, Predicted]
+	public Rotation EyeLocalRotation { get; set; }
+	[ClientInput] 
+	public Angles ViewAngles { get; set; }
+	[ClientInput] 
+	public Vector3 InputDirection { get; set; }
+
+	public Rotation EyeRotation
+	{
+		get => Transform.RotationToWorld( EyeLocalRotation );
+		set => EyeLocalRotation = Transform.RotationToLocal( value );
+	}
+
+	public Vector3 EyePosition
+	{
+		get => Transform.PointToWorld( EyeLocalPosition );
+		set => EyeLocalPosition = Transform.PointToLocal( value );
+	}
 
 	public bool DisplayInput;
 
@@ -21,10 +43,13 @@ internal partial class StrafePlayer : Sandbox.Player
 	private ClothingContainer Clothing;
 	private Nametag Nametag;
 
-	public override void Respawn()
+	public override void Spawn()
 	{
-		base.Respawn();
+		base.Spawn();
 
+		Tags.Add( "player" );
+
+		SetupPhysicsFromAABB( PhysicsMotionType.Keyframed, new Vector3( -16, -16, 0 ), new Vector3( 16, 16, 72 ) );
 		SetModel( "models/citizen/citizen.vmdl" );
 
 		Controller = new StrafeController()
@@ -35,16 +60,12 @@ internal partial class StrafePlayer : Sandbox.Player
 			DefaultSpeed = 260,
 			AutoJump = true,
 			Acceleration = 5,
-			GroundFriction = 4 //Do this just for safety if player respawns inside friction volume.
+			GroundFriction = 4
 		};
 
 		EnableDrawing = true;
 		EnableHideInFirstPerson = true;
 		EnableShadowInFirstPerson = true;
-
-		Clothing ??= new();
-		Clothing.LoadFromClient( Client );
-		Clothing.DressEntity( this );
 
 		if ( !TimersCreated )
 		{
@@ -62,6 +83,15 @@ internal partial class StrafePlayer : Sandbox.Player
 				};
 			}
 		}
+
+		GameManager.Current?.MoveToSpawnpoint( this );
+	}
+
+	public void LoadClothing( IClient cl )
+	{
+		Clothing ??= new();
+		Clothing.LoadFromClient( cl );
+		Clothing.DressEntity( this );
 	}
 
 	public override void ClientSpawn()
@@ -82,7 +112,7 @@ internal partial class StrafePlayer : Sandbox.Player
 	{
 		if ( SpectateTarget.IsValid() ) return;
 
-		base.Simulate( cl );
+		Controller?.Simulate( cl, this );
 
 		TimerFrame = Stage( 0 )?.GrabFrame() ?? default;
 		TimerStage = CurrentStage()?.Stage ?? 0;
@@ -92,15 +122,6 @@ internal partial class StrafePlayer : Sandbox.Player
 
 		if ( Controller is StrafeController ctrl )
 		{
-			if ( ctrl.Activated && GetActiveController() != ctrl )
-			{
-				ctrl.OnDeactivate();
-			}
-			else if ( !ctrl.Activated && GetActiveController() == ctrl )
-			{
-				ctrl.OnActivate();
-			}
-
 			if ( ctrl.GroundEntity.IsValid() )
 			{
 				foreach( var child in Children )
@@ -151,8 +172,6 @@ internal partial class StrafePlayer : Sandbox.Player
 
 	public override void FrameSimulate( IClient cl )
 	{
-		//base.FrameSimulate( cl );
-
 		if ( !cl.IsOwnedByLocalClient ) return;
 
 		if( SpectateTarget is ReplayEntity replay )
@@ -194,7 +213,22 @@ internal partial class StrafePlayer : Sandbox.Player
 	public InputButton ButtonToSet { get; set; } = InputButton.Slot9;
 	public override void BuildInput()
 	{
-		base.BuildInput();
+		InputDirection = Input.AnalogMove;
+
+		var look = Input.AnalogLook;
+
+		if ( ViewAngles.pitch > 90f || ViewAngles.pitch < -90f )
+		{
+			look = look.WithYaw( look.yaw * -1f );
+		}
+
+		var viewAngles = ViewAngles;
+		viewAngles += look;
+		viewAngles.pitch = viewAngles.pitch.Clamp( -89f, 89f );
+		viewAngles.roll = 0f;
+		ViewAngles = viewAngles.Normal;
+
+		Controller?.BuildInput();
 
 		if ( UpdateViewAngle )
 		{
@@ -246,7 +280,6 @@ internal partial class StrafePlayer : Sandbox.Player
 
 	TimeSince timeSinceLastFootstep = 0;
 
-	public override float FootstepVolume() => Velocity.WithZ( 0 ).Length.LerpInverse( 0.0f, 260f );
 	public override void OnAnimEventFootstep( Vector3 pos, int foot, float volume )
 	{
 		if ( LifeState != LifeState.Alive )
@@ -258,7 +291,7 @@ internal partial class StrafePlayer : Sandbox.Player
 		if ( timeSinceLastFootstep < 0.2f )
 			return;
 
-		volume *= FootstepVolume();
+		volume *= Velocity.WithZ( 0 ).Length.LerpInverse( 0.0f, 260f );
 
 		timeSinceLastFootstep = 0;
 

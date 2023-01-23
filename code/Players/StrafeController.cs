@@ -21,23 +21,12 @@ partial class StrafeController : WalkController
 	private bool LastGrounded;
 	private Vector3 LastVelocity;
 	private float LastYaw;
+	private BaseStyle StyleController;
 	private StrafePlayer Player => Pawn as StrafePlayer;
 
 	public StrafeController()
 	{
 		Duck = new StrafeDuck( this );
-	}
-
-	public void OnDeactivate()
-	{
-		Activated = false;
-
-		TouchingTriggers.Clear();
-	}
-
-	public void OnActivate()
-	{
-		Activated = true;
 	}
 
 	private void JustStrafed()
@@ -65,13 +54,38 @@ partial class StrafeController : WalkController
 		}
 	}
 
+	public override void BuildInput()
+	{
+		base.BuildInput();
+
+		StyleController?.BuildInput( this );
+	}
+
+	private void SetStyleController()
+	{
+		if ( !Player.IsValid() ) return;
+
+		if( Player.Style == TimerStyles.Normal && StyleController is not NormalStyle )
+		{
+			StyleController = new NormalStyle();
+		}
+
+		if( Player.Style == TimerStyles.Hsw && StyleController is not BhopHswStyle )
+		{
+			StyleController = new BhopHswStyle();
+		}
+	}
+
 	public override void Simulate()
 	{
-		if( Noclip )
+		if ( Noclip )
 		{
 			NoclipMove();
 			return;
 		}
+
+		SetStyleController();
+		StyleController?.Simulate( this );
 
 		FrictionLevel = FrictionLevels.Normal;
 
@@ -239,17 +253,13 @@ partial class StrafeController : WalkController
 	{
 		list.Clear();
 
-		var pl = Pawn as Player;
-		if ( !pl.IsValid() ) return 0;
-
 		var me = new BBox( Position + mins + Vector3.Down, Position + maxs );
 
 		foreach ( var ent in Entity.All )
 		{
-			if ( ent is not StrafeTrigger t ) 
-				continue;
+			if ( ent is not StrafeTrigger t ) continue;
 
-			var closestPoint = t.PhysicsBody.FindClosestPoint( Pawn.Position );
+			var closestPoint = t.PhysicsBody.FindClosestPoint( Position );
 			if ( !me.Contains( closestPoint ) ) continue;
 
 			list.Add( t );
@@ -299,13 +309,13 @@ partial class StrafeController : WalkController
 	{
 		var targetz = Duck.IsActive ? 40 : EyeHeight;
 		var lerpspd = Duck.IsActive ? 8f : 24f;
-		var curz = EyeLocalPosition.z;
+		var curz = Player.EyeLocalPosition.z;
 		var newz = curz.LerpTo( targetz, Time.Delta * lerpspd );
 
-		EyeLocalPosition = Vector3.Up * (newz * Pawn.Scale);
+		Player.EyeLocalPosition = Vector3.Up * (newz * Pawn.Scale);
 		UpdateBBox();
 
-		EyeLocalPosition += TraceOffset;
+		Player.EyeLocalPosition += TraceOffset;
 		EyeRotation = Rotation.From( Player.ViewAngles );
 
 		CheckLadder();
@@ -353,7 +363,6 @@ partial class StrafeController : WalkController
 		{
 			WishVelocity *= Player.ViewAngles.ToRotation();
 		}
-
 
 		if ( !Swimming && !IsTouchingLadder )
 		{

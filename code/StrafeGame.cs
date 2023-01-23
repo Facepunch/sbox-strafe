@@ -41,11 +41,10 @@ internal partial class StrafeGame : GameManager
 		base.ClientJoined( cl );
 
 		cl.Pawn = new StrafePlayer();
-		(cl.Pawn as StrafePlayer).Respawn();
+		(cl.Pawn as StrafePlayer).LoadClothing( cl );
+		cl.Voice.WantsStereo = false;
 
 		NetworkClientLogin( cl );
-
-		cl.Voice.WantsStereo = false;
 
 		Chatbox.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has joined the game", "connect" );
 		Chatbox.AddChatEntry( To.Single( cl ), "Server", "Website: https://strafedb.com", "important" );
