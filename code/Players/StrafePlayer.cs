@@ -303,25 +303,6 @@ internal partial class StrafePlayer : AnimatedEntity
 		tr.Surface.DoFootstep( this, tr, foot, volume * 10 );
 	}
 
-	private TimeSince TimeSinceGroundedSound = 0f;
-	private void SimulateAnimatorSounds()
-	{
-		if ( !Game.IsClient ) return;
-
-		using var _ = Prediction.Off();
-
-		//if ( Animator.HasEvent( "jump" ) && TimeSinceGroundedSound > .2f )
-		//{
-		//	Sound.FromEntity( "footstep-concrete", this );
-		//}
-
-		//if ( Animator.HasEvent( "grounded" ) )
-		//{
-		//	Sound.FromEntity( "footstep-concrete-land", this );
-		//	TimeSinceGroundedSound = 0f;
-		//}
-	}
-
 	[ConCmd.Client( "+yaw", CanBeCalledFromServer = false )]
 	public static void OnYaw( float spd = 0 )
 	{
