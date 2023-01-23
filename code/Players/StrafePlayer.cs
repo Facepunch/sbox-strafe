@@ -118,8 +118,6 @@ internal partial class StrafePlayer : AnimatedEntity
 		TimerStage = CurrentStage()?.Stage ?? 0;
 		TimerState = Stage( 0 )?.State ?? default;
 
-		SimulateAnimatorSounds();
-
 		if ( Controller is StrafeController ctrl )
 		{
 			if ( ctrl.GroundEntity.IsValid() )
@@ -176,13 +174,13 @@ internal partial class StrafePlayer : AnimatedEntity
 
 		if( SpectateTarget is ReplayEntity replay )
 		{
-			Camera.Rotation = replay.Frame.Angles.ToRotation();
+			Camera.Rotation = Rotation.Slerp( Camera.Rotation, replay.Frame.Angles.ToRotation(), 32f * Time.Delta );
 			Camera.Position = replay.Frame.Position + Vector3.Up * 64;
 			Camera.FirstPersonViewer = replay;
 		}
 		else if( SpectateTarget is StrafePlayer pl )
 		{
-			Camera.Rotation = pl.ViewAngles.ToRotation();
+			Camera.Rotation = Rotation.Slerp( Camera.Rotation, pl.EyeRotation, 32f * Time.Delta );
 			Camera.Position = pl.EyePosition;
 			Camera.FirstPersonViewer = pl;
 		}

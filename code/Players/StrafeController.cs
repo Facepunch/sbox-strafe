@@ -316,7 +316,7 @@ partial class StrafeController : WalkController
 		UpdateBBox();
 
 		Player.EyeLocalPosition += TraceOffset;
-		EyeRotation = Rotation.From( Player.ViewAngles );
+		Player.EyeRotation = Rotation.From( Player.ViewAngles );
 
 		CheckLadder();
 		Swimming = Pawn.GetWaterLevel() > 0.6f;
