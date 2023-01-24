@@ -72,22 +72,27 @@ internal partial class StrafeGame
 		Log.Error( reason );
 	}
 
-	private ReplayEntity WrReplay;
+	private Dictionary<TimerStyles, ReplayEntity> WrReplays = new();
 	private async Task DownloadWrReplay()
 	{
-		var replay = await Backend.FetchReplay( Game.Server.MapIdent, 0, 1 );
-		if ( replay == null ) return;
+		foreach( TimerStyles style in Enum.GetValues<TimerStyles>() )
+		{
+			var replay = await Backend.FetchReplay( Game.Server.MapIdent, 0, 1, style );
+			if ( replay == null ) continue;
 
-		SetWrReplay( replay );
+			SetWrReplay( replay, style );
+		}
 	}
 
-	public void SetWrReplay( Replay replay )
+	public void SetWrReplay( Replay replay, TimerStyles style )
 	{
-		if ( WrReplay.IsValid() )
-			WrReplay.Delete();
-		WrReplay = null;
+		if ( WrReplays.ContainsKey( style ) && WrReplays[style].IsValid() )
+		{
+			WrReplays[style].Delete();
+			WrReplays.Remove( style );
+		}
 
-		WrReplay = ReplayEntity.Play( replay, -1 );
+		WrReplays[style] = ReplayEntity.Play( replay, -1 );
 	}
 
 }

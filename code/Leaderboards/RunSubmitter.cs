@@ -36,6 +36,8 @@ internal class RunSubmitter : Entity
 			? timer.GrabFrame()
 			: player.Stage( 0 ).GrabFrame();
 
+		var style = player.Style;
+
 		CprEntity.TryGetDiff( timer.Stage, snapshot, out var diff );
 
 		if ( timer.Stage > 0 )
@@ -67,7 +69,7 @@ internal class RunSubmitter : Entity
 		var runJson = System.Text.Json.JsonSerializer.Serialize( CompletionData.From( timer ) );
 		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
-		PrintResult( client, stage, player.Style, stageFrame, courseFrame, result );
+		PrintResult( client, stage, style, stageFrame, courseFrame, result );
 
 		if ( result == null ) return;
 
@@ -85,7 +87,7 @@ internal class RunSubmitter : Entity
 
 			if( result.NewRank == 1 )
 			{
-				StrafeGame.Current.SetWrReplay( replay );
+				StrafeGame.Current.SetWrReplay( replay, style );
 			}
 		}
 	}
