@@ -67,7 +67,7 @@ internal class RunSubmitter : Entity
 		var runJson = System.Text.Json.JsonSerializer.Serialize( CompletionData.From( timer ) );
 		var result = await Backend.Post<CompletionSubmitResult>( "completion/submit", runJson );
 
-		PrintResult( client, stage, stageFrame, courseFrame, result );
+		PrintResult( client, stage, player.Style, stageFrame, courseFrame, result );
 
 		if ( result == null ) return;
 
@@ -90,11 +90,18 @@ internal class RunSubmitter : Entity
 		}
 	}
 
-	private void PrintResult( IClient client, int stage, TimerFrame stageFrame, TimerFrame courseFrame, CompletionSubmitResult result )
+	private void PrintResult( IClient client, int stage, TimerStyles style, TimerFrame stageFrame, TimerFrame courseFrame, CompletionSubmitResult result )
 	{
+		var timerName = "Timer";
+
+		if( style != TimerStyles.Normal )
+		{
+			timerName += $" [{style}]";
+		}
+
 		if ( result == null || !result.IsPersonalBest )
 		{
-			Chatbox.AddChatEntry( To.Single( client ), "Timer", $"Map finished in {stageFrame.Time.ToTime()}", "timer" );
+			Chatbox.AddChatEntry( To.Single( client ), timerName, $"Map finished in {stageFrame.Time.ToTime()}", "timer" );
 			return;
 		}
 
@@ -109,15 +116,15 @@ internal class RunSubmitter : Entity
 
 		if ( result.NewRank == 1 )
 		{
-			Chatbox.AddChatEntry( To.Everyone, "Timer", "**WORLD RECORD**", "important" );
+			Chatbox.AddChatEntry( To.Everyone, timerName, "**WORLD RECORD**", "important" );
 		}
 		else if ( result.NewRank <= 5 )
 		{
-			Chatbox.AddChatEntry( To.Everyone, "Timer", "Top 5", "important" );
+			Chatbox.AddChatEntry( To.Everyone, timerName, "Top 5", "important" );
 		}
 
-		Chatbox.AddChatEntry( To.Everyone, "Timer", completionMsg, "timer" );
-		Chatbox.AddChatEntry( To.Everyone, "Timer", $"New rank: {result.NewRank}, Old rank: {result.OldRank}", "timer" );
+		Chatbox.AddChatEntry( To.Everyone, timerName, completionMsg, "timer" );
+		Chatbox.AddChatEntry( To.Everyone, timerName, $"New rank: {result.NewRank}, Old rank: {result.OldRank}", "timer" );
 	}
 
 	private bool CanSubmit()
