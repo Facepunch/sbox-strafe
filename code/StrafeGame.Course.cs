@@ -92,7 +92,7 @@ internal partial class StrafeGame
 			WrReplays.Remove( style );
 		}
 
-		WrReplays[style] = ReplayEntity.Play( replay, -1 );
+		WrReplays[style] = ReplayEntity.Play( replay, -1, style );
 	}
 
 }

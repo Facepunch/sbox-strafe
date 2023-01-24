@@ -142,7 +142,7 @@ internal partial class StrafeGame
 
 		Chatbox.AddChatEntry( To.Single( caller ), "Timer", $"Your replay has been spawned, it will play 4 times.", "timer" );
 
-		ReplayEntity.Play( replay, 4 );
+		ReplayEntity.Play( replay, 4, TimerStyles.Normal );
 	}
 
 }

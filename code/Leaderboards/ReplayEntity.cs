@@ -1,7 +1,4 @@
 ﻿
-using Sandbox;
-using Strafe.Players;
-
 namespace Strafe.Leaderboards;
 
 internal partial class ReplayEntity : AnimatedEntity
@@ -18,6 +15,8 @@ internal partial class ReplayEntity : AnimatedEntity
 	public TimerFrame FinalFrame { get; set; }
 	[Net]
 	public TimerFrame Frame { get; set; }
+	[Net]
+	public TimerStyles Style { get; set; }
 
 	public override void Spawn()
 	{
@@ -73,14 +72,15 @@ internal partial class ReplayEntity : AnimatedEntity
 		Velocity = frame.Velocity;
 	}
 
-	public static ReplayEntity Play( Replay replay, int loops )
+	public static ReplayEntity Play( Replay replay, int loops, TimerStyles style )
 	{
 		//Host.AssertServer();
 
 		return new ReplayEntity()
 		{
 			Replay = replay,
-			NumberOfLoops = loops
+			NumberOfLoops = loops,
+			Style = style
 		};
 	}
 

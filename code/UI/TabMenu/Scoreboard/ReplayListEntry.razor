@@ -4,7 +4,7 @@
 <root class="@((Game.LocalPawn as StrafePlayer).SpectateTarget == Replay ? "active" : "")"
     @onclick=@(() => StrafePlayer.SetSpectateTarget(Replay.NetworkIdent))>
 
-    <label class="name" text=@(new Friend(Replay.PlayerId).Name) />
+    <label class="name" text=@BotName />
 
     <panel>
         <label @text=@Replay.FinalFrame.Time.ToTime() />
@@ -25,5 +25,18 @@
 
 @code {
     internal ReplayEntity Replay { get; set; }
+
+    string BotName = "Unknown";
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (Replay == null) 
+            return;
+
+        var friend = new Friend(Replay.PlayerId).Name;
+        BotName = $"{friend} - {Replay.FinalFrame.Time.ToTime()} - {Replay.Style}";
+    }
 }
 
