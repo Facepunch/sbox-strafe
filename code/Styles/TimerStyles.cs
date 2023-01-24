@@ -8,5 +8,5 @@ public enum TimerStyles
 	Hsw = 2,
 	Sw = 3,
 	W = 4,
-	Bw = 5
+	//Bw = 5
 }
