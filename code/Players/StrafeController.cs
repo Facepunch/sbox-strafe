@@ -22,7 +22,8 @@ partial class StrafeController : WalkController
 	[Net, Predicted]
 	public int GroundedTickCount { get; set; }
 
-	public bool Jumped { get; private set; }
+	public bool JustJumped { get; private set; }
+	public bool JustGrounded { get; private set; }
 
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
@@ -38,7 +39,7 @@ partial class StrafeController : WalkController
 		Duck = new StrafeDuck( this );
 	}
 
-	private void JustStrafed()
+	private void OnJustStrafed()
 	{
 		foreach ( var ent in Pawn.Children )
 		{
@@ -48,12 +49,12 @@ partial class StrafeController : WalkController
 		}
 	}
 
-	private void JustGrounded()
+	private void OnJustGrounded()
 	{
-
+		JustGrounded = true;
 	}
 
-	private void JustJumped()
+	private void OnJustJumped()
 	{
 		foreach ( var ent in Pawn.Children )
 		{
@@ -62,7 +63,7 @@ partial class StrafeController : WalkController
 			t.Jumps++;
 		}
 
-		Jumped = true;
+		JustJumped = true;
 	}
 
 	public override void BuildInput()
@@ -124,7 +125,8 @@ partial class StrafeController : WalkController
 		CheckSync();
 		DoTriggers();
 
-		Jumped = false;
+		JustJumped = false;
+		JustGrounded = false;
 		LastBaseVelocity = BaseVelocity;
 
 		ApplyMomentum();
@@ -135,13 +137,13 @@ partial class StrafeController : WalkController
 		{
 			if ( MathF.Sign( Player.InputDirection.y ) != MathF.Sign( LastLeft ) )
 			{
-				JustStrafed();
+				OnJustStrafed();
 			}
 		}
 
 		if( !LastGrounded && GroundEntity.IsValid() )
 		{
-			JustGrounded();
+			OnJustGrounded();
 		}
 
 		if( !GroundEntity.IsValid() )
@@ -515,7 +517,7 @@ partial class StrafeController : WalkController
 			Stamina = STAMINA_COST_JUMP / STAMINA_RECOVER_RATE;
 		}
 
-		JustJumped();
+		OnJustJumped();
 	}
 
 	bool IsTouchingLadder = false;

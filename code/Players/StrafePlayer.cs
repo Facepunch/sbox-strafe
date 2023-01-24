@@ -131,6 +131,16 @@ internal partial class StrafePlayer : AnimatedEntity
 					t.EnforceGroundState = false;
 				}
 			}
+
+			if( Game.IsServer && ( ctrl.JustJumped || ctrl.JustGrounded ) && timeSinceLastFootstep > .1f )
+			{
+				var tr = ctrl.TraceBBox( Position, Position + Vector3.Down * 20f, 4f );
+
+				if ( !tr.Hit ) return;
+
+				tr.Surface.DoFootstep( this, tr, 0, 6.0f );
+				timeSinceLastFootstep = 0f;
+			}
 		}
 
 		foreach ( var child in Children )
@@ -178,7 +188,7 @@ internal partial class StrafePlayer : AnimatedEntity
 
 		if( Controller is StrafeController ctrl )
 		{
-			if ( ctrl.Jumped )
+			if ( ctrl.JustJumped )
 			{
 				helper.TriggerJump();
 			}
@@ -295,26 +305,28 @@ internal partial class StrafePlayer : AnimatedEntity
 	}
 
 	TimeSince timeSinceLastFootstep = 0;
-
 	public override void OnAnimEventFootstep( Vector3 pos, int foot, float volume )
 	{
-		if ( LifeState != LifeState.Alive )
-			return;
-
-		if ( !Game.IsServer )
-			return;
-
-		if ( timeSinceLastFootstep < 0.2f )
-			return;
+		if ( LifeState != LifeState.Alive ) return;
+		if ( !Game.IsServer ) return;
+		if ( timeSinceLastFootstep < 0.2f ) return;
 
 		volume *= Velocity.WithZ( 0 ).Length.LerpInverse( 0.0f, 260f );
 
 		timeSinceLastFootstep = 0;
 
-		var tr = Trace.Ray( pos, pos + Vector3.Down * 20 )
-			.Radius( 1 )
-			.Ignore( this )
-			.Run();
+		TraceResult tr = default;
+		if( Controller is StrafeController ctrl )
+		{
+			tr = ctrl.TraceBBox( Position, Position + Vector3.Down * 20f, 4f );
+		}
+		else
+		{
+			tr = Trace.Ray( pos, pos + Vector3.Down * 20 )
+				.Radius( 1 )
+				.Ignore( this )
+				.Run();
+		}
 
 		if ( !tr.Hit ) return;
 
