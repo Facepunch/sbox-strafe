@@ -90,6 +90,16 @@ partial class StrafeController : WalkController
 		{
 			StyleController = new StaminaStyle();
 		}
+
+		if ( Player.Style == TimerStyles.W && StyleController is not WOnlyStyle )
+		{
+			StyleController = new WOnlyStyle();
+		}
+
+		if ( Player.Style == TimerStyles.Sw && StyleController is not SidewaysStyle )
+		{
+			StyleController = new SidewaysStyle();
+		}
 	}
 
 	public override void Simulate()

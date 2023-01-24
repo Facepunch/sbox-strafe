@@ -4,6 +4,8 @@ namespace Strafe;
 public enum TimerStyles
 {
 	Normal = 0,
-	Hsw = 1,
-	Stamina = 2,
+	Stamina = 1,
+	Hsw = 2,
+	Sw = 3,
+	W = 4
 }
