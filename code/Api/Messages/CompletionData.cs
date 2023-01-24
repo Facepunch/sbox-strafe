@@ -12,6 +12,7 @@ internal class CompletionData
 	public string MapIdent { get; set; }
 	public long PlayerId { get; set; }
 	public int Stage { get; set; }
+	public TimerStyles Style { get; set; }
 	public Dictionary<int, TimerFrame> Stats { get; set; } = new();
 	public DateTimeOffset Date { get; set; }
 	public string ReplayUrl { get; set; }
@@ -22,6 +23,7 @@ internal class CompletionData
 
 		var result = new CompletionData();
 		result.PlayerId = pl.Client.SteamId;
+		result.Style = pl.Style;
 		result.Stage = timer.Stage;
 		result.MapIdent = Game.Server.MapIdent;
 		result.Date = DateTimeOffset.UtcNow;
