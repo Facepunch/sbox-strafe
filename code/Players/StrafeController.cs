@@ -4,8 +4,15 @@ namespace Strafe.Players;
 partial class StrafeController : WalkController
 {
 
+	const float STAMINA_MAX = 100f;
+	const float STAMINA_COST_JUMP = 25f;
+	const float STAMINA_COST_FALL = 20f;
+	const float STAMINA_RECOVER_RATE = 19f;
+
 	[Net, Predicted]
 	public bool Momentum { get; set; }
+	[Net, Predicted]
+	public float Stamina { get; set; }
 	[Net, Predicted]
 	public bool Activated { get; set; }
 	[Net, Predicted]
@@ -78,6 +85,11 @@ partial class StrafeController : WalkController
 		{
 			StyleController = new BhopHswStyle();
 		}
+
+		if ( Player.Style == TimerStyles.Stamina && StyleController is not StaminaStyle )
+		{
+			StyleController = new StaminaStyle();
+		}
 	}
 
 	public override void Simulate()
@@ -86,6 +98,12 @@ partial class StrafeController : WalkController
 		{
 			NoclipMove();
 			return;
+		}
+
+		if( Stamina > 0 )
+		{
+			Stamina -= Time.Delta;
+			if ( Stamina < 0 ) Stamina = 0;
 		}
 
 		SetStyleController();
@@ -395,6 +413,12 @@ partial class StrafeController : WalkController
 		else if ( GroundEntity != null )
 		{
 			bStayOnGround = true;
+
+			if ( Stamina > 0 )
+			{
+				ApplyStamina();
+			}
+
 			WalkMove();
 		}
 		else
@@ -414,6 +438,27 @@ partial class StrafeController : WalkController
 		{
 			Velocity = Velocity.WithZ( 0 );
 		}
+	}
+
+	private void ApplyStamina()
+	{
+		float flRatio = ((STAMINA_MAX - Stamina * STAMINA_RECOVER_RATE)) / STAMINA_MAX;
+
+		// This Goldsrc code was run with variable timesteps and it had framerate dependencies.
+		// People looking at Goldsrc for reference are usually 
+		// (these days) measuring the stoppage at 60fps or greater, so we need
+		// to account for the fact that Goldsrc was applying more stopping power
+		// since it applied the slowdown across more frames.
+		float flReferenceFrametime = 1.0f / 70.0f;
+		float flFrametimeRatio = Time.Delta / flReferenceFrametime;
+
+		flRatio = MathF.Pow( flRatio, flFrametimeRatio );
+
+		var vel = Velocity;
+		vel.x *= flRatio;
+		vel.y *= flRatio;
+
+		Velocity = vel;
 	}
 
 	public override void CheckJumpButton()
@@ -448,6 +493,17 @@ partial class StrafeController : WalkController
 
 		Velocity = Velocity.WithZ( startz + flMul * flGroundFactor );
 		Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
+
+		if ( Stamina > 0 )
+		{
+			float flRatio = (STAMINA_MAX - (Stamina * STAMINA_RECOVER_RATE)) / STAMINA_MAX;
+			Velocity = Velocity.WithZ( Velocity.z * flRatio );
+		}
+
+		if ( StyleController?.UseStamina ?? false )
+		{
+			Stamina = STAMINA_COST_JUMP / STAMINA_RECOVER_RATE;
+		}
 
 		JustJumped();
 	}
