@@ -11,15 +11,8 @@
     </panel>
 
     <panel>
-        <label style="margin-right: 4px;" text="Jumps:" />
-        <label @text=@Replay.FinalFrame.Jumps />
+        <label style="margin-right: 4px;" text="@($"{Replay.FinalFrame.Jumps} jumps / {Replay.FinalFrame.Strafes} strafes")" />
     </panel>
-
-    <panel>
-        <label style="margin-right: 4px;" text="Strafes:" />
-        <label @text=@Replay.FinalFrame.Strafes />
-    </panel>
-
 
 </root>
 
