@@ -167,7 +167,7 @@ internal partial class BaseZone : StrafeTrigger
 				var corner = Position + Model.PhysicsBounds.Corners.ElementAt( i );
 				corner.z += 1;
 				particle.SetPosition( i + 1, corner );
-				particle.SetPosition( 10, EffectColor * 255f );
+				particle.Set("Color", EffectColor );
 			}
 		}
 	}
