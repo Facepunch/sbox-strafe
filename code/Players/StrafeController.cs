@@ -24,6 +24,7 @@ partial class StrafeController : WalkController
 
 	public bool JustJumped { get; private set; }
 	public bool JustGrounded { get; private set; }
+	public Vector3 FallVelocity { get; private set; }
 
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
@@ -49,9 +50,10 @@ partial class StrafeController : WalkController
 		}
 	}
 
-	private void OnJustGrounded()
+	private void OnJustGrounded( Vector3 fallVelocity )
 	{
 		JustGrounded = true;
+		FallVelocity = fallVelocity;
 	}
 
 	private void OnJustJumped()
@@ -105,6 +107,8 @@ partial class StrafeController : WalkController
 
 	public override void Simulate()
 	{
+		Vector3 startVelocity = Velocity;
+
 		if ( Noclip )
 		{
 			NoclipMove();
@@ -143,7 +147,7 @@ partial class StrafeController : WalkController
 
 		if( !LastGrounded && GroundEntity.IsValid() )
 		{
-			OnJustGrounded();
+			OnJustGrounded( startVelocity );
 		}
 
 		if( !GroundEntity.IsValid() )
