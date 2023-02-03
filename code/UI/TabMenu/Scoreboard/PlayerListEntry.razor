@@ -36,4 +36,12 @@
 		SetClass("active", p.SpectateTarget == Client.Pawn);
 	}
 
+	protected override int BuildHash()
+	{
+		if (Client == null) 
+			return 0;
+
+		return HashCode.Combine(Credits, Client.Ping);
+	}
+
 }

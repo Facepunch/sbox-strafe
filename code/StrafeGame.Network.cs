@@ -56,11 +56,11 @@ internal partial class StrafeGame
 		if ( result.CreditsAwarded > 0 )
 		{
 			Chatbox.AddChatEntry( To.Single( client ), "Shop", $"Daily login reward: {result.CreditsAwarded} \U0001fa99", "store" );
+		}
 
-			if( client.Pawn is StrafePlayer pl )
-			{
-				pl.Credits = result.TotalCredits;
-			}
+		if ( client.Pawn is StrafePlayer pl )
+		{
+			pl.Credits = result.TotalCredits;
 		}
 	}
 
