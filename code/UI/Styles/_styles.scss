@@ -515,6 +515,13 @@ HudMovement {
                 font-weight: 800;
             }
 
+            .credits {
+                max-width: 75px;
+                flex-grow: 0;
+                font-size: 13px;
+                margin-left: 10px;
+            }
+
             &:hover:not(.active) {
                 background-color: $darkaccent;
                 text-shadow: 1px 1px 2px black;

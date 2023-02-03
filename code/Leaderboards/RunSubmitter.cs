@@ -131,6 +131,11 @@ internal class RunSubmitter : Entity
 		if( result.Credits > 0 )
 		{
 			Chatbox.AddChatEntry( To.Single( client ), "Shop", $"You earned {result.Credits} \U0001fa99 for that run!", "store" );
+
+			if( client.Pawn is StrafePlayer pl )
+			{
+				pl.Credits += result.Credits;
+			}
 		}
 	}
 

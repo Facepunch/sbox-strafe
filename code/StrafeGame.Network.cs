@@ -51,7 +51,17 @@ internal partial class StrafeGame
 			MapIdent = Game.Server.MapIdent
 		};
 
-		await Backend.Post<bool>( "player/login", msg.Serialize() );
+		var result = await Backend.Post<ClientLoginResult>( "player/login", msg.Serialize() );
+
+		if ( result.CreditsAwarded > 0 )
+		{
+			Chatbox.AddChatEntry( To.Single( client ), "Shop", $"Daily login reward: {result.CreditsAwarded} \U0001fa99", "store" );
+
+			if( client.Pawn is StrafePlayer pl )
+			{
+				pl.Credits = result.TotalCredits;
+			}
+		}
 	}
 
 	[Event.Tick.Server]

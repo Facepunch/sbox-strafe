@@ -10,3 +10,12 @@ internal class ClientLogin
 	public string MapIdent { get; set; }
 
 }
+
+public class ClientLoginResult
+{
+
+	public long PlayerId { get; set; }
+	public int TotalCredits { get; set; }
+	public int CreditsAwarded { get; set; }
+
+}

@@ -14,6 +14,8 @@ internal partial class StrafePlayer : AnimatedEntity
 	public int TimerStage { get; set; }
 	[Net]
 	public TimerEntity.States TimerState { get; set; }
+	[Net]
+	public int Credits { get; set; }
 	[Net, Predicted]
 	public PawnController Controller { get; set; }
 	[Net, Predicted]

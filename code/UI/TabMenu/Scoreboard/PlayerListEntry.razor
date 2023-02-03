@@ -3,7 +3,10 @@
 
 <root>
 
-    <label class="name" text=@Client.Name />
+	<div>
+		<label class="name" text=@Client.Name />
+		<label class="credits" text=@($"\U0001fa99 {Credits}") />
+	</div>
     <panel>
         <label text=@Client.Ping />
         <label>ms</label>
@@ -14,6 +17,7 @@
 @code {
 
 	public IClient Client { get; set; }
+	public int Credits => (Client?.Pawn as StrafePlayer)?.Credits ?? 0;
 
 	protected override void OnMouseDown(MousePanelEvent e)
 	{
