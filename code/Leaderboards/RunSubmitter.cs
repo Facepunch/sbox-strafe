@@ -101,6 +101,16 @@ internal class RunSubmitter : Entity
 			timerName += $" [{style}]";
 		}
 
+		if ( ( result?.Credits ?? 0 ) > 0 )
+		{
+			Chatbox.AddChatEntry( To.Single( client ), "Shop", $"You earned {result.Credits} \U0001fa99 for that run!", "store" );
+
+			if ( client.Pawn is StrafePlayer pl )
+			{
+				pl.Credits += result.Credits;
+			}
+		}
+
 		if ( result == null || !result.IsPersonalBest )
 		{
 			Chatbox.AddChatEntry( To.Single( client ), timerName, $"Map finished in {stageFrame.Time.ToTime()}", "timer" );
@@ -127,16 +137,6 @@ internal class RunSubmitter : Entity
 
 		Chatbox.AddChatEntry( To.Everyone, timerName, completionMsg, "timer" );
 		Chatbox.AddChatEntry( To.Everyone, timerName, $"New rank: {result.NewRank}, Old rank: {result.OldRank}", "timer" );
-
-		if( result.Credits > 0 )
-		{
-			Chatbox.AddChatEntry( To.Single( client ), "Shop", $"You earned {result.Credits} \U0001fa99 for that run!", "store" );
-
-			if( client.Pawn is StrafePlayer pl )
-			{
-				pl.Credits += result.Credits;
-			}
-		}
 	}
 
 	private bool CanSubmit()
