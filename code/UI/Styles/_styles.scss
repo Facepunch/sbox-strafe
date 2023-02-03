@@ -307,6 +307,12 @@ HudMovement {
             color: rgba(white .8);
         }
 
+        &.shop {
+            .name {
+                color: yellow;
+            }
+        }
+
         .name {
             margin-right: 4px;
             font-weight: 800;

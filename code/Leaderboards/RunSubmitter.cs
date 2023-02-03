@@ -127,6 +127,11 @@ internal class RunSubmitter : Entity
 
 		Chatbox.AddChatEntry( To.Everyone, timerName, completionMsg, "timer" );
 		Chatbox.AddChatEntry( To.Everyone, timerName, $"New rank: {result.NewRank}, Old rank: {result.OldRank}", "timer" );
+
+		if( result.Credits > 0 )
+		{
+			Chatbox.AddChatEntry( To.Single( client ), "Shop", $"You earned {result.Credits} \U0001fa99 for that run!", "store" );
+		}
 	}
 
 	private bool CanSubmit()
