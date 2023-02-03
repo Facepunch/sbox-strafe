@@ -6,7 +6,7 @@
     <div class="messages" @ref="Canvas">
         @foreach(var msg in Messages)
         {
-            <div class="chat-entry @(msg.TimeSinceCreated > 8 ? "faded" : "new")">
+            <div class="chat-entry @(msg.TimeSinceCreated > 8 ? "faded" : "new") @msg.ClassNames">
                 <label class="name" text=@msg.Name />
                 <label class="message" text=@msg.Message />
             </div>
