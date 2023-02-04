@@ -5,9 +5,8 @@
     @if(Entry != null)
     {
         <panel>
-            <label text="#" />
-            <label text="@Entry.Rank" style="width: 25px" />
-            <label text="@Entry.PlayerName" />
+            <label class="rank" text="@Entry.Rank" />
+            <label class="name" text="@Entry.PlayerName" />
         </panel>
         <label text="@Entry.Time.ToTime()" />
     }

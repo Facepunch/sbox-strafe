@@ -3,7 +3,7 @@
 
 <root>
 
-    <label class="heading">Top 10</label>
+    <label class="heading">Top Times</label>
     <panel class="entries">
         @foreach( var entry in Entries )
         {
@@ -24,7 +24,7 @@
         {
             GameTask.RunInThreadAsync(async () =>
             {
-                Entries = await Backend.FetchPersonalBests(Game.Server.MapIdent, 0, 10, 0);
+                Entries = await Backend.FetchPersonalBests(Game.Server.MapIdent, 0, 20, 0);
                 StateHasChanged();
 
                 await GameTask.DelaySeconds(60);

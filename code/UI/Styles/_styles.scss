@@ -64,20 +64,20 @@ button.disabled, navlink.disabled {
     z-index: $z-chat;
 
     .heading, heading {
-        padding: 8px;
         margin-bottom: 8px;
         background-image: url( ui/border.png );
         background-repeat: no-repeat;
         background-position: center center;
         background-size: 100%;
         background-tint: rgba( $lightaccent .35 );
-        font-weight: 700;
-        font-size: 24px;
+        font-weight: 400;
+        font-size: 20px;
         text-transform: uppercase;
         margin-bottom: $paddingmedium;
         padding-bottom: $paddingmedium;
         border-bottom: 1px solid rgba( $darkaccent .5 );
         flex-shrink: 0;
+        color: $foreground-faded;
     }
 }
 
@@ -450,7 +450,7 @@ HudMovement {
         backdrop-filter: blur(2px);
 
         .navbar {
-            width: 55%;
+            width: 65%;
             margin-bottom: 20px;
             margin-top: -20px;
 
@@ -479,7 +479,7 @@ HudMovement {
         }
 
         .content {
-            width: 55%;
+            width: 65%;
             height: 50%;
         }
 
@@ -500,7 +500,6 @@ HudMovement {
         PlayerListEntry, ReplayListEntry {
             padding: $paddingsmall;
             justify-content: space-between;
-            flex-grow: 1;
             transition: all .1s ease-out;
             border-radius: $radius;
             cursor: pointer;
@@ -540,14 +539,39 @@ HudMovement {
     }
 
     StrafeLeaderboard {
+
         .entries {
             flex-direction: column;
             text-shadow: 1px 1px 0px black;
             font-weight: 600;
+            overflow: scroll;
         }
 
         StrafeLeaderboardEntry {
             justify-content: space-between;
+            flex-shrink: 0;
+
+            .rank {
+                color: $orange;
+                font-weight: heavy;
+                text-align: center;
+                margin-right: 10px;
+                min-width: 25px;
+            }
+        }
+    }
+
+    CreditsLeaderboard {
+        height: 50%;
+
+        .entries {
+            flex-direction: column;
+            overflow: scroll;
+
+            .row {
+                justify-content: space-between;
+                flex-shrink: 0;
+            }
         }
     }
 

@@ -4,12 +4,12 @@
 <root class="container">
 
     <panel class="columns">
-        <panel class="column">
+        <panel class="column" style="width:50%;">
             <label class="heading">Players</label>
             <PlayerList />
         </panel>
 
-        <panel class="column">
+        <panel class="column" style="width:50%;">
             <label class="heading">Replays</label>
             <ReplayList />
         </panel>
@@ -20,6 +20,11 @@
             @onclick=@(() => StrafePlayer.SetSpectateTarget( -1 )) 
             class="button @(Spectating ? "enabled" : "disabled")" 
             text="Stop Spectating" />
+        <div class="grow"></div>
+        <button 
+            class="filled" 
+            @onclick=@StrafeGame.SpawnMyReplay 
+            text="Spawn My Replay" />
     </panel>
 
 </root>

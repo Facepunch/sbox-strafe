@@ -1,0 +1,35 @@
+﻿
+@inherits Panel;
+
+<root>
+
+    <label class="heading">Global Top Credits</label>
+    <panel class="entries">
+        @if(Players != null)
+        {
+            foreach(var player in Players)
+            {
+                <div class="row">
+                    <label>@player.Name</label>
+                    <label>🪙  @player.Credits</label>
+                </div>
+            }
+        }
+    </panel>
+
+</root>
+
+@code {
+    List<PlayerData> Players;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Players = await Backend.FetchCreditsLeaderboard(20, 0);
+    }
+
+    protected override int BuildHash()
+    {
+        return HashCode.Combine(Players?.Count ?? 0);
+    }
+
+}
