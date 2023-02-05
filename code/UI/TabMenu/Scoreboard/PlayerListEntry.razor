@@ -3,9 +3,14 @@
 
 <root>
 
+	@if (!Client.IsValid())
+	{
+		return;
+	}
+
 	<div>
 		<label class="name" text=@Client.Name />
-		<label class="credits" text=@($"\U0001fa99 {Credits}") />
+		<label class="credits" text=@($"\U0001fa99 {Player?.Credits ?? 0}") />
 	</div>
     <panel>
         <label text=@Client.Ping />
@@ -17,7 +22,16 @@
 @code {
 
 	public IClient Client { get; set; }
-	public int Credits => (Client?.Pawn as StrafePlayer)?.Credits ?? 0;
+
+	StrafePlayer Player
+	{
+		get
+		{
+			if (!Client.IsValid() || !Client.Pawn.IsValid())
+				return null;
+			return Client.Pawn as StrafePlayer;
+		}
+	}
 
 	protected override void OnMouseDown(MousePanelEvent e)
 	{
@@ -33,15 +47,15 @@
 		base.Tick();
 
 		var p = Game.LocalPawn as StrafePlayer;
-		SetClass("active", p.SpectateTarget == Client.Pawn);
+		SetClass("active", p.IsValid() && p.SpectateTarget == Client.Pawn);
 	}
 
 	protected override int BuildHash()
 	{
-		if (Client == null) 
+		if (!Player.IsValid() || !Player.Client.IsValid())
 			return 0;
 
-		return HashCode.Combine(Credits, Client.Ping);
+		return HashCode.Combine(Player.Client.Ping, Player.Credits);
 	}
 
 }
