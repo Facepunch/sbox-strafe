@@ -142,7 +142,7 @@ internal partial class StrafeGame
 
 	public static async Task<List<string>> GetAvailableMaps()
 	{
-		var packages = await Package.FindAsync( "type:map game:facepunch.strafe sort:updated", 16 );
+		var packages = await Package.FindAsync( "type:map game:facepunch.strafe sort:updated", 32 );
 		var maps = packages.Packages?.Select( x => x.FullIdent ).ToList();
 
 		var pkg = await Package.Fetch( Game.Server.GameIdent, true );
@@ -151,8 +151,15 @@ internal partial class StrafeGame
 			maps.AddRange( pkg.GetMeta<List<string>>( "MapList", new() ) );
 		}
 
+		maps.RemoveAll( x => MapBlacklist.Contains( x.ToLower() ) );
+
 		return maps;
 	}
+
+	static List<string> MapBlacklist = new()
+	{
+		"rival.surf_egypt" // csurf map
+	};
 
 	private void RockTheVote( IClient client )
 	{
