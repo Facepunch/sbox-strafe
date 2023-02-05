@@ -26,7 +26,10 @@ internal partial class StrafeGame : GameManager
 
 		if ( Game.IsClient )
 		{
-			_ = new Hud();
+			// todo: there's a bug where this seems to be calling again on client?
+			// it's kinda rare and I don't know how to repro yet.
+			Game.RootPanel?.Delete( true );
+			Game.RootPanel = new Hud();
 
 			Log.Info( "------------------------------------------" );
 			Log.Info( "Welcome to Strafe, here's some copyable links" );
