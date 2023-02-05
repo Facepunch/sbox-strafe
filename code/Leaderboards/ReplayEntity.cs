@@ -17,6 +17,8 @@ internal partial class ReplayEntity : AnimatedEntity
 	public TimerFrame Frame { get; set; }
 	[Net]
 	public TimerStyles Style { get; set; }
+	[Net]
+	public Rotation EyeRotation { get; set; }
 
 	public override void Spawn()
 	{
@@ -67,6 +69,7 @@ internal partial class ReplayEntity : AnimatedEntity
 	{
 		Position = frame.Position;
 		Rotation = Rotation.From( frame.Angles.WithPitch( 0 ) );
+		EyeRotation = Rotation.From( frame.Angles );
 		//EyeRotation = Rotation.From( frame.Angles );
 		//EyeLocalPosition = Vector3.Up * 64f;
 		Velocity = frame.Velocity;

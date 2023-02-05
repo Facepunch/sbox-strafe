@@ -204,8 +204,8 @@ internal partial class StrafePlayer : AnimatedEntity
 
 		if( SpectateTarget is ReplayEntity replay )
 		{
-			Camera.Rotation = Rotation.Slerp( Camera.Rotation, replay.Frame.Angles.ToRotation(), 32f * Time.Delta );
-			Camera.Position = replay.Frame.Position + Vector3.Up * 64;
+			Camera.Rotation = Rotation.Slerp( Camera.Rotation, replay.EyeRotation, 32f * Time.Delta );
+			Camera.Position = replay.Position + Vector3.Up * 64;
 			Camera.FirstPersonViewer = replay;
 		}
 		else if( SpectateTarget is StrafePlayer pl )
