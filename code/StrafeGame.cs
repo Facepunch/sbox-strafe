@@ -44,8 +44,13 @@ internal partial class StrafeGame : GameManager
 		base.ClientJoined( cl );
 
 		cl.Pawn = new StrafePlayer();
-		(cl.Pawn as StrafePlayer).LoadClothing( cl );
+		//(cl.Pawn as StrafePlayer).LoadClothing( cl );
 		cl.Voice.WantsStereo = false;
+
+		if ( cl.IsBot )
+		{
+			//(cl.Pawn as StrafePlayer).LoadClothing( Game.Clients.First() );
+		}
 
 		NetworkClientLogin( cl );
 
@@ -92,6 +97,12 @@ internal partial class StrafeGame : GameManager
 	public override void OnVoicePlayed( IClient cl )
 	{
 		VoiceChatList.Current?.OnVoicePlayed( cl.SteamId, cl.Voice.CurrentLevel );
+	}
+
+	[ConCmd.Server]
+	public static void AddBot()
+	{
+		new Bot();
 	}
 
 }
