@@ -97,14 +97,14 @@
         Strafes = frame.Strafes;
         Sync = frame.Sync;
 
-		if( state != Strafe.Players.TimerEntity.States.Live )
-		{
-			Time = state.ToString();
-		}
-		else
-		{
-			Time = frame.Time.ToTime();
-		}
+        if( state != Strafe.Players.TimerEntity.States.Live )
+        {
+            Time = state.ToString();
+        }
+        else
+        {
+            Time = frame.Time.ToTime();
+        }
     }
 
     protected override int BuildHash()

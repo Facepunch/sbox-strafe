@@ -1,0 +1,46 @@
+
+@inherits Panel
+@attribute [NavigatorTarget("/strafedb")]
+
+<style>
+    .reload {
+        width: 34px;
+        height: 34px;
+        position: absolute;
+        bottom: -48px;
+        left: 8px;
+        border-radius: 50%;
+        font-family: MaterialIcons;
+        font-size: 20px;
+        cursor: pointer;
+        color: white;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin: 0;
+    }
+</style>
+
+<root class="grow container" style="padding: 0;">
+    <WebPanel style="width:100%;height:100%;" @ref=WebPanel />
+    <button @onclick="@Refresh" class="reload" text="refresh"></button>
+</root>
+
+@code {
+    WebPanel WebPanel;
+
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (firstTime)
+        {
+            WebPanel.Surface.Url = "https://strafedb.com";
+        }
+    }
+
+    private void Refresh()
+    {
+        WebPanel.Surface.Url = "https://strafedb.com";
+    }
+}

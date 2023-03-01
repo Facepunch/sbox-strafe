@@ -3,11 +3,14 @@
 
 <root style="flex-direction:column;">
     <panel class="navbar">
-        <panel class="container">
+        <panel class="container grow">
             <navlink href="/">Home</navlink>
             <navlink href="/maps">Maps</navlink>
             <navlink href="/info">Info</navlink>
             <navlink href="/styles">Styles</navlink>
+            <navlink href="/strafedb">StrafeDB</navlink>
+			<div class="grow"></div>
+			<button @onclick=@Close text="Close" />
         </panel>
     </panel>
     <panel class="content" @ref="NavigatorCanvas"></panel>
@@ -27,7 +30,15 @@
 	[Event.Client.BuildInput]
 	public void OnBuildInput()
 	{
-		SetClass("open", Input.Down(InputButton.Score));
+		if (Input.Pressed(InputButton.Score))
+		{
+			SetClass("open", !HasClass("open"));
+		}
+
+		if(Input.Released(InputButton.Score) && !Mouse.Visible)
+		{
+			RemoveClass("open");
+		}
 
 		if (!HasClass("open"))
 		{
@@ -41,4 +52,11 @@
 			}
 		}
 	}
+
+	void Close()
+	{
+		RemoveClass("open");
+		RemoveClass("cursor");
+	}
+
 }
