@@ -90,7 +90,8 @@ internal partial class StrafePlayer : AnimatedEntity
 			}
 		}
 
-		GameManager.Current?.MoveToSpawnpoint( this );
+		StrafeGame.Current?.MoveToSpawnpoint( this );
+		StrafeGame.Current.GameConfig?.OnPlayerSpawned( this );
 	}
 
 	public void LoadClothing( IClient cl )

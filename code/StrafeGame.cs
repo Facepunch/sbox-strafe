@@ -1,12 +1,15 @@
 ﻿
 namespace Strafe;
 
+using Strafe.GameConfigs;
 using System.Linq;
 
 internal partial class StrafeGame : GameManager
 {
 
 	public static new StrafeGame Current;
+
+	public BaseGameConfig GameConfig { get; private set; }
 
 	public StrafeGame()
 	{
@@ -71,6 +74,21 @@ internal partial class StrafeGame : GameManager
 		base.MoveToSpawnpoint( pawn );
 
 		pawn.Position = pawn.Position.WithZ( (int)(pawn.Position.z + 1) );
+	}
+
+	public override void PostLevelLoaded()
+	{
+		base.PostLevelLoaded();
+
+		var mapConfig = Entity.All.OfType<StrafeMapConfig>().FirstOrDefault();
+		if ( mapConfig == null ) return;
+
+		switch ( mapConfig.Type ) 
+		{
+			case MapTypes.RocketJump:
+				GameConfig = new RocketJumpConfig();
+				break;
+		}
 	}
 
 	public void DoPlayerNoclip( IClient player )

@@ -21,9 +21,10 @@ internal partial class RocketLauncher : Handheld
 
 		if ( Game.IsClient )
 		{
-			Sound.FromWorld( "sounds/rocketlauncher/rocketlauncher_shoot.sound", pl.EyePosition + pl.EyeRotation.Forward * 10f );
 			ViewModel?.Fire();
 		}
+
+		Sound.FromWorld( "sounds/rocketlauncher/rocketlauncher_shoot.sound", pl.EyePosition + pl.EyeRotation.Forward * 10f );
 
 		pl.Rocket = new Rocket()
 		{

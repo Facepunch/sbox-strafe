@@ -39,13 +39,8 @@ internal struct Rocket
 		var str = dist.LerpInverse( 600, 0 );
 		ctrl.Velocity += dir * str * 600;
 
-		if ( Game.IsClient )
-		{
-			using var _ = Prediction.Off();
-
-			Particles.Create( "particles/explosion/barrel_explosion/explosion_barrel.vpcf", tr.HitPosition + tr.Normal );
-			Sound.FromWorld( "sounds/rocketlauncher/rocketlauncher_explode.sound", tr.HitPosition + tr.Normal );
-		}
+		Particles.Create( "particles/explosion/barrel_explosion/explosion_barrel.vpcf", tr.HitPosition + tr.Normal );
+		Sound.FromWorld( "sounds/rocketlauncher/rocketlauncher_explode.sound", tr.HitPosition + tr.Normal );
 
 		Deleted = true;
 
