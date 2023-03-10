@@ -8,7 +8,21 @@ internal class HandheldViewModel : AnimatedEntity
 	TimeSince TimeSinceGrounded;
 	TimeSince TimeSinceJumped;
 
+	public bool CenteredView;
+
+	public ViewmodelState viewstate { get; set; } = ViewmodelState.Right;
+
 	static Curve GroundedCurve { get; set; }
+
+	public float viewstateindex { get; set; } = 0;
+
+	public enum ViewmodelState
+	{
+		Right,
+		Center,
+		Left,
+		Off
+	}
 
 	public HandheldViewModel()
 	{
@@ -34,6 +48,11 @@ internal class HandheldViewModel : AnimatedEntity
 		}
 	}
 
+	public void UpdateCameraPos()
+	{
+		viewstate = (ViewmodelState)viewstateindex;
+	}
+
 	[Event.Client.PostCamera]
 	public virtual void PlaceViewmodel()
 	{
@@ -42,9 +61,28 @@ internal class HandheldViewModel : AnimatedEntity
 
 		Camera.Main.SetViewModelCamera(100 );
 
-		Position = Camera.Position + Camera.Rotation.Down * 10 + Camera.Rotation.Right * 10 + Camera.Rotation.Forward * 10;
+		if ( viewstate == ViewmodelState.Center )
+		{
+			Position = Camera.Position + Camera.Rotation.Down * 20 + Camera.Rotation.Forward * 25;
+			Rotation = Camera.Rotation;
+		}
+		else if ( viewstate == ViewmodelState.Right )
+		{
+			Position = Camera.Position + Camera.Rotation.Down * 10 + Camera.Rotation.Right * 10 + Camera.Rotation.Forward * 10;
+			Rotation = Camera.Rotation * Rotation.From( 10, -15, -6 );
+		}
+		else if ( viewstate == ViewmodelState.Left )
+		{
+			Position = Camera.Position + Camera.Rotation.Down * 10 + Camera.Rotation.Left * 10 + Camera.Rotation.Forward * 10;
+			Rotation = Camera.Rotation * Rotation.From( 10, 15, 6 );
+		}
+		else if ( viewstate == ViewmodelState.Off )
+		{
+			Position = Camera.Position + Camera.Rotation.Down * 30 + Camera.Rotation.Backward * 30;
+			Rotation = Camera.Rotation;
+		}
+
 		Position += BobPositionOffset;
-		Rotation = Camera.Rotation * Rotation.From( 10, -15, -6 );
 
 		var groundedA = GroundedCurve.Evaluate( ((float)TimeSinceGrounded).LerpInverse( 0f, .35f ) );
 		var jumpedA = GroundedCurve.Evaluate( ((float)TimeSinceJumped).LerpInverse( 0f, .35f ) );

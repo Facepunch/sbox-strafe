@@ -5,7 +5,7 @@ internal class Handheld : AnimatedEntity
 {
 
 	protected virtual string ViewModelPath => string.Empty;
-	protected HandheldViewModel ViewModel { get; private set; }
+	public HandheldViewModel ViewModel { get; private set; }
 
 	public override void Simulate( IClient cl )
 	{

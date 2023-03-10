@@ -11,6 +11,7 @@ using System.IO;
 using Strafe.Leaderboards;
 using System.Linq;
 using Sandbox.Diagnostics;
+using static Strafe.Players.HandheldViewModel;
 
 namespace Strafe;
 
@@ -88,7 +89,19 @@ internal partial class StrafeGame
 			if ( enabled ) Chatbox.AddChatEntry( "Server", "Trail Enabled" );
 			else Chatbox.AddChatEntry( "Server", "Trail Disabled" );
 		}
+		if ( cmdName == "toggleviewmodel" && Game.IsClient )
+		{
+			if ( cl.Pawn is not StrafePlayer pl ) return;
+			
+			if ( pl.Handheld is RocketLauncher rl )
+			{
+				rl.ViewModel.viewstateindex++;
+				if ( rl.ViewModel.viewstateindex > 3 ) rl.ViewModel.viewstateindex = 0;
+				rl.ViewModel.UpdateCameraPos();
+				Chatbox.AddChatEntry( "Server", $"Centered Viewmodel {rl.ViewModel.viewstate}" );
 
+			}
+		}
 		if ( cmdName == "showkeys" && Game.IsClient )
 		{
 			if ( cl.Pawn is not StrafePlayer pl ) return;
