@@ -16,6 +16,10 @@ internal partial class StrafePlayer : AnimatedEntity
 	public TimerEntity.States TimerState { get; set; }
 	[Net]
 	public int Credits { get; set; }
+	[Net]
+	public Handheld Handheld { get; set; }
+	[Net, Predicted]
+	public Rocket Rocket { get; set; }
 	[Net, Predicted]
 	public PawnController Controller { get; set; }
 	[Net, Predicted]
@@ -145,9 +149,10 @@ internal partial class StrafePlayer : AnimatedEntity
 			}
 		}
 
-		foreach ( var child in Children )
+		for ( int i = 0; i < Children.Count; i++ )
 		{
-			child.Simulate( cl );
+			if ( !Children[i].IsValid() ) continue;
+			Children[i].Simulate( cl );
 		}
 
 		// HACK:should be setting ButtonToSet back to default in BuildInput

@@ -26,6 +26,11 @@ partial class StrafeController : WalkController
 	public bool JustGrounded { get; private set; }
 	public Vector3 FallVelocity { get; private set; }
 
+	// FOR CLIENT SIDE SHIT ONLY CURRENTLY
+	public TimeSince TimeSinceJumped { get; private set; }
+	public TimeSince TimeSinceGrounded { get; private set; }
+	//
+
 	private List<StrafeTrigger> TouchingTriggers = new();
 	private Vector3 LastBaseVelocity;
 	private float LastLeft;
@@ -54,6 +59,7 @@ partial class StrafeController : WalkController
 	{
 		JustGrounded = true;
 		FallVelocity = fallVelocity;
+		TimeSinceGrounded = 0;
 	}
 
 	private void OnJustJumped()
@@ -66,6 +72,7 @@ partial class StrafeController : WalkController
 		}
 
 		JustJumped = true;
+		TimeSinceJumped = 0;
 	}
 
 	public override void BuildInput()
@@ -105,6 +112,14 @@ partial class StrafeController : WalkController
 		}
 	}
 
+	void SimulateRockets()
+	{
+		if ( Player.Rocket.Deleted ) 
+			return;
+
+		Player.Rocket = Player.Rocket.ControllerSimulate( this );
+	}
+
 	public override void Simulate()
 	{
 		Vector3 startVelocity = Velocity;
@@ -114,6 +129,8 @@ partial class StrafeController : WalkController
 			NoclipMove();
 			return;
 		}
+
+		SimulateRockets();
 
 		if( Stamina > 0 )
 		{
