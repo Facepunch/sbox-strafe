@@ -40,7 +40,8 @@ internal partial class StrafeMapConfig : Entity
 public enum MapTypes
 {
 	Surf = 1,
-	Bunnyhop = 2
+	Bunnyhop = 2,
+	RocketJump = 3
 }
 
 public enum MapStates
