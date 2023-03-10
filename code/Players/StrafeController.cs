@@ -21,6 +21,8 @@ partial class StrafeController : WalkController
 	public bool Noclip { get; set; }
 	[Net, Predicted]
 	public int GroundedTickCount { get; set; }
+	[Net, Predicted]
+	public bool JumpQueued { get; set; }
 
 	public bool JustJumped { get; private set; }
 	public bool JustGrounded { get; private set; }
@@ -38,7 +40,9 @@ partial class StrafeController : WalkController
 	private Vector3 LastVelocity;
 	private float LastYaw;
 	private BaseStyle StyleController;
-	private StrafePlayer Player => Pawn as StrafePlayer;
+	protected StrafePlayer Player => Pawn as StrafePlayer;
+	protected virtual bool QueueJumps => false;
+	protected virtual float JumpForce => -1f;
 
 	public StrafeController()
 	{
@@ -386,7 +390,7 @@ partial class StrafeController : WalkController
 			BaseVelocity = BaseVelocity.WithZ( 0 );
 		}
 
-		if ( AutoJump ? Input.Down( InputButton.Jump ) : Input.Pressed( InputButton.Jump ) )
+		if ( ( AutoJump && Input.Down( InputButton.Jump ) ) || Input.Pressed( InputButton.Jump ) || JumpQueued )
 		{
 			CheckJumpButton();
 		}
@@ -507,6 +511,8 @@ partial class StrafeController : WalkController
 		if ( GroundEntity == null )
 			return;
 
+		JumpQueued = false;
+
 		ClearGroundEntity();
 
 		float flGroundFactor = 1.0f;
@@ -525,6 +531,12 @@ partial class StrafeController : WalkController
 		}
 
 		Velocity = Velocity.WithZ( startz + flMul * flGroundFactor );
+
+		if( JumpForce != -1 )
+		{
+			Velocity = Velocity.WithZ( JumpForce );
+		}
+
 		Velocity -= new Vector3( 0, 0, Gravity * 0.5f ) * Time.Delta;
 
 		if ( Stamina > 0 )

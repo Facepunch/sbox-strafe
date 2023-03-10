@@ -88,6 +88,9 @@ internal partial class StrafeGame : GameManager
 			case MapTypes.RocketJump:
 				GameConfig = new RocketJumpConfig();
 				break;
+			case MapTypes.Quake:
+				GameConfig = new Quake3Config();
+				break;
 		}
 	}
 

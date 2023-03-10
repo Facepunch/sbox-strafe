@@ -41,7 +41,8 @@ public enum MapTypes
 {
 	Surf = 1,
 	Bunnyhop = 2,
-	RocketJump = 3
+	RocketJump = 3,
+	Quake = 4
 }
 
 public enum MapStates
