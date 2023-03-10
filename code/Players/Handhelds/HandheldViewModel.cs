@@ -40,9 +40,9 @@ internal class HandheldViewModel : AnimatedEntity
 		if ( Game.IsRunningInVR )
 			return;
 
-		Camera.Main.SetViewModelCamera( Camera.FieldOfView );
+		Camera.Main.SetViewModelCamera(100 );
 
-		Position = Camera.Position + Camera.Rotation.Down * 10 + Camera.Rotation.Right * 8 + Camera.Rotation.Forward * 4;
+		Position = Camera.Position + Camera.Rotation.Down * 10 + Camera.Rotation.Right * 10 + Camera.Rotation.Forward * 10;
 		Position += BobPositionOffset;
 		Rotation = Camera.Rotation * Rotation.From( 10, -15, -6 );
 

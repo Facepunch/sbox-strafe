@@ -1,5 +1,7 @@
 {
-  "cloud_packages": [],
+  "cloud_packages": [
+    "facepunch.unicycle_frenzy#11539"
+  ],
   "game_packages": [
     "facepunch.strafe"
   ],

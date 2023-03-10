@@ -14,24 +14,8 @@
 						remaps = 
 						[
 							{
-								from = "metal02.vmat"
-								to = "models/sbox_props/gutters/gutter_a_metal_tiling.vmat"
-							},
-							{
 								from = "metal01.vmat"
-								to = "materials/generic/metal_galvanized.vmat"
-							},
-							{
-								from = "blackrubber.vmat"
-								to = "materials/models/solids/black.vmat"
-							},
-							{
-								from = "black.vmat"
-								to = "materials/effects/black.vmat"
-							},
-							{
-								from = "red.vmat"
-								to = "materials/hotspots/metal_painted_red_b_hs.vmat"
+								to = "models/rocketlauncher/textures/rocketlauncher.vmat"
 							},
 						]
 						use_global_default = false
@@ -167,6 +151,7 @@
 		]
 		model_archetype = ""
 		primary_associated_entity = ""
+		anim_graph_name = ""
 		base_model_name = ""
 	}
 }
