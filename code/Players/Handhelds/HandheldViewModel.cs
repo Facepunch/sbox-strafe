@@ -1,6 +1,14 @@
 ﻿
 namespace Strafe.Players;
 
+public enum ViewModelPositions
+{
+	Off,
+	Right,
+	Center,
+	Left
+}
+
 internal class HandheldViewModel : AnimatedEntity
 {
 
@@ -8,21 +16,7 @@ internal class HandheldViewModel : AnimatedEntity
 	TimeSince TimeSinceGrounded;
 	TimeSince TimeSinceJumped;
 
-	public bool CenteredView;
-
-	public ViewmodelState viewstate { get; set; } = ViewmodelState.Right;
-
 	static Curve GroundedCurve { get; set; }
-
-	public float viewstateindex { get; set; } = 0;
-
-	public enum ViewmodelState
-	{
-		Right,
-		Center,
-		Left,
-		Off
-	}
 
 	public HandheldViewModel()
 	{
@@ -48,38 +42,32 @@ internal class HandheldViewModel : AnimatedEntity
 		}
 	}
 
-	public void UpdateCameraPos()
-	{
-		viewstate = (ViewmodelState)viewstateindex;
-	}
-
 	[Event.Client.PostCamera]
 	public virtual void PlaceViewmodel()
 	{
-		if ( Game.IsRunningInVR )
-			return;
+		if ( Game.IsRunningInVR ) return;
+		if ( Game.LocalPawn is not StrafePlayer pl ) return;
 
-		Camera.Main.SetViewModelCamera(100 );
+		Camera.Main.SetViewModelCamera( 100 );
 
-		if ( viewstate == ViewmodelState.Center )
+		switch ( pl.ViewModelPosition )
 		{
-			Position = Camera.Position + Camera.Rotation.Down * 20 + Camera.Rotation.Forward * 25;
-			Rotation = Camera.Rotation;
-		}
-		else if ( viewstate == ViewmodelState.Right )
-		{
-			Position = Camera.Position + Camera.Rotation.Down * 10 + Camera.Rotation.Right * 10 + Camera.Rotation.Forward * 10;
-			Rotation = Camera.Rotation * Rotation.From( 10, -15, -6 );
-		}
-		else if ( viewstate == ViewmodelState.Left )
-		{
-			Position = Camera.Position + Camera.Rotation.Down * 10 + Camera.Rotation.Left * 10 + Camera.Rotation.Forward * 10;
-			Rotation = Camera.Rotation * Rotation.From( 10, 15, 6 );
-		}
-		else if ( viewstate == ViewmodelState.Off )
-		{
-			Position = Camera.Position + Camera.Rotation.Down * 30 + Camera.Rotation.Backward * 30;
-			Rotation = Camera.Rotation;
+			case ViewModelPositions.Center:
+				Position = Camera.Position + Camera.Rotation.Down * 20 + Camera.Rotation.Forward * 25;
+				Rotation = Camera.Rotation;
+				break;
+			case ViewModelPositions.Right:
+				Position = Camera.Position + Camera.Rotation.Down * 10 + Camera.Rotation.Right * 10 + Camera.Rotation.Forward * 10;
+				Rotation = Camera.Rotation * Rotation.From( 10, -15, -6 );
+				break;
+			case ViewModelPositions.Left:
+				Position = Camera.Position + Camera.Rotation.Down * 10 + Camera.Rotation.Left * 10 + Camera.Rotation.Forward * 10;
+				Rotation = Camera.Rotation * Rotation.From( 10, 15, 6 );
+				break;
+			case ViewModelPositions.Off:
+				Position = Camera.Position + Camera.Rotation.Down * 30 + Camera.Rotation.Backward * 30;
+				Rotation = Camera.Rotation;
+				return;
 		}
 
 		Position += BobPositionOffset;
@@ -89,8 +77,6 @@ internal class HandheldViewModel : AnimatedEntity
 
 		Rotation *= Rotation.From( groundedA * 5, 0, 0 );
 		Rotation *= Rotation.From( jumpedA * -2, 0, 0 );
-
-		if ( Game.LocalPawn is not StrafePlayer pl ) return;
 
 		if( pl.Controller is StrafeController ctrl )
 		{

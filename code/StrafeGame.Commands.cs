@@ -92,15 +92,11 @@ internal partial class StrafeGame
 		if ( cmdName == "toggleviewmodel" && Game.IsClient )
 		{
 			if ( cl.Pawn is not StrafePlayer pl ) return;
-			
-			if ( pl.Handheld is RocketLauncher rl )
-			{
-				rl.ViewModel.viewstateindex++;
-				if ( rl.ViewModel.viewstateindex > 3 ) rl.ViewModel.viewstateindex = 0;
-				rl.ViewModel.UpdateCameraPos();
-				Chatbox.AddChatEntry( "Server", $"Centered Viewmodel {rl.ViewModel.viewstate}" );
 
-			}
+			var pos = pl.ViewModelPosition + 1;
+			if ( (int)pos > 3 ) pos = 0;
+
+			pl.ViewModelPosition = pos;
 		}
 		if ( cmdName == "showkeys" && Game.IsClient )
 		{
