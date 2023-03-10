@@ -78,7 +78,7 @@
     "Summary": "A work in progress surf, bunnyhop, and rocket jump gamemode.",
     "Description": "\uD83C\uDFBF | About\n\nSurf and bunnyhop as enjoyed in Garry\u0027s Mod and Counter Strike.\n\n\u231B | Speedrun Timer\n\n- In-depth run statistics.\n- Global and secure leaderboards.\n- World record and personal best replay bots.\n- World record comparisons upon reaching checkpoints.\n\n\uD83D\uDD28 | Mapping\n\n1. Open Hammer, build your beautiful bhop or surf map.\n2. Add Strafe entities to your entity tool.\n3. Staged map: place start and end zones for every stage, set the stage number accordingly.\n4. Linear map: place one start and one and zone spanning the entire map, optionally place Checkpoint zones throughout your map.\n5. Add facepunch.strafe to your map\u0027s supported games (found in S\u0026box Editor\u0027s Addon Manager)\n6. Servers will now include your map in their map cycle.",
     "Public": true,
-    "ReplaceTags": "speedrun sbm surf bhop rj rocketjump",
+    "ReplaceTags": "speedrun sbm surf bhop rj rocketjump quake",
     "CsProjName": ""
   }
 }

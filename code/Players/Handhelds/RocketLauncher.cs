@@ -15,7 +15,7 @@ internal partial class RocketLauncher : Handheld
 
 		if ( Owner is not StrafePlayer pl ) return;
 
-		if ( TimeSinceFired < 0.8f ) return;
+		if ( TimeSinceFired < 0.65f ) return;
 
 		TimeSinceFired = 0;
 

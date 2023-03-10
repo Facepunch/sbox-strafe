@@ -44,6 +44,8 @@ partial class StrafeController : WalkController
 	protected virtual bool QueueJumps => false;
 	protected virtual float JumpForce => -1f;
 
+	public BBox WorldBounds => new BBox( Position + mins, Position + maxs );
+
 	public StrafeController()
 	{
 		Duck = new StrafeDuck( this );
