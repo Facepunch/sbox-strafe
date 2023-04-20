@@ -392,7 +392,7 @@ partial class StrafeController : WalkController
 			BaseVelocity = BaseVelocity.WithZ( 0 );
 		}
 
-		if ( ( AutoJump && Input.Down( InputButton.Jump ) ) || Input.Pressed( InputButton.Jump ) || JumpQueued )
+		if ( ( AutoJump && Input.Down( "Jump" ) ) || Input.Pressed( "Jump" ) || JumpQueued )
 		{
 			CheckJumpButton();
 		}
@@ -566,7 +566,7 @@ partial class StrafeController : WalkController
 
 		if ( IsTouchingLadder )
 		{
-			if ( Input.Pressed( InputButton.Jump ) )
+			if ( Input.Pressed( "Jump" ) )
 			{
 				Velocity = LadderNormal * 100.0f;
 				IsTouchingLadder = false;
@@ -605,7 +605,7 @@ partial class StrafeController : WalkController
 	public TimeSince TimeSinceWaterJump { get; set; }
 	private void CheckWaterJump()
 	{
-		if ( !Input.Down( InputButton.Jump ) )
+		if ( !Input.Down( "Jump" ) )
 			return;
 
 		if ( TimeSinceWaterJump < 2f )
@@ -654,7 +654,7 @@ partial class StrafeController : WalkController
 	{
 		var wishvel = WishVelocity;
 
-		if ( Input.Down( InputButton.Jump ) )
+		if ( Input.Down( "Jump" ) )
 		{
 			wishvel[2] += DefaultSpeed;
 		}
@@ -717,7 +717,7 @@ partial class StrafeController : WalkController
 
 	private void NoclipMove()
 	{
-		var speed = Input.Down( InputButton.Run ) ? 1500 : 1000;
+		var speed = Input.Down( "Run" ) ? 1500 : 1000;
 
 		Velocity = new Vector3( Player.InputDirection.x, Player.InputDirection.y, 0 );
 		Velocity *= Player.ViewAngles.ToRotation();

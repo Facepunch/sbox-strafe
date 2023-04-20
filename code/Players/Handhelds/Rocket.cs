@@ -31,7 +31,7 @@ internal struct Rocket
 			RocketModel.Rotation = Rotation;
 		}
 
-		var tr = Trace.Sphere( 5f, Position, Position ).WorldOnly().Run();
+		var tr = Trace.Sphere( 12f, Position, Position ).WorldOnly().Run();
 		if ( !tr.Hit ) return this;
 
 		var radius = 150.0f;

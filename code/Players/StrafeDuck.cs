@@ -13,7 +13,7 @@ internal class StrafeDuck : Duck
 
 	public override void PreTick()
 	{
-		bool wants = Input.Down( InputButton.Duck );
+		bool wants = Input.Down( "Duck" );
 
 		if ( wants != IsActive )
 		{

@@ -72,7 +72,7 @@ internal partial class StrafeTriggerPush : StrafeTrigger
 	private bool CanTriggerOnJump( StrafeController ctrl )
 	{
 		if ( ctrl.GroundEntity == null ) return false;
-		if ( !Input.Down( InputButton.Jump ) ) return false;
+		if ( !Input.Down( "Jump" ) ) return false;
 
 		return true;
 	}

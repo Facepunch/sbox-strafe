@@ -30,12 +30,12 @@
 	[Event.Client.BuildInput]
 	public void OnBuildInput()
 	{
-		if (Input.Pressed(InputButton.Score))
+		if (Input.Pressed("Score"))
 		{
 			SetClass("open", !HasClass("open"));
 		}
 
-		if(Input.Released(InputButton.Score) && !Mouse.Visible)
+		if(Input.Released("Score") && !Mouse.Visible)
 		{
 			RemoveClass("open");
 		}
@@ -46,7 +46,7 @@
 		}
 		else
 		{
-			if (Input.Down(InputButton.PrimaryAttack) || Input.Down(InputButton.SecondaryAttack))
+			if (Input.Down("attack1") || Input.Down("attack2"))
 			{
 				AddClass("cursor");
 			}

@@ -17,7 +17,7 @@ internal partial class QuakeController : StrafeController
 
 	public override void Simulate()
 	{
-		if( GroundEntity == null && Input.Pressed( InputButton.Jump ) )
+		if( GroundEntity == null && Input.Pressed( "Jump" ) )
 		{
 			JumpQueued = true;
 		}

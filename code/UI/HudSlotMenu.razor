@@ -65,8 +65,7 @@
 
 		for (int i = 0; i <= 9; i++)
 		{
-			var e = Enum.Parse<InputButton>($"Slot{i}");
-			if (Input.Pressed(e)) SubmitOption(i - 1);
+			if (Input.Pressed($"Slot{i}")) SubmitOption(i - 1);
 		}
 	}
 }

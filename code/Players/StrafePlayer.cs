@@ -30,6 +30,12 @@ internal partial class StrafePlayer : AnimatedEntity
 	public Angles ViewAngles { get; set; }
 	[ClientInput] 
 	public Vector3 InputDirection { get; set; }
+	[ClientInput]
+	public bool WantsRestart { get; set; }
+	[ClientInput]
+	public bool WantsGoBack { get; set; }
+	[ClientInput]
+	public bool WantsNoclip { get; set; }
 
 	public Rotation EyeRotation
 	{
@@ -160,33 +166,25 @@ internal partial class StrafePlayer : AnimatedEntity
 			Children[i].Simulate( cl );
 		}
 
-		// HACK:should be setting ButtonToSet back to default in BuildInput
-		//		after adding it to this player's input but sometimes the button we
-		//		want gets missed in simulate.. so just keep trying right here
-		if ( Game.IsClient && ButtonToSet != InputButton.Slot9 )
+		if ( Input.Pressed( "Drop" ) || WantsRestart )
 		{
-			if ( Input.Pressed( ButtonToSet ) )
-			{
-				ButtonToSet = InputButton.Slot9;
-			}
-		}
-
-		if ( Input.Pressed( InputButton.Drop ) )
-		{
+			WantsRestart = false;
 			Restart();
 		}
 
-		if ( Input.Pressed( InputButton.Reload ) )
+		if ( Input.Pressed( "Reload" ) || WantsGoBack )
 		{
+			WantsGoBack = false;
 			GoBack();
 		}
 
-		if ( Input.Pressed( InputButton.Slot8 ) )
+		if ( Input.Pressed( "Slot8" ) || WantsNoclip )
 		{
+			WantsNoclip = false;
 			StrafeGame.Current.DoPlayerNoclip( Client );
 		}
 
-		if ( Input.Pressed( InputButton.Flashlight ) && Game.IsClient )
+		if ( Input.Pressed( "Flashlight" ) && Game.IsClient )
 		{
 			ToggleFlashlight();
 		}
@@ -246,12 +244,15 @@ internal partial class StrafePlayer : AnimatedEntity
 	private bool UpdateViewAngle;
 	private Angles UpdatedViewAngle;
 	private float YawSpeed;
-	// Purpose: when typing a command like !r to restart let it run
-	//			through simulate to get properly predicted.
-	public InputButton ButtonToSet { get; set; } = InputButton.Slot9;
 	public override void BuildInput()
 	{
-		InputDirection = Input.AnalogMove;
+		var inputDir = Vector3.Zero;
+		if ( Input.Down( "Left" ) ) inputDir.y = 1;
+		if ( Input.Down( "Right" ) ) inputDir.y = -1;
+		if ( Input.Down( "Forward" ) ) inputDir.x = 1;
+		if ( Input.Down( "Backward" ) ) inputDir.x = -1;
+
+		InputDirection = inputDir;
 
 		var look = Input.AnalogLook;
 
@@ -278,10 +279,6 @@ internal partial class StrafePlayer : AnimatedEntity
 		{
 			ViewAngles = ViewAngles.WithYaw( ViewAngles.yaw + YawSpeed * Time.Delta );
 		}
-
-		if ( ButtonToSet == InputButton.Slot9 ) return;
-
-		Input.SetButton( ButtonToSet, true );
 	}
 
 	public TimerEntity Stage( int stage )
@@ -366,7 +363,7 @@ internal partial class StrafePlayer : AnimatedEntity
 	{
 		if ( Game.LocalPawn is not StrafePlayer pl ) return;
 
-		pl.ButtonToSet = InputButton.Slot8;
+		pl.WantsNoclip = true;
 	}
 
 	[ConCmd.Server]

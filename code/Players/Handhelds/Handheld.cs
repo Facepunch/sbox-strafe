@@ -19,12 +19,12 @@ internal class Handheld : AnimatedEntity
 			ViewModel.EnableViewmodelRendering = true;
 		}
 
-		if ( Input.Pressed( InputButton.PrimaryAttack ) )
+		if ( Input.Pressed( "attack1" ) )
 		{
 			PrimaryAttack();
 		}
 
-		if ( Input.Pressed( InputButton.SecondaryAttack ) )
+		if ( Input.Pressed( "attack2" ) )
 		{
 			SecondaryAttack();
 		}

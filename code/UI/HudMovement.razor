@@ -35,12 +35,12 @@
 
     protected override int BuildHash()
     {
-        IsForward = Input.Down(InputButton.Forward);
-        IsBack = Input.Down(InputButton.Back);
-        IsLeft = Input.Down(InputButton.Left);
-        IsRight = Input.Down(InputButton.Right);
-        IsJumping = Input.Down(InputButton.Jump);
-        IsDucking = Input.Down(InputButton.Duck);
+        IsForward = Input.Down("Forward");
+        IsBack = Input.Down("Back");
+        IsLeft = Input.Down("Left");
+        IsRight = Input.Down("Right");
+        IsJumping = Input.Down("Jump");
+        IsDucking = Input.Down("Duck");
 
         return HashCode.Combine(IsForward, IsBack, IsLeft, IsRight, IsJumping, IsDucking);
     }
