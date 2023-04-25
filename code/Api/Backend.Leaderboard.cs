@@ -33,8 +33,7 @@ internal partial class Backend
 		try
 		{
 			var url = completionData.ReplayUrl;
-			var client = new Http( new System.Uri( url ) );
-			var data = await client.GetBytesAsync();
+			var data = await Sandbox.Http.RequestBytesAsync( url );
 			return Replay.FromBytes( data );
 		}
 		catch(Exception e )

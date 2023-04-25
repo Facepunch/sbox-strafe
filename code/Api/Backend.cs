@@ -24,13 +24,11 @@ internal partial class Backend
 
 	public static async Task<T> Get<T>( string controller )
 	{
-		var http = new Http( new System.Uri( $"{Endpoint}/{controller}" ) );
-		var result = await http.GetStringAsync();
-		http.Dispose();
+		var response = await Sandbox.Http.RequestStringAsync( $"{Endpoint}/{controller}" );
 
 		try
 		{
-			return JsonSerializer.Deserialize<T>( result, JsonOptions );
+			return JsonSerializer.Deserialize<T>( response, JsonOptions );
 		}
 		catch( System.Exception e )
 		{
