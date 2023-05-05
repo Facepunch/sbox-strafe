@@ -17,7 +17,7 @@ internal partial class StrafeTriggerBunnyhop : StrafeTrigger
 	[Net]
 	public Transform TargetTransform { get; set; }
 
-	[Event.Entity.PostSpawn]
+	[GameEvent.Entity.PostSpawn]
 	private void OnEntityPostSpawn()
 	{
 		if ( UseLastCheckpoint ) return;

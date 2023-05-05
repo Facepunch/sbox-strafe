@@ -51,7 +51,7 @@ internal partial class SlotMenu : Entity
 		Hud = null;
 	}
 
-	[Event.Tick.Server]
+	[GameEvent.Tick.Server]
 	private void OnTick()
 	{
 		if ( TimeUntilClose <= 0)

@@ -30,7 +30,7 @@ internal partial class ReplayEntity : AnimatedEntity
 		Transmit = TransmitType.Always;
 	}
 
-	[Event.Tick.Server]
+	[GameEvent.Tick.Server]
 	public void OnTick()
 	{
 		if ( Replay == null ) return;
@@ -57,7 +57,7 @@ internal partial class ReplayEntity : AnimatedEntity
 		}
 	}
 
-	[Event.Tick.Client]
+	[GameEvent.Tick.Client]
 	public void OnTickClient()
 	{
 		if ( Game.LocalPawn is not StrafePlayer pl ) return;

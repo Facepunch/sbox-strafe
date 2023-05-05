@@ -23,7 +23,7 @@ internal class SpectatorList : Panel
 		Canvas = Add.Panel( "entries" );
 	}
 
-	[Event.Client.Frame]
+	[GameEvent.Client.Frame]
 	private void OnFrame()
 	{
 		SetClass( "open", ShouldBeOpen() );
@@ -90,11 +90,6 @@ internal class SpectatorList : Panel
 			return new Friend( rep.PlayerId ).Name + " (replay)";
 
 		return "Unknown";
-	}
-
-	protected override void PostTemplateApplied()
-	{
-		Hash = -123;
 	}
 
 }

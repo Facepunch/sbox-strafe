@@ -167,7 +167,7 @@ internal partial class Backend
 		return WebSocket.IsConnected;
 	}
 
-	[Event.Tick]
+	[GameEvent.Tick]
 	public static void OnTick()
 	{
 		for ( int i = Responses.Count - 1; i >= 0; i-- )

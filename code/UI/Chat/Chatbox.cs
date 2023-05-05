@@ -13,7 +13,7 @@ public partial class Chatbox
 		Instance = this;
 	}
 
-	[Event.Client.BuildInput]
+	[GameEvent.Client.BuildInput]
 	void OnBuildInput()
 	{
 		if ( !Sandbox.Input.Pressed( "Chat" ) ) return;

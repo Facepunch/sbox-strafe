@@ -22,7 +22,7 @@ internal class Nametag : WorldPanel
 		SetClass( "local", player.IsLocalPawn );
 	}
 
-	[Event.Client.Frame]
+	[GameEvent.Client.Frame]
 	private void OnFrame()
 	{
 		if ( !Player.IsValid() ) return;
@@ -41,7 +41,7 @@ internal class Nametag : WorldPanel
 	}
 
 	private static Entity Target;
-	[Event.Tick.Client]
+	[GameEvent.Tick.Client]
 	public static void LookingAtAnybody()
 	{
 		if ( Game.LocalPawn is not StrafePlayer pl )

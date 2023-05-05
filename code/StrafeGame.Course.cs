@@ -18,7 +18,7 @@ internal partial class StrafeGame
 	[Net]
 	public string InvalidReason { get; set; }
 
-	[Event.Entity.PostSpawn]
+	[GameEvent.Entity.PostSpawn]
 	private void SetupCourse()
 	{
 		if ( !Game.IsServer ) return;

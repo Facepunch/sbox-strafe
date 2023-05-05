@@ -9,7 +9,7 @@ internal partial class StrafePlayer
 	[Net]
 	public Entity SpectateTarget { get; set; }
 
-	[Event.Tick]
+	[GameEvent.Tick]
 	private void EnsureSpectateTarget()
 	{
 		if ( !SpectateTarget.IsValid() || SpectateTarget == this ) 

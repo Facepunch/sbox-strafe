@@ -42,7 +42,7 @@ internal class HandheldViewModel : AnimatedEntity
 		}
 	}
 
-	[Event.Client.PostCamera]
+	[GameEvent.Client.PostCamera]
 	public virtual void PlaceViewmodel()
 	{
 		if ( Game.IsRunningInVR ) return;

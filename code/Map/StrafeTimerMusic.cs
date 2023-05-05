@@ -23,7 +23,7 @@ public partial class StrafeTimerMusic : Entity
 		Transmit = TransmitType.Always;
 	}
 
-	[Event.Tick.Client]
+	[GameEvent.Tick.Client]
 	public void OnTick()
 	{
 		if ( Game.LocalPawn is not StrafePlayer pl ) return;

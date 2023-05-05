@@ -18,7 +18,7 @@ internal partial class StrafePlayer
 	[ConVar.Client( "strafe_player_visibility", Saved = true )]
 	public static PlayerVisibility Visibility { get; set; } = PlayerVisibility.Fade;
 
-	[Event.Client.Frame]
+	[GameEvent.Client.Frame]
 	private void UpdateRenderAlpha() => this.SetRenderAlphaRecursive( GetRenderAlpha() );
 
 	private float GetRenderAlpha()

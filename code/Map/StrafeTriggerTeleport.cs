@@ -54,7 +54,7 @@ internal partial class StrafeTriggerTeleport : StrafeTrigger
 	/// </summary>
 	protected Output OnTriggered { get; set; }
 
-	[Event.Entity.PostSpawn]
+	[GameEvent.Entity.PostSpawn]
 	private void OnEntityPostSpawn()
 	{
 		var Targetent = FindByName( TargetEntity );

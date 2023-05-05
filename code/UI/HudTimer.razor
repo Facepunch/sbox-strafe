@@ -21,7 +21,7 @@
             <label class="diff" @ref="StrafeDiff" />
         </div>
         <div class="row">
-            <label text=@Style />
+            <label text=@TimerStyle />
         </div>
         <div class="row">
             <label style="margin-top: 16px;" text=@Location />
@@ -57,7 +57,7 @@
             return "Map is invalid";
         }
     }
-    TimerStyles Style;
+    TimerStyles TimerStyle;
 
     public override void Tick()
     {
@@ -69,7 +69,7 @@
             return;
         }
 
-        Style = pl.Style;
+        TimerStyle = pl.Style;
 
         TimerFrame frame;
         Strafe.Players.TimerEntity.States state;
@@ -80,7 +80,7 @@
             frame = rep.Frame;
             stage = 0;
             state = Strafe.Players.TimerEntity.States.Live;
-            Style = rep.Style;
+            TimerStyle = rep.Style;
         }
         else
         {
@@ -88,7 +88,7 @@
             frame = target.TimerFrame;
             stage = target.TimerStage;
             state = target.TimerState;
-            Style = target.Style;
+            TimerStyle = target.Style;
         }
 
         Stage = stage;

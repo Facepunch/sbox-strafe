@@ -12,7 +12,7 @@ internal class ServerHeartbeat
 	public string Map { get; set; }
 
 	private static TimeSince TimeSincePing = 0;
-	[Event.Tick.Server]
+	[GameEvent.Tick.Server]
 	public static async void Test()
 	{
 		if( TimeSincePing > 10 )

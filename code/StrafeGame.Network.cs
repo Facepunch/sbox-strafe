@@ -64,9 +64,9 @@ internal partial class StrafeGame
 		}
 	}
 
-	[Event.Tick.Server]
+	[GameEvent.Tick.Server]
 	private void OnTick() => Connected = Backend.Connected;
-	[Event.Entity.PostSpawn]
+	[GameEvent.Entity.PostSpawn]
 	private void SetMapState() => MapState = All.OfType<StrafeMapConfig>().FirstOrDefault()?.State ?? MapStates.Released;
 
 }

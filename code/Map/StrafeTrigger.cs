@@ -23,7 +23,7 @@ internal partial class StrafeTrigger : BaseTrigger
 	[Net]
 	public bool IsEnabled { get; set; }
 
-	[Event.Tick.Server]
+	[GameEvent.Tick.Server]
 	public void OnTick()
 	{
 		IsEnabled = Enabled && !strafe_disable_triggers;

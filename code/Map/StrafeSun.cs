@@ -54,7 +54,7 @@ internal partial class StrafeSun : Entity
 		FogEntity = All.FirstOrDefault( x => x is GradientFogEntity ) as GradientFogEntity;
 	}
 
-	[Event.Tick.Server]
+	[GameEvent.Tick.Server]
 	private void OnTick()
 	{
 		if ( !SunEntity.IsValid() ) return;

@@ -23,7 +23,7 @@ internal partial class StrafePlayer
 		}
 	}
 
-	[Event.Tick.Client]
+	[GameEvent.Tick.Client]
 	private void UpdateTrail()
 	{
 		if ( TrailParticle == null ) return;
