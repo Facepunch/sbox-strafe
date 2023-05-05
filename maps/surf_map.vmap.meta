@@ -1,9 +1,24 @@
 {
-  "cloud_packages": [
-    "facepunch.unicycle_frenzy#11539"
-  ],
-  "game_packages": [
-    "facepunch.strafe"
-  ],
-  "addon_packages": []
+  "publish": {
+    "Enabled": false,
+    "ProjectConfig": {
+      "Title": null,
+      "Type": null,
+      "Org": null,
+      "Ident": null,
+      "Tags": null,
+      "Schema": 0,
+      "HasAssets": false,
+      "AssetsPath": null,
+      "ResourcePaths": null,
+      "HasCode": false,
+      "CodePath": null,
+      "PackageReferences": [],
+      "EditorReferences": [
+        "facepunch.unicycle_frenzy#16827",
+        "facepunch.strafe"
+      ],
+      "Metadata": {}
+    }
+  }
 }

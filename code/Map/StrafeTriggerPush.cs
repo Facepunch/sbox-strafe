@@ -88,4 +88,23 @@ internal partial class StrafeTriggerPush : StrafeTrigger
 		return result.Clip( tr.Normal );
 	}
 
+	public static void DrawGizmos( EditorContext ctx )
+	{
+		// get the position of the target in local space
+		var arrowSize = 15.0f;
+		var directionProp = ctx.Target.GetProperty( "direction" );
+		var direction = directionProp.GetValue<Vector3>( 0 ).Normal;
+
+		direction = Gizmo.Transform.NormalToLocal( direction );
+
+		var endpos = direction * 50f;
+
+		// draw an arrow to it
+		Gizmo.Draw.Color = Color.Red.WithAlpha( 0.5f );
+		Gizmo.Draw.LineThickness = 2;
+		Gizmo.Draw.Line( 0, endpos );
+		Gizmo.Draw.SolidCone( endpos - direction * arrowSize, direction * arrowSize, 5.0f );
+		Gizmo.Draw.SolidBox( new BBox( 0, 3f ) );
+	}
+
 }

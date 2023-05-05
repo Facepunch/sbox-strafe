@@ -109,4 +109,27 @@ internal partial class StrafeTriggerTeleport : StrafeTrigger
 		}
 	}
 
+	public static void DrawGizmos ( EditorContext ctx )
+	{
+		var targetProp = ctx.Target.GetProperty( "target" );
+		var targetName = targetProp.GetValue<string>();
+
+		// Find the target entity by name
+		var targetObject = ctx.FindTarget( targetName );
+
+		if( targetObject != null )
+		{
+			// get the position of the target in local space
+			var local = Gizmo.Transform.ToLocal( targetObject.Transform );
+			var arrowSize = local.Position.Normal * 20.0f;
+
+			// draw an arrow to it
+			Gizmo.Draw.Color = Color.White.WithAlpha(0.5f);
+			Gizmo.Draw.LineThickness = 2;
+			Gizmo.Draw.Line( 0, local.Position );
+			Gizmo.Draw.SolidCone( local.Position - arrowSize, arrowSize, 5.0f );
+			Gizmo.Draw.SolidBox( new BBox( 0, 3f ) );
+		}
+	}
+
 }
