@@ -1,0 +1,57 @@
+
+@import "../Styles/_vars.scss";
+
+ServersPage {
+    flex-direction: column;
+}
+
+.sidebar {
+    width: 400px;
+    flex-shrink: 0;
+}
+
+.servers {
+    flex-direction: column;
+    overflow-y: scroll;
+    width: 100%;
+}
+
+ServerEntry {
+    padding: 10px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    font-size: 16px;
+    border-bottom: 1px solid rgba($bg-dark, .35);
+    color: $foreground;
+
+    &:hover {
+        background-color: $bg-dark;
+    }
+
+    .title {
+        font-weight: heavy;
+        font-size: 20px;
+        margin-bottom: 4px;
+    }
+
+    .map {
+        color: $foreground-faded;
+    }
+
+    .meta {
+        flex-direction: row;
+        gap: 8px;
+
+        .tag {
+            padding: 4px 12px;
+            background-color: rgba( $foreground-faded, .15 );
+            border-radius: $radius;
+            align-self: flex-start;
+            font-size: 15px;
+
+            &.success {
+                background-color: rgba( $green, .15 );
+            }
+        }
+    }
+}

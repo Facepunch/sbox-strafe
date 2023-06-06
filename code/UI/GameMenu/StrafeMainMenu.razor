@@ -1,0 +1,27 @@
+
+@inherits NavigatorPanel
+
+<root>
+    <div class="navbar">
+        <navlink href="/menu/servers">Servers</navlink>
+        <navlink href="/menu/maps">Maps</navlink>
+        <navlink href="/menu/ranks">Ranks</navlink>
+        <navlink href="/menu/settings">Settings</navlink>
+        <div class="grow"></div>
+        <div class="logo">Strafe</div>
+    </div>
+
+    <div @ref="NavigatorCanvas" class="content" />
+</root>
+
+@code {
+    protected override void OnAfterTreeRender(bool firstTime)
+    {
+        base.OnAfterTreeRender(firstTime);
+
+        if (!firstTime) 
+            return;
+
+        Navigate("/menu/servers");
+    }
+}

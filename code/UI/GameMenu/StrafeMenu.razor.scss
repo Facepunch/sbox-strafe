@@ -1,0 +1,76 @@
+
+@import "../Styles/_vars.scss";
+
+$bg2: #141e2e;
+$bg3: #2e353e;
+
+StrafeMainMenu {
+    background-color: $bg3;
+    color: $foreground;
+    font-family: Ubuntu;
+    flex-direction: column;
+    flex-grow: 1;
+    background-image: url(https://skins.cash/blog/wp-content/uploads/2018/07/surf_utopia.jpg);
+    padding: 40px;
+    padding-top: 65px;
+
+    .navbar {
+        background-color: $bg2;
+        box-shadow: 4px 4px 30px rgba(black .5);
+        padding: 15px;
+        border-radius: 4px;
+        gap: 10px;
+        align-items: center;
+        flex-shrink: 0;
+
+        navlink {
+            height: 100%;
+            padding: 0px 20px;
+            align-items: center;
+            font-size: 25px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: #d6d6d6;
+            transition: all .08s ease;
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            border-radius: 4px;
+
+            &:hover {
+                border-color: $lightaccent;
+                background-color: rgba($lightaccent, .1);
+            }
+
+            &.active {
+                background-color: $lightaccent;
+                color: $bg2;
+            }
+        }
+    }
+
+    .content {
+        flex-grow: 1;
+        margin-top: 20px;
+        background-color: #3b486d;
+        border-radius: 4px;
+        padding: 40px;
+    }
+
+    .logo {
+        font-size: 30px;
+        text-transform: uppercase;
+        font-weight: 800;
+        margin-right: 20px;
+        opacity: .5;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+
+    .grow{flex-grow:1;}
+    .shrink{flex-shrink:1;}
+    .columns{flex-direction:column;}
+    .rows{flex-direction:row;}
+}

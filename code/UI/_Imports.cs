@@ -14,3 +14,4 @@ global using Strafe.Map;
 global using Strafe.Menu;
 global using Strafe.Api;
 global using Strafe.Api.Messages;
+global using Sandbox.Services;

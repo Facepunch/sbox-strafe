@@ -1,0 +1,33 @@
+@using Sandbox.UI;
+@namespace Strafe.UI
+@inherits Panel
+@attribute [NavigatorTarget("/menu/servers")]
+@attribute [StyleSheet]
+
+<div>
+    <div class="sidebar">
+        Put filters here
+    </div>
+    <div class="servers">
+        @if(List == null || List.Count == 0)
+        {
+            <label text="No servers right now" />
+        }
+        else
+        {
+            @foreach(var server in List)
+            {
+                <ServerEntry Entry=@server />
+                <ServerEntry Entry=@server />
+                <ServerEntry Entry=@server />
+                <ServerEntry Entry=@server />
+                <ServerEntry Entry=@server />
+                <ServerEntry Entry=@server />
+                <ServerEntry Entry=@server />
+                <ServerEntry Entry=@server />
+                <ServerEntry Entry=@server />
+                <ServerEntry Entry=@server />
+            }
+        }
+    </div>
+</div>

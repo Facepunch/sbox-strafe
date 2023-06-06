@@ -1,0 +1,17 @@
+
+<root>
+    <div class="columns name">
+        <label class="title" text=@Entry.Name />
+        <label class="map" text=@Entry.Map />
+    </div>
+    <div class="grow" />
+    <div class="meta">
+        <label class="tag" text="12 players" />
+        <label class="tag" text="18ms ping" />
+        <label class="tag success" text="Ranks" />
+    </div>
+</root>
+
+@code {
+    public ServerList.Entry Entry { get; set; }
+}
