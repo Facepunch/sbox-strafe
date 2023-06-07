@@ -8,7 +8,10 @@
         <nav href="/menu/ranks">Ranks</nav>
         <nav href="/menu/settings">Settings</nav>
         <div class="grow"></div>
-        <div class="logo">Strafe</div>
+        @if (Game.InGame)
+        {
+            <button class="warning" onmousedown=@LeaveGame text="Disconnect" />
+        }
     </div>
 
     <div @ref="NavigatorCanvas" class="content" />
@@ -23,5 +26,17 @@
             return;
 
         Navigate("/menu/servers");
+    }
+
+    public override void Tick()
+    {
+        base.Tick();
+
+        SetClass("ingame", Game.InGame);
+    }
+
+    void LeaveGame()
+    {
+        Game.Menu.LeaveServer("Client wanted to leave the game");
     }
 }

@@ -1,51 +1,6 @@
 
 @import "../Styles/_vars.scss";
 
-button {
-    padding: 0px 20px;
-    align-items: center;
-    font-size: 15px;
-    font-weight: 800;
-    text-transform: uppercase;
-    cursor: pointer;
-    color: #d6d6d6;
-    transition: all .08s ease;
-    border: 2px solid transparent;
-    padding: 10px 20px;
-    border-radius: 4px;
-    background-color: $bg-dark;
-
-    &:hover:not(.disabled) {
-        border-color: $lightaccent;
-        background-color: rgba($lightaccent, .1);
-    }
-
-    &.active, &:active {
-        background-color: $lightaccent;
-        color: $bg-dark;
-    }
-
-    &.large {
-        font-size: 22px;
-    }
-
-    &.primary {
-        border-color: $lightaccent;
-        background-color: rgba($lightaccent, .1);
-
-        &:hover {
-            background-color: $lightaccent;
-            color: $bg-dark;
-        }
-    }
-
-    &.disabled {
-        opacity: .5;
-        cursor: default;
-        pointer-events: none;
-    }
-}
-
 StrafeMainMenu {
     background-color: $bg-light;
     color: $foreground;
@@ -56,6 +11,16 @@ StrafeMainMenu {
     padding: 40px;
     padding-top: 65px;
 
+    &.ingame {
+        background-image: none;
+        background-color: rgba(black, .5);
+
+        .content {
+            background-color: rgba( #3b486d, .9 );
+            backdrop-filter: blur( 10px );
+        }
+    }
+
     .navbar {
         background-color: $bg-dark;
         box-shadow: 4px 4px 30px rgba(black .5);
@@ -65,7 +30,7 @@ StrafeMainMenu {
         align-items: center;
         flex-shrink: 0;
 
-        nav {
+        nav, button {
             height: 100%;
             padding: 0px 20px;
             align-items: center;
@@ -185,5 +150,61 @@ StrafeMainMenu {
         text-transform: uppercase;
         font-weight: 600;
         color: $foreground-faded;
+    }
+
+    button {
+        padding: 0px 20px;
+        align-items: center;
+        font-size: 15px;
+        font-weight: 800;
+        text-transform: uppercase;
+        cursor: pointer;
+        color: #d6d6d6;
+        transition: all .08s ease;
+        border: 2px solid transparent;
+        padding: 10px 20px;
+        border-radius: 4px;
+        background-color: $bg-dark;
+
+        &:hover:not(.disabled) {
+            border-color: $lightaccent;
+            background-color: rgba($lightaccent, .1);
+        }
+
+        &.active, &:active {
+            background-color: $lightaccent;
+            color: $bg-dark;
+        }
+
+        &.large {
+            font-size: 22px;
+        }
+
+        &.primary {
+            border-color: $lightaccent;
+            background-color: rgba($lightaccent, .1);
+
+            &:hover {
+                background-color: $lightaccent;
+                color: $bg-dark;
+            }
+        }
+
+        &.warning {
+            border-color: $orange;
+            background-color: rgba($orange, .1);
+
+            &:hover {
+                border-color: $orange;
+                background-color: $orange;
+                color: $bg-dark;
+            }
+        }
+
+        &.disabled {
+            opacity: .5;
+            cursor: default;
+            pointer-events: none;
+        }
     }
 }
