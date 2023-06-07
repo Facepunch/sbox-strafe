@@ -10,9 +10,16 @@
     </div>
     <div class="body">
         <div class="maps">
-            @foreach (var map in Maps)
+            @if (Maps == null || Maps.Count == 0)
             {
-                <MapEntry Map=@map />
+                <Spinner />
+            }
+            else
+            {
+                @foreach (var map in Maps)
+                {
+                    <MapEntry Map=@map />
+                }
             }
         </div>
     </div>
