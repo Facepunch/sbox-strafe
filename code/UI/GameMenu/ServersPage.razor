@@ -6,7 +6,14 @@
 
 <div>
     <div class="sidebar">
-        Put filters here
+        <div class="form">
+            <div class="form-row">
+                <Checkbox LabelText="Show Empty" Value:bind=@ShowEmpty />
+            </div>
+            <div class="form-row">
+                <Checkbox LabelText="Ranked" Value:bind=@WhitelistedOnly />
+            </div>
+        </div>
     </div>
     <div class="servers">
         @if(List == null || List.Count == 0)
@@ -17,6 +24,9 @@
         {
             @foreach(var server in List)
             {
+                if (!Filter(server))
+                    continue;
+
                 <ServerEntry Entry=@server />
                 <ServerEntry Entry=@server />
                 <ServerEntry Entry=@server />

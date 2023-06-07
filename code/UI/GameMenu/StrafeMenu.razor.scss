@@ -69,8 +69,55 @@ StrafeMainMenu {
         }
     }
 
-    .grow{flex-grow:1;}
-    .shrink{flex-shrink:1;}
-    .columns{flex-direction:column;}
-    .rows{flex-direction:row;}
+    .grow {
+        flex-grow: 1;
+    }
+
+    .shrink {
+        flex-shrink: 1;
+    }
+
+    .columns {
+        flex-direction: column;
+    }
+
+    .rows {
+        flex-direction: row;
+    }
+
+    .form {
+        flex-direction: column;
+        gap: 2px;
+
+        .form-row {
+            height: 32px;
+            align-items: center;
+            width: 100%;
+        }
+
+        Checkbox {
+            align-items: center;
+
+            .checkmark {
+                width: 24px;
+                height: 24px;
+                background-color: $bg-dark;
+                cursor: pointer;
+                align-items: center;
+                justify-content: center;
+                color: transparent;
+                text-align: center;
+                margin-right: 8px;
+                border-radius: 2px;
+
+                &:hover {
+                    background-color: lighten($bg-dark, 35%);
+                }
+            }
+
+            &.checked .checkmark {
+                color: white;
+            }
+        }
+    }
 }
