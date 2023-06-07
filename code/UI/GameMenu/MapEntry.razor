@@ -1,4 +1,6 @@
 
+@inherits Panel
+
 @if (Map == null)
     return;
 
@@ -17,4 +19,12 @@
 
 @code {
     public Package Map { get; set; }
+
+
+    protected override void OnMouseDown(MousePanelEvent e)
+    {
+        base.OnMouseDown(e);
+
+        Ancestors.OfType<StrafeMainMenu>().First().Navigate($"/maps/{Map.FullIdent}");
+    }
 }

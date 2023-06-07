@@ -1,0 +1,76 @@
+
+@inherits Panel
+@attribute [NavigatorTarget("/maps/{ident}")]
+@attribute [StyleSheet]
+
+@if (Map == null)
+{
+    <label text="Loading..." />
+    return;
+}
+
+<style>
+    .thumbnail {
+        background-image: url(@Map.Thumb);
+    }
+</style>
+
+<root>
+    <div class="sidebar columns map-info">
+        <div class="info-row thumb">
+            <div class="thumbnail" />
+        </div>
+        <div class="info-row">
+            <label>Map</label>
+            <label class="bold">@Map.Title</label>
+        </div>
+        <div class="info-row">
+            <label>Author</label>
+            <label class="bold">@Map.Org.Title</label>
+        </div>
+        <div class="info-row">
+            <label>Unique Players</label>
+            <label class="bold">@Map.Usage.Total.Users</label>
+        </div>
+        <div class="info-row">
+            <label>Total Playtime</label>
+            <label class="bold">@Map.Usage.Total.Seconds.FormatSeconds()</label>
+        </div>
+        <div class="grow"></div>
+        <button class="large primary" text="Create Game" onmousedown=@CreateGame />
+    </div>
+
+    <div class="body columns map-description">
+        <label class="heading">Description</label>
+        @Map.Description
+    </div>
+
+    <div class="sidebar columns map-leaderboard">
+        <label class="heading">Leaderboard</label>
+        Sidebar
+    </div>
+</root>
+
+@code {
+    public string Ident { get; set; }
+
+    Package Map;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrEmpty(Ident))
+            return;
+
+        Map = await Package.FetchAsync(Ident, false);
+    }
+
+    async void CreateGame()
+    {
+        await Game.Menu.CreateLobbyAsync();
+        Game.Menu.Lobby.Map = Map.FullIdent;
+        Game.Menu.Lobby.MaxMembers = 24;
+        Game.Menu.Lobby.Title = "My Lobby";
+
+        await Game.Menu.Lobby.LaunchGameAsync();
+    }
+}

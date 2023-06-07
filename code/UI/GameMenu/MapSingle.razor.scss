@@ -1,0 +1,36 @@
+
+@import "../Styles/_vars.scss";
+
+MapSingle {
+    gap: 20px;
+}
+
+.thumbnail {
+    width: 100%;
+    aspect-ratio: 1;
+    background-position: center;
+    background-size: cover;
+}
+
+.map-info {
+    max-width: 375px;
+}
+
+.info-row {
+    background-color: $bg-dark;
+    padding: 15px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    justify-content: space-between;
+    font-size: 20px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+
+    &:not(:last-child){
+        border-bottom-width: 0;
+    }
+
+    .bold {
+        font-weight: heavy;
+    }
+}
