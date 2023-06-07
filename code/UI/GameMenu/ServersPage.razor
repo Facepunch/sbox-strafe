@@ -16,19 +16,26 @@
         </div>
     </div>
     <div class="body">
-        @if(List == null || List.Count == 0)
-        {
-            <label text="No servers right now" />
-        }
-        else
-        {
-            @foreach(var server in List)
+        <div class="server-header">
+            <button @ref="ConnectButton" onmousedown=@JoinSelected text="Connect" />
+            <div class="grow"></div>
+            <button onmousedown=@Refresh text="Refresh" />
+        </div>
+        <div class="server-list">
+            @if (List == null || List.Count == 0)
             {
-                if (!Filter(server))
-                    continue;
-
-                <ServerEntry Entry=@server />
+                <label text="No servers right now" />
             }
-        }
+            else
+            {
+                @foreach (var server in List)
+                {
+                    if (!Filter(server))
+                        continue;
+
+                    <ServerEntry Entry=@server Ranked=@IsWhitelisted(server.SteamId) />
+                }
+            }
+        </div>
     </div>
 </div>

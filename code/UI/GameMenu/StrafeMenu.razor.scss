@@ -1,6 +1,38 @@
 
 @import "../Styles/_vars.scss";
 
+button {
+    height: 100%;
+    padding: 0px 20px;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #d6d6d6;
+    transition: all .08s ease;
+    border: 2px solid transparent;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: $bg-dark;
+
+    &:hover:not(.disabled) {
+        border-color: $lightaccent;
+        background-color: rgba($lightaccent, .1);
+    }
+
+    &.active, &:active {
+        background-color: $lightaccent;
+        color: $bg-dark;
+    }
+
+    &.disabled {
+        opacity: .5;
+        cursor: default;
+        pointer-events: none;
+    }
+}
+
 StrafeMainMenu {
     background-color: $bg-light;
     color: $foreground;

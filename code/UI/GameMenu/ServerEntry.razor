@@ -1,4 +1,6 @@
 
+@inherits Panel
+
 <root>
     <div class="columns name">
         <label class="title" text=@Entry.Name />
@@ -8,10 +10,37 @@
     <div class="meta">
         <label class="tag" text="@($"{Entry.Players} players")" />
         <label class="tag" text="@($"{Entry.Ping}ms")" />
-        <label class="tag success" text="Ranked" />
+        @if (Ranked)
+        {
+            <label class="tag success" text="Ranked" />
+        }
     </div>
 </root>
 
 @code {
     public ServerList.Entry Entry { get; set; }
+    public bool Ranked { get; set; }
+
+    TimeSince timeSinceMouseDown;
+    static ServerEntry active;
+
+    protected override void OnMouseDown(MousePanelEvent e)
+    {
+        base.OnMouseDown(e);
+
+        if (timeSinceMouseDown < .25f)
+        {
+            Join();
+        }
+
+        Ancestors.OfType<ServersPage>().First()?.SetSelected(this);
+
+        timeSinceMouseDown = 0;
+    }
+
+    void Join()
+    {
+        Ancestors.OfType<ServersPage>().First()?.Join(Entry);
+    }
+
 }

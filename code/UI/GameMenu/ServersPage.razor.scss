@@ -5,9 +5,18 @@ ServersPage {
     flex-direction: column;
 }
 
-.servers {
+.body {
+    flex-direction: column;
+}
+
+.server-header {
+    margin-bottom: 20px;
+}
+
+.server-list {
     flex-direction: column;
     overflow-y: scroll;
+    flex-grow: 1;
 }
 
 ServerEntry {
@@ -17,8 +26,13 @@ ServerEntry {
     font-size: 16px;
     border-bottom: 1px solid rgba($bg-dark, .35);
     color: $foreground;
+    cursor: pointer;
 
     &:hover {
+        background-color: $bg-dark-hover;
+    }
+
+    &.active {
         background-color: $bg-dark;
     }
 
