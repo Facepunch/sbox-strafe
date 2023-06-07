@@ -73,14 +73,25 @@ public partial class ServersPage : Panel
 		if ( !showEmpty && e.Players == 0 )
 			return false;
 
-		if ( whitelistedOnly && !IsWhitelisted( e.SteamId ) )
+		if ( whitelistedOnly && !IsWhitelisted( e ) )
 			return false;
 
 		return true;
 	}
 
-	bool IsWhitelisted( ulong steamid )
+	bool IsWhitelisted( ServerList.Entry e )
 	{
+		// todo: grab this properly
+
+		if ( e.Name == "Strafe - UK" )
+			return true;
+
+		if ( e.Name.StartsWith( "[StrafeBox]" ) )
+			return true;
+
+		if ( e.Name.StartsWith( "Strafe - US West" ) )
+			return true;
+
 		return false;
 	}
 
