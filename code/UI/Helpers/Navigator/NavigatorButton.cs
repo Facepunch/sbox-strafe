@@ -8,7 +8,7 @@ namespace Strafe.UI;
 /// <summary>
 /// A button that will navigate to an href but also have .active class if href is active
 /// </summary>
-[Library( "navlink" )]
+[Library( "nav" )]
 public class NavigatorButton : Button
 {
 	NavigatorPanel Navigator;

@@ -1,11 +1,8 @@
 
 @import "../Styles/_vars.scss";
 
-$bg2: #141e2e;
-$bg3: #2e353e;
-
 StrafeMainMenu {
-    background-color: $bg3;
+    background-color: $bg-light;
     color: $foreground;
     font-family: Ubuntu;
     flex-direction: column;
@@ -15,7 +12,7 @@ StrafeMainMenu {
     padding-top: 65px;
 
     .navbar {
-        background-color: $bg2;
+        background-color: $bg-dark;
         box-shadow: 4px 4px 30px rgba(black .5);
         padding: 15px;
         border-radius: 4px;
@@ -23,7 +20,7 @@ StrafeMainMenu {
         align-items: center;
         flex-shrink: 0;
 
-        navlink {
+        nav {
             height: 100%;
             padding: 0px 20px;
             align-items: center;
@@ -44,7 +41,7 @@ StrafeMainMenu {
 
             &.active {
                 background-color: $lightaccent;
-                color: $bg2;
+                color: $bg-dark;
             }
         }
     }
