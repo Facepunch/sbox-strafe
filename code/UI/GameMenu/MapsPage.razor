@@ -1,0 +1,19 @@
+@using Sandbox.UI;
+@namespace Strafe.UI
+@inherits Panel
+@attribute [NavigatorTarget("/menu/maps")]
+@attribute [StyleSheet]
+
+<root>
+    <div class="sidebar">
+        Maps filter
+    </div>
+    <div class="body">
+        <div class="maps">
+            @foreach (var map in Maps)
+            {
+                <MapEntry Map=@map />
+            }
+        </div>
+    </div>
+</root>

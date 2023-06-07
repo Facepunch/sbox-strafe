@@ -116,8 +116,23 @@ StrafeMainMenu {
             }
 
             &.checked .checkmark {
-                color: white;
+                color: $bg-dark;
+                background-color: $darkaccent;
             }
         }
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .sidebar {
+        width: 400px;
+        flex-shrink: 0;
+    }
+
+    .body {
+        flex-grow: 1;
+        width: 100%;
     }
 }

@@ -1,0 +1,20 @@
+
+@if (Map == null)
+    return;
+
+<style>
+    MapEntry {
+        background-image: url(@Map.Thumb);
+    }
+</style>
+
+<root>
+    <div class="info">
+        <label class="title" text=@Map.Title />
+        <label class="author" text=@Map.Org.Title />
+    </div>
+</root>
+
+@code {
+    public Package Map { get; set; }
+}

@@ -15,7 +15,7 @@
             </div>
         </div>
     </div>
-    <div class="servers">
+    <div class="body">
         @if(List == null || List.Count == 0)
         {
             <label text="No servers right now" />
@@ -27,15 +27,6 @@
                 if (!Filter(server))
                     continue;
 
-                <ServerEntry Entry=@server />
-                <ServerEntry Entry=@server />
-                <ServerEntry Entry=@server />
-                <ServerEntry Entry=@server />
-                <ServerEntry Entry=@server />
-                <ServerEntry Entry=@server />
-                <ServerEntry Entry=@server />
-                <ServerEntry Entry=@server />
-                <ServerEntry Entry=@server />
                 <ServerEntry Entry=@server />
             }
         }

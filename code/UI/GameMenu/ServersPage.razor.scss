@@ -5,15 +5,9 @@ ServersPage {
     flex-direction: column;
 }
 
-.sidebar {
-    width: 400px;
-    flex-shrink: 0;
-}
-
 .servers {
     flex-direction: column;
     overflow-y: scroll;
-    width: 100%;
 }
 
 ServerEntry {
