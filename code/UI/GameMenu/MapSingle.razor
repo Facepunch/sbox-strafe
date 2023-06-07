@@ -37,7 +37,11 @@
             <label class="bold">@Map.Usage.Total.Seconds.FormatSeconds()</label>
         </div>
         <div class="grow"></div>
-        <button class="large primary" text="Create Game" onmousedown=@CreateGame />
+        @{
+            var tooltip = string.Empty;
+            if (Game.InGame) tooltip = "This will disconnect you from your current game";
+        }
+        <button class="large primary" text="Create Game" tooltip=@tooltip onmousedown=@CreateGame />
     </div>
 
     <div class="body columns map-description">
