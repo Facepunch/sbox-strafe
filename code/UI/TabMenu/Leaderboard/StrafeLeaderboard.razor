@@ -22,13 +22,13 @@
 
         if(firstTime)
         {
-            GameTask.RunInThreadAsync(async () =>
-            {
-                Entries = await Backend.FetchPersonalBests(Game.Server.MapIdent, 0, 20, 0);
-                StateHasChanged();
-
-                await GameTask.DelaySeconds(60);
-            });
+            Refresh();
         }
+    }
+
+    async void Refresh()
+    {
+        Entries = await Backend.FetchPersonalBests(Game.Server.MapIdent, 0, 20, 0);
+        StateHasChanged();
     }
 }
