@@ -4,7 +4,7 @@
 <root>
     <div class="columns name">
         <label class="title" text=@Entry.Name />
-        <label class="map" text=@Entry.Map />
+        <label class="map" text=@($"{Entry.Map}\n{mi.Type} {mi.Difficulty}") />
     </div>
     <div class="grow" />
     <div class="meta">
@@ -22,6 +22,7 @@
     public bool Ranked { get; set; }
 
     TimeSince timeSinceMouseDown;
+    MapInfo mi => MapInfo.Get(Entry.Map);
     static ServerEntry active;
 
     protected override void OnMouseDown(MousePanelEvent e)
