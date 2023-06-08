@@ -140,6 +140,10 @@ StrafeMainMenu {
             cursor: pointer;
             background-color: $bg-dark;
             padding: 10px;
+
+            &:hover {
+                background-color: $bg-dark-hover;
+            }
         }
     }
 
