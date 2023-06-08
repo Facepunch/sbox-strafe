@@ -100,6 +100,11 @@ StrafeMainMenu {
             height: 32px;
             align-items: center;
             width: 100%;
+
+            > label {
+                width: 200px;
+                font-weight: heavy;
+            }
         }
 
         Checkbox {
@@ -126,6 +131,15 @@ StrafeMainMenu {
                 color: $bg-dark;
                 background-color: $darkaccent;
             }
+        }
+
+        DropDown {
+            width: 100%;
+            height: 100%;
+            align-items: center;
+            cursor: pointer;
+            background-color: $bg-dark;
+            padding: 10px;
         }
     }
 

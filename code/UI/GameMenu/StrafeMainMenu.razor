@@ -12,6 +12,10 @@
         {
             <button class="warning" onmousedown=@LeaveGame text="Disconnect" />
         }
+        else
+        {
+            <div class="logo">Strafe</div>
+        }
     </div>
 
     <div @ref="NavigatorCanvas" class="content" />
@@ -38,5 +42,15 @@
     void LeaveGame()
     {
         Game.Menu.LeaveServer("Client wanted to leave the game");
+    }
+
+    protected override void OnMouseDown(MousePanelEvent e)
+    {
+        base.OnMouseDown(e);
+
+        if(!e.Target.Ancestors.OfType<Popup>().Any())
+        {
+            Popup.CloseAll(); 
+        }
     }
 }

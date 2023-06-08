@@ -5,7 +5,9 @@ MapsPage {
     .maps {
         flex-wrap: wrap;
         overflow-y: scroll;
+        width: 100%;
     }
+    gap: 20px;
 }
 
 MapEntry {

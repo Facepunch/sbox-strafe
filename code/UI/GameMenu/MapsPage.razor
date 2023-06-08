@@ -6,7 +6,16 @@
 
 <root>
     <div class="sidebar">
-        Maps filter
+        <div class="form grow">
+            <div class="form-row">
+                <label text="Type" />
+                <DropDown Value:bind=@MapTypeFilter ValueChanged=@FilterRefresh />
+            </div>
+            <div class="form-row">
+                <label text="Difficulty" />
+                <DropDown Value:bind=@MapDifficultyFilter ValueChanged=@FilterRefresh />
+            </div>
+        </div>
     </div>
     <div class="body">
         <div class="maps">
@@ -18,6 +27,9 @@
             {
                 @foreach (var map in Maps)
                 {
+                    if (!Filter(map))
+                        continue;
+
                     <MapEntry Map=@map />
                 }
             }
