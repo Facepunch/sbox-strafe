@@ -49,13 +49,12 @@ public enum MapTypes
 public enum MapDifficulties
 {
 	None = 0,
-	Trivial = 1,
-	Easy = 2,
-	Moderate = 3,
-	Challenging = 4,
-	Hard = 5,
-	Intense = 6,
-	Extreme = 7
+	Easy = 1,
+	Moderate = 2,
+	Challenging = 3,
+	Hard = 4,
+	Intense = 5,
+	Extreme = 6
 }
 
 public enum MapStates

@@ -25,6 +25,10 @@
             <label class="bold">@Map.Title</label>
         </div>
         <div class="info-row">
+            <label>Difficulty</label>
+            <label class="bold">@(MapInfo.Get(Map.FullIdent).Difficulty)</label>
+        </div>
+        <div class="info-row">
             <label>Author</label>
             <label class="bold">@Map.Org.Title</label>
         </div>
@@ -34,7 +38,7 @@
         </div>
         <div class="info-row">
             <label>Total Playtime</label>
-            <label class="bold">@Map.Usage.Total.Seconds.FormatSeconds()</label>
+            <label class="bold">@(Map.Usage.Total.Seconds / 3600) hours</label>
         </div>
         <div class="grow"></div>
         @{

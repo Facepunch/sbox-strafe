@@ -39,7 +39,7 @@ public partial class MapsPage : Panel
 		if ( MapTypeFilter != MapTypes.None && mapinfo.Type != MapTypeFilter )
 			return false;
 
-		if ( MapDifficultyFilter != MapDifficulties.None && mapinfo.Difficulty != (int)MapDifficultyFilter )
+		if ( MapDifficultyFilter != MapDifficulties.None && mapinfo.Difficulty != MapDifficultyFilter )
 			return false;
 
 		return true;
