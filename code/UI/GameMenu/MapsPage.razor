@@ -15,6 +15,10 @@
                 <label text="Difficulty" />
                 <DropDown Value:bind=@MapDifficultyFilter ValueChanged=@FilterRefresh />
             </div>
+            <div class="form-row">
+                <label text="Sort" />
+                <DropDown Value:bind=@SortModeFilter ValueChanged=@FilterRefresh />
+            </div>
         </div>
     </div>
     <div class="body">
@@ -25,7 +29,7 @@
             }
             else
             {
-                @foreach (var map in Maps)
+                @foreach (var map in Sort(Maps))
                 {
                     if (!Filter(map))
                         continue;
