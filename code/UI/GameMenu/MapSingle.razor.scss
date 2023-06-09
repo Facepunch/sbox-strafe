@@ -1,10 +1,6 @@
 
 @import "../Styles/_vars.scss";
 
-MapSingle {
-    gap: 20px;
-}
-
 .thumbnail {
     width: 100%;
     aspect-ratio: 1;
@@ -28,9 +24,5 @@ MapSingle {
 
     &:not(:last-child){
         border-bottom-width: 0;
-    }
-
-    .bold {
-        font-weight: heavy;
     }
 }

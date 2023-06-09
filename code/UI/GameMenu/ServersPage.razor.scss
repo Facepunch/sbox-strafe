@@ -1,14 +1,6 @@
 
 @import "../Styles/_vars.scss";
 
-ServersPage {
-    flex-direction: column;
-}
-
-.body {
-    flex-direction: column;
-}
-
 .server-header {
     margin-bottom: 20px;
 }
@@ -16,13 +8,11 @@ ServersPage {
 .server-list {
     flex-direction: column;
     overflow-y: scroll;
-    flex-grow: 1;
 }
 
 ServerEntry {
     padding: 10px;
     flex-shrink: 0;
-    flex-grow: 1;
     font-size: 16px;
     border-bottom: 1px solid rgba($bg-dark, .35);
     color: $foreground;
