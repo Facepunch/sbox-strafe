@@ -15,19 +15,19 @@ StrafeMainMenu {
 
     &.ingame {
         background-image: none;
-        background-color: rgba(black, .5);
+        background-color: transparent;
 
         .content {
-            background-color: rgba( #3b486d, .9 );
-            backdrop-filter: blur( 10px );
+            background-color: rgba( #3b486d, .96 );
+            backdrop-filter: blur(8px);
         }
     }
 
     .navbar {
         background-color: $bg-dark;
-        box-shadow: 4px 4px 30px rgba(black .5);
+        box-shadow: 4px 4px 30px rgba(black .65);
         padding: 15px;
-        border-radius: 4px;
+        border-radius: 4px 4px 0 0;
         gap: 10px;
         align-items: center;
         flex-shrink: 0;
@@ -60,10 +60,18 @@ StrafeMainMenu {
 
     .content {
         flex-grow: 1;
-        margin-top: 20px;
         background-color: #3b486d;
-        border-radius: 4px;
-        padding: 40px;
+        border-radius: 0 0 4px 4px;
+        box-shadow: 4px 4px 30px rgba(black .5);
+        //padding: 40px;
+    }
+
+    .sidebar {
+        padding: 20px;
+    }
+
+    .body {
+        padding: 20px;
     }
 
     .logo {
@@ -77,5 +85,4 @@ StrafeMainMenu {
             opacity: 1;
         }
     }
-
 }

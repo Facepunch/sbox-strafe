@@ -7,15 +7,15 @@
 <root>
     <div class="sidebar">
         <div class="form grow">
-            <div class="form-row">
+            <div class="form-row stack">
                 <label text="Type" />
                 <DropDown Value:bind=@MapTypeFilter ValueChanged=@FilterRefresh />
             </div>
-            <div class="form-row">
+            <div class="form-row stack">
                 <label text="Difficulty" />
                 <DropDown Value:bind=@MapDifficultyFilter ValueChanged=@FilterRefresh />
             </div>
-            <div class="form-row">
+            <div class="form-row stack">
                 <label text="Sort" />
                 <DropDown Value:bind=@SortModeFilter ValueChanged=@FilterRefresh />
             </div>

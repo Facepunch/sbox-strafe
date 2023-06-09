@@ -31,6 +31,15 @@
     flex-direction: column;
     margin-right: 20px;
 
+    &:first-child {
+        margin-right: 20px;
+    }
+
+    &:last-child {
+        margin-left: 20px;
+        margin-right: 0;
+    }
+
     .nav {
         flex-direction: column;
         gap: 6px;
@@ -114,6 +123,12 @@ button {
         }
     }
 
+    &.disabled {
+        opacity: .5;
+        cursor: default;
+        pointer-events: none;
+    }
+
     &.warning {
         border-color: $orange;
         background-color: rgba($orange, .1);
@@ -123,11 +138,5 @@ button {
             background-color: $orange;
             color: $bg-dark;
         }
-    }
-
-    &.disabled {
-        opacity: .5;
-        cursor: default;
-        pointer-events: none;
     }
 }
