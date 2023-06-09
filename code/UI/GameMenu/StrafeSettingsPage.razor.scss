@@ -1,0 +1,16 @@
+
+@import "../Styles/_vars.scss";
+
+StrafeSettingsPage {
+    .form-row {
+        padding-left: 10px;
+        transition: all .15s ease;
+        border-left: 4px solid transparent;
+
+        &:hover {
+            border-left-color: $lightaccent;
+            background-color: rgba($lightaccent, .15);
+        }
+    }
+}
+

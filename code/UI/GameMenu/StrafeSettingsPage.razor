@@ -1,0 +1,17 @@
+@using Sandbox.UI;
+@namespace Strafe.UI
+@inherits NavigatorPanel
+@attribute [NavigatorTarget("/menu/settings")]
+@attribute [StyleSheet]
+
+<root>
+    <div class="sidebar">
+        <div class="nav">
+            <nav href="/menu/settings/input">Input</nav>
+            <nav href="/menu/settings/other">Other</nav>
+        </div>
+    </div>
+    <div class="body">
+        <div @ref="NavigatorCanvas" />
+    </div>
+</root>

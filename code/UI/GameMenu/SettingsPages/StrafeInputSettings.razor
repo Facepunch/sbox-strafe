@@ -1,0 +1,20 @@
+
+@using Sandbox.UI.GameMenu;
+@inherits Panel
+@attribute [StyleSheet, NavigatorTarget("/menu/settings/input")]
+
+<root>
+    <div class="form game-settings">
+        @foreach ( var group in Game.Menu.InputSettings.Actions.GroupBy( x => x.GroupName ) )
+        {
+            <h2 class="heading">@group.Key</h2>
+            @foreach ( InputAction action in group )
+            {
+                <div class="form-row">
+                    <label text="@action.Name" />
+                    <KeyBind Game="@Game.Menu" Action=@action class="glass with-padding with-grow with-click" />
+                </div>
+            }
+        }
+    </div>
+</root>
