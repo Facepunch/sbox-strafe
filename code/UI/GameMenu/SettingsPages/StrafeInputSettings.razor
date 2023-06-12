@@ -3,7 +3,7 @@
 @inherits Panel
 @attribute [StyleSheet, NavigatorTarget("/menu/settings/input")]
 
-<root>
+<root class="columns grow">
     <div class="form game-settings">
         @foreach ( var group in Game.Menu.InputSettings.Actions.GroupBy( x => x.GroupName ) )
         {
@@ -17,4 +17,36 @@
             }
         }
     </div>
+    <div class="settings-footer">
+        <button @onclick=@RestoreDefaults class="large" text="Restore Defaults" />
+        <div class="grow"></div>
+        <button @onclick=@Save class="large @(SaveEnabled ? "" : "disabled")" text="Save" />
+    </div>
 </root>
+
+@code {
+    bool SaveEnabled;
+
+    protected override void OnEvent(PanelEvent e)
+    {
+        base.OnEvent(e);
+
+        if (e.Name == "onchange")
+            SaveEnabled = true;
+    }
+
+    void Save()
+    {
+        foreach(var kb in Descendants.OfType<KeyBind>())
+        {
+            kb.Apply();
+        }
+
+        SaveEnabled = false;
+    }
+
+    void RestoreDefaults()
+    {
+        Game.Menu.ResetBinds();
+    }
+}

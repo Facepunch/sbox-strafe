@@ -5,12 +5,19 @@ StrafeSettingsPage {
     .form-row {
         padding-left: 10px;
         transition: all .15s ease;
-        border-left: 4px solid transparent;
 
         &:hover {
-            border-left-color: $lightaccent;
-            background-color: rgba($lightaccent, .15);
+            background-color: rgba($bg-dark, .25);
         }
+    }
+
+    .setting-content {
+        flex-grow: 1;
+    }
+
+    .settings-footer {
+        margin-top: 20px;
+        flex-shrink: 0;
     }
 }
 

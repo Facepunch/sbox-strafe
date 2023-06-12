@@ -1,6 +1,10 @@
 
 @import "../Styles/_vars.scss";
 
+.scroll-y {
+    mask-image: linear-gradient( to top, white 0%, white 93%, grey 98%, black 100% );
+}
+
 .thumbnail {
     width: 100%;
     aspect-ratio: 1;
@@ -9,7 +13,17 @@
 }
 
 .map-info {
-    max-width: 375px;
+    flex-shrink: 0;
+}
+
+.player-info {
+    flex-shrink: 0;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+
+.button.large {
+    flex-shrink: 0;
 }
 
 .info-row {
@@ -21,8 +35,4 @@
     font-size: 18px;
     text-transform: uppercase;
     flex-shrink: 0;
-
-    &:not(:last-child){
-        border-bottom-width: 0;
-    }
 }

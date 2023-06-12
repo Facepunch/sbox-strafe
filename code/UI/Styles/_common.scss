@@ -17,6 +17,10 @@
     flex-direction: row;
 }
 
+.scroll-y {
+    overflow-y: scroll;
+}
+
 .hidden {
     display: none;
 }
@@ -83,6 +87,15 @@
     text-transform: uppercase;
     font-weight: 600;
     color: $foreground-faded;
+    flex-shrink: 0;
+}
+
+.spacer {
+    min-height: 20px;
+    max-height: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    flex-shrink: 0;
 }
 
 button {
