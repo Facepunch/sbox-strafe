@@ -1,0 +1,54 @@
+
+@inherits Panel
+@attribute [NavigatorTarget("/menu/settings/other")]
+
+<root class="grow columns">
+    <div class="form">
+        <div class="form-row">
+            <label text="Player Visibility" />
+            <DropDown Value:bind=@StrafeClientSettings.Settings.PlayerVisibility />
+        </div>
+        <div class="form-row">
+            <label text="Show Input" />
+             <Checkbox Value:bind=@StrafeClientSettings.Settings.ShowInput />
+        </div>
+        <div class="form-row">
+            <label text="Snail Trail" />
+             <Checkbox Value:bind=@StrafeClientSettings.Settings.SnailTrail />
+        </div>
+        <div class="form-row">
+            <label text="Weapon Position" />
+            <DropDown Value:bind=@StrafeClientSettings.Settings.ViewModelPosition />
+        </div>
+    </div>
+    <div class="grow"></div>
+    <div class="settings-footer">
+        <button @onclick=@RestoreDefaults class="large" text="Restore Defaults" />
+        <div class="grow"></div>
+        <button @onclick=@Save class="large @(SaveEnabled ? "" : "disabled")" text="Save" />
+    </div>
+</root>
+
+@code {
+    bool SaveEnabled;
+
+    protected override void OnEvent(PanelEvent e)
+    {
+        base.OnEvent(e);
+
+        if (e.Name == "onchange")
+            SaveEnabled = true;
+    }
+
+    void RestoreDefaults()
+    {
+        StrafeClientSettings.ResetDefaults();
+    }
+
+    void Save()
+    {
+        StrafeClientSettings.Save();
+
+        SaveEnabled = false;
+    }
+}

@@ -6,6 +6,10 @@ StrafeSettingsPage {
         padding-left: 10px;
         transition: all .15s ease;
 
+        DropDown {
+            max-width: 250px;
+        }
+
         &:hover {
             background-color: rgba($bg-dark, .25);
         }
