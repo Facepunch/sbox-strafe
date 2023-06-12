@@ -1,0 +1,155 @@
+
+@import "_vars.scss";
+
+.grow {
+    flex-grow: 1;
+}
+
+.shrink {
+    flex-shrink: 1;
+}
+
+.columns {
+    flex-direction: column;
+}
+
+.rows {
+    flex-direction: row;
+}
+
+.scroll-y {
+    overflow-y: scroll;
+}
+
+.hidden {
+    display: none;
+}
+
+.bold {
+    font-weight: 800;
+}
+
+.sidebar {
+    width: 400px;
+    flex-shrink: 0;
+    flex-direction: column;
+    margin-right: 20px;
+
+    &:first-child {
+        margin-right: 20px;
+    }
+
+    &:last-child {
+        margin-left: 20px;
+        margin-right: 0;
+    }
+
+    .nav {
+        flex-direction: column;
+        gap: 6px;
+
+        nav {
+            padding: 0px 20px;
+            font-size: 25px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: #d6d6d6;
+            transition: all .08s ease;
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            border-radius: 4px;
+            width: 100%;
+
+            &:hover {
+                border-color: $lightaccent;
+                background-color: rgba($lightaccent, .1);
+            }
+
+            &.active {
+                background-color: $lightaccent;
+                color: $bg-dark;
+            }
+        }
+    }
+}
+
+.body {
+    flex-grow: 1;
+    flex-direction: column;
+    width: 100%;
+}
+
+.heading {
+    font-size: 24px;
+    text-shadow: 1px 1px 2px rgba(black .75);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: $foreground-faded;
+    flex-shrink: 0;
+}
+
+.spacer {
+    min-height: 20px;
+    max-height: 20px;
+    min-width: 20px;
+    max-width: 20px;
+    flex-shrink: 0;
+}
+
+button {
+    padding: 0px 20px;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 800;
+    text-transform: uppercase;
+    cursor: pointer;
+    color: #d6d6d6;
+    transition: all .08s ease;
+    border: 2px solid transparent;
+    padding: 10px 20px;
+    border-radius: 4px;
+    background-color: $bg-dark;
+
+    &:hover:not(.disabled) {
+        border-color: $lightaccent;
+        background-color: rgba($lightaccent, .1);
+    }
+
+    &.active, &:active {
+        background-color: $lightaccent;
+        color: $bg-dark;
+    }
+
+    &.large {
+        font-size: 22px;
+    }
+
+    &.primary {
+        border-color: $lightaccent;
+        background-color: rgba($lightaccent, .1);
+
+        &:hover {
+            background-color: $lightaccent;
+            color: $bg-dark;
+        }
+    }
+
+    &.disabled {
+        opacity: .5;
+        cursor: default;
+        pointer-events: none;
+    }
+
+    &.warning {
+        border-color: $orange;
+        background-color: rgba($orange, .1);
+
+        &:hover {
+            border-color: $orange;
+            background-color: $orange;
+            color: $bg-dark;
+        }
+    }
+}
