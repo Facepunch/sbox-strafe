@@ -1,7 +1,7 @@
 ﻿
 @inherits Panel
 
-<root class="@((Game.LocalPawn as StrafePlayer).DisplayInput == true ? "active" : "")"
+<root class="@(StrafeClientSettings.Settings.ShowInput ? "active" : "")"
 	  <div class="inner">		
         <div class=@(IsForward ? "down" : "up") >
             <label class="arrow" style="transform:rotate(0deg); bottom: 20px;" />

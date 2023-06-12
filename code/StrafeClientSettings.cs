@@ -8,12 +8,30 @@ internal static class StrafeClientSettings
 
 	static StrafeClientSettings()
 	{
-		Settings = Cookie.Get<StrafeSettings>( "strafe_client_settings", new() );
+		Load();
 	}
 
 	public static void Save()
 	{
-		Cookie.Set( "strafe_client_settings", Settings );
+		FileSystem.Data.WriteJson( "strafesettings.json", Settings );
+	}
+
+	public static void Load()
+	{
+		Settings = FileSystem.Data.ReadJsonOrDefault<StrafeSettings>( "strafesettings.json", new() );
+	}
+
+	static bool menuWasOpen;
+	[GameEvent.Client.Frame]
+	static void OnSettingsSaved()
+	{
+		// todo: this is a hack for in-game to pull latest changes since data in GameMenu isn't shared
+		// I might be missing something?
+		var menuopen = Game.IsMainMenuVisible;
+		if ( menuopen == menuWasOpen ) return;
+
+		menuWasOpen = menuopen;
+		Load();
 	}
 
 	public static void ResetDefaults()
@@ -24,7 +42,6 @@ internal static class StrafeClientSettings
 
 	public class StrafeSettings
 	{
-		public bool SnailTrail { get; set; }
 		public bool ShowInput { get; set; }
 		public StrafePlayer.PlayerVisibility PlayerVisibility { get; set; } = StrafePlayer.PlayerVisibility.Fade;
 		public ViewModelPositions ViewModelPosition { get; set; } = ViewModelPositions.Right;

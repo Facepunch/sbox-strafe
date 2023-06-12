@@ -49,12 +49,6 @@ internal partial class StrafePlayer : AnimatedEntity
 		set => EyeLocalPosition = Transform.PointToLocal( value );
 	}
 
-	// CLIENT SIDE ONLY
-	public ViewModelPositions ViewModelPosition { get; set; } = ViewModelPositions.Right;
-	//
-
-	public bool DisplayInput;
-
 	private bool TimersCreated;
 	private ClothingContainer Clothing;
 	private Nametag Nametag;

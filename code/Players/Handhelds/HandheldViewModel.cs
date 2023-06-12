@@ -50,7 +50,7 @@ internal class HandheldViewModel : AnimatedEntity
 
 		Camera.Main.SetViewModelCamera( 100 );
 
-		switch ( pl.ViewModelPosition )
+		switch ( StrafeClientSettings.Settings.ViewModelPosition )
 		{
 			case ViewModelPositions.Center:
 				Position = Camera.Position + Camera.Rotation.Down * 20 + Camera.Rotation.Forward * 25;

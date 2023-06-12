@@ -80,33 +80,6 @@ internal partial class StrafeGame
 		{
 			Chatbox.AddChatEntry( To.Everyone, "Server", $"The next map is {Current.NextMap ?? "undecided"}" );
 		}
-
-		if ( cmdName == "snailtrail" && Game.IsClient )
-		{
-			if ( cl.Pawn is not StrafePlayer pl ) return;
-
-			var enabled = pl.ToggleTrail();
-			if ( enabled ) Chatbox.AddChatEntry( "Server", "Trail Enabled" );
-			else Chatbox.AddChatEntry( "Server", "Trail Disabled" );
-		}
-		if ( cmdName == "toggleviewmodel" && Game.IsClient )
-		{
-			if ( cl.Pawn is not StrafePlayer pl ) return;
-
-			var pos = pl.ViewModelPosition + 1;
-			if ( (int)pos > 3 ) pos = 0;
-
-			pl.ViewModelPosition = pos;
-		}
-		if ( cmdName == "showkeys" && Game.IsClient )
-		{
-			if ( cl.Pawn is not StrafePlayer pl ) return;
-
-			pl.DisplayInput = !pl.DisplayInput;
-			
-			if ( pl.DisplayInput ) Chatbox.AddChatEntry( "Server", "Input Display Enabled" );
-			else Chatbox.AddChatEntry( "Server", "Input Display Disabled" );
-		}
 	}
 
 	private static TimeSince TimeSinceReplaySpawned;
