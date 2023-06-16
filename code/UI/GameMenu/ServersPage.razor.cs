@@ -92,6 +92,9 @@ public partial class ServersPage : Panel
 		if ( e.Name.StartsWith( "Strafe - US West" ) )
 			return true;
 
+		if ( e.Name.StartsWith( "tt's Strafe" ) )
+			return true;
+
 		return false;
 	}
 
