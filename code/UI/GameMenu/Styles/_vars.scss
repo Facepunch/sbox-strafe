@@ -1,16 +1,16 @@
 ﻿
-$bg-dark: #141e2e;
-$bg-dark-hover: lighten($bg-dark, 55%);
-$bg-light: #3b486d;
+$bg-dark: #0f212e;
+$bg-light: #1f3340;
+$bg-dark-hover: lighten($bg-light, 55%);
 
 $bg: #45515d;
 $lightbg: #454545;
 $darkbg: #282828;
 $orange: #e9b437;
 $green: #37e956; 
-$red: #e93737; 
-$lightaccent: #6ad8eb;
-$darkaccent: #37cee9;
+$red: #e93737;
+$lightaccent: #1d8fe1;
+$darkaccent: darken($lightaccent, 10%);
 $purple: #c741cc;
 $foreground: #e1e1e1;
 $foreground-faded: #aaaaaa;

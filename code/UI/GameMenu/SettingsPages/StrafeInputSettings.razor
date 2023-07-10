@@ -7,7 +7,7 @@
     <div class="form game-settings">
         @foreach ( var group in Game.Menu.InputSettings.Actions.GroupBy( x => x.GroupName ) )
         {
-            <h2 class="heading">@group.Key</h2>
+            <h2 class="input-group">@group.Key</h2>
             @foreach ( InputAction action in group )
             {
                 <div class="form-row">

@@ -44,21 +44,22 @@
         margin-right: 0;
     }
 
+    DropDown {
+        background-color: $bg-light;
+    }
+
     .nav {
         flex-direction: column;
-        gap: 6px;
+        gap: 1px;
 
         nav {
             padding: 0px 20px;
-            font-size: 25px;
-            font-weight: 800;
-            text-transform: uppercase;
+            font-size: 20px;
             cursor: pointer;
             color: #d6d6d6;
             transition: all .08s ease;
             border: 2px solid transparent;
             padding: 10px 20px;
-            border-radius: 4px;
             width: 100%;
 
             &:hover {
@@ -140,16 +141,5 @@ button {
         opacity: .5;
         cursor: default;
         pointer-events: none;
-    }
-
-    &.warning {
-        border-color: $orange;
-        background-color: rgba($orange, .1);
-
-        &:hover {
-            border-color: $orange;
-            background-color: $orange;
-            color: $bg-dark;
-        }
     }
 }

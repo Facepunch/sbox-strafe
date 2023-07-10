@@ -29,7 +29,6 @@
         &.stack {
             flex-direction: column;
             min-height: 65px;
-            margin-bottom: 10px;
 
             label {
                 min-width: 0;
@@ -55,16 +54,10 @@
         cursor: pointer;
         height: 100%;
 
-        &:hover {
-            .checkmark {
-                background-color: lighten($bg-dark, 35%);
-            }
-        }
-
         .checkmark {
             width: 24px;
             height: 24px;
-            background-color: $bg-dark;
+            background-color: $bg-light;
             cursor: pointer;
             align-items: center;
             justify-content: center;
@@ -75,8 +68,14 @@
         }
 
         &.checked .checkmark {
-            color: $bg-dark;
+            color: white;
             background-color: $darkaccent;
+        }
+
+        &:hover {
+            .checkmark {
+                background-color: lighten($bg-light, 35%);
+            }
         }
     }
 
@@ -109,7 +108,7 @@
         padding: 10px;
 
         &:hover {
-            background-color: $bg-dark-hover;
+            background-color: lighten($bg-dark, 15%);
         }
     }
 }

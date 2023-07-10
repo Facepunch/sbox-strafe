@@ -20,8 +20,18 @@ StrafeSettingsPage {
     }
 
     .settings-footer {
-        margin-top: 20px;
+        margin-top: 40px;
         flex-shrink: 0;
+    }
+
+    .input-group {
+        font-size: 20px;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        padding: 12px;
+        background-color: $bg-dark;
+        flex-shrink: 0;
+        color: $foreground-faded;
     }
 }
 
