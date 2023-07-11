@@ -261,6 +261,7 @@
       "https://strafedb.com",
       "https://strafereplays.blob.core.windows.net",
       "wss://strafedb.com/"
-    ]
+    ],
+    "TickRate": 100
   }
 }
