@@ -5,14 +5,15 @@
     return;
 
 <style>
-    MapEntry {
+    MapEntry .thumb {
         background-image: url(@Map.Thumb);
     }
 </style>
 
 <root>
+    <div class="thumb"></div>
     <div class="info">
-        <label class="title" text=@Map.FullIdent />
+        <label class="title" text=@Map.Title />
         <label class="author" text=@Map.Org.Title />
     </div>
 </root>
