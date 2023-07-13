@@ -39,6 +39,12 @@
         timeSinceMouseDown = 0;
     }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+        Ranked = await Backend.Get<bool>($"server/is_whitelisted?steamid={Entry.SteamId}");
+    }
+
     void Join()
     {
         Ancestors.OfType<ServersPage>().First()?.Join(Entry);
