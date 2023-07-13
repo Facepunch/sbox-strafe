@@ -17,8 +17,6 @@ internal partial class StrafeGame : GameManager
 
 		if ( Game.IsServer )
 		{
-			Game.TickRate = 100;
-
 			_ = new RunSubmitter();
 			_ = new CprEntity();
 			_ = GameLoopAsync();
@@ -60,6 +58,62 @@ internal partial class StrafeGame : GameManager
 		Chatbox.AddChatEntry( To.Everyone, "Server", $"{cl.Name} has joined the game", "connect" );
 		Chatbox.AddChatEntry( To.Single( cl ), "Server", "Website: https://strafedb.com", "important" );
 		Chatbox.AddChatEntry( To.Single( cl ), "Server", "Discord: https://discord.gg/UG2KQdrkA5", "important" );
+	}
+
+	int jumpsThisSession;
+	int distanceThisSession;
+	TimeUntil timeUntilSubmit = 30;
+	public override void Simulate( IClient cl )
+	{
+		base.Simulate( cl );
+
+		if ( !Game.IsClient ) return;
+		if ( cl.Pawn is not StrafePlayer pl || !pl.IsLocalPawn ) return;
+		if ( pl.Controller is not StrafeController ctrl ) return;
+
+		if ( ctrl.JustJumped )
+		{
+			jumpsThisSession++;
+		}
+
+		var distance = ctrl.Velocity.Length;
+		if ( distance > 1 )
+		{
+			distanceThisSession += (int)(distance * Time.Delta);
+		}
+
+		if ( timeUntilSubmit <= 0 )
+		{
+			SubmitStats();
+			timeUntilSubmit = 30f;
+		}
+	}
+
+	void SubmitStats()
+	{
+		Game.AssertClient();
+
+		if ( jumpsThisSession > 0 )
+		{
+			Sandbox.Services.Stats.Increment( "global_jumps", jumpsThisSession );
+			jumpsThisSession = 0;
+		}
+
+		if ( distanceThisSession > 0 )
+		{
+			Sandbox.Services.Stats.Increment( "global_distance_travelled", distanceThisSession );
+			distanceThisSession = 0;
+		}
+	}
+
+	protected override void OnDestroy()
+	{
+		base.OnDestroy();
+
+		if ( Game.IsClient )
+		{
+			SubmitStats();
+		}
 	}
 
 	public override void ClientDisconnect( IClient cl, NetworkDisconnectionReason reason )
