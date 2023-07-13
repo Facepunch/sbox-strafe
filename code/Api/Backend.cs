@@ -1,10 +1,5 @@
 ﻿
-using Sandbox.Internal;
-using System.Threading.Tasks;
 using System.Text.Json;
-using Sandbox;
-using System.Collections.Generic;
-using System.Linq;
 using System.IO;
 
 namespace Strafe.Api;
@@ -14,7 +9,7 @@ internal partial class Backend
 
 	public static bool Connected => WebSocket?.IsConnected ?? false;
 
-	//public static string Endpoint => "https://localhost:7265/api";
+	//public static string Endpoint => "https://localhost:8080/api";
 	public static string Endpoint => "https://strafedb.com/api";
 
 	private static WebSocket WebSocket;

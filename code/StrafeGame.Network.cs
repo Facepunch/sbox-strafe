@@ -1,11 +1,4 @@
 ﻿
-using Sandbox;
-using Strafe.Api;
-using Strafe.Api.Messages;
-using Strafe.Map;
-using Strafe.Utility;
-using System.Linq;
-
 namespace Strafe;
 
 internal partial class StrafeGame
@@ -62,6 +55,13 @@ internal partial class StrafeGame
 		{
 			pl.Credits = result.TotalCredits;
 		}
+	}
+
+	[ConCmd.Server( "strafe_verify_server" )]
+	public static async void WhitelistMe( string key )
+	{
+		var verified = await Backend.Post<bool>( "server/verify_server", Json.Serialize( key ) );
+		Log.Info( "Server verfication result: " + (verified ? "Success" : "Wrong password") );
 	}
 
 	[GameEvent.Tick.Server]
