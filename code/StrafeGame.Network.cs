@@ -21,7 +21,7 @@ internal partial class StrafeGame
 		var msg = new ServerLogin()
 		{
 			SteamId = Game.ServerSteamId,
-			ServerName = string.Empty, // no way to grab this yet?
+			ServerName = Game.Server.ServerTitle,
 			MapIdent = Game.Server.MapIdent,
 			MapTitle = mapTitle,
 			CourseType = CourseType
