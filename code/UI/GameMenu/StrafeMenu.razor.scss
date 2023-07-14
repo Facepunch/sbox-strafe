@@ -9,7 +9,7 @@ StrafeMainMenu {
     font-family: Ubuntu;
     flex-direction: column;
     flex-grow: 1;
-    background-image: url(ui/menu-background.jpg);
+    font-size: 16px;
 
     &.ingame {
         background-image: none;
