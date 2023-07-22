@@ -479,6 +479,30 @@ partial class StrafeController : WalkController
 		}
 	}
 
+	const float MaxClimbSpeed = 200f;
+	public override void LadderMove()
+	{
+		var fwdSpeed = 0f;
+		var rightSpeed = 0f;
+
+		if ( Input.Down( "backward" ) ) fwdSpeed -= MaxClimbSpeed;
+		if ( Input.Down( "forward" ) ) fwdSpeed += MaxClimbSpeed;
+		if ( Input.Down( "left" ) ) rightSpeed -= MaxClimbSpeed;
+		if ( Input.Down( "right" ) ) rightSpeed += MaxClimbSpeed;
+
+		if ( fwdSpeed == 0 && rightSpeed == 0 ) return;
+
+		var velocity = Player.ViewAngles.ToRotation().Forward * fwdSpeed;
+		velocity += rightSpeed * Player.ViewAngles.ToRotation().Right;
+
+		float normalDot = velocity.Dot( LadderNormal );
+		var cross = LadderNormal * normalDot;
+
+		Velocity = (velocity - cross) + (-normalDot * LadderNormal.Cross( Vector3.Up.Cross( LadderNormal ).Normal ));
+
+		Move();
+	}
+
 	private void ApplyStamina()
 	{
 		float flRatio = ((STAMINA_MAX - Stamina * STAMINA_RECOVER_RATE)) / STAMINA_MAX;
@@ -582,7 +606,7 @@ partial class StrafeController : WalkController
 			}
 		}
 
-		const float ladderDistance = 1.0f;
+		const float ladderDistance = 2.0f;
 		var start = Position;
 		Vector3 end = start + (IsTouchingLadder ? (LadderNormal * -1.0f) : wishvel) * ladderDistance;
 

@@ -1,16 +1,18 @@
 {
   "publish": {
+    "Allowed": true,
     "Enabled": false,
     "ProjectConfig": {
-      "Title": null,
-      "Type": null,
-      "Org": null,
-      "Ident": null,
+      "Title": "surf_map",
+      "Type": "map",
+      "Org": "local",
+      "Ident": "surf_map",
       "Tags": null,
       "Schema": 0,
       "HasAssets": false,
       "AssetsPath": null,
-      "ResourcePaths": null,
+      "Resources": null,
+      "MenuResources": null,
       "HasCode": false,
       "CodePath": null,
       "PackageReferences": [],
@@ -18,7 +20,9 @@
         "facepunch.unicycle_frenzy#16827",
         "facepunch.strafe"
       ],
-      "Metadata": {}
+      "Metadata": {
+        "SingleAssetSource": "maps/surf_map.vmap"
+      }
     }
   }
 }
