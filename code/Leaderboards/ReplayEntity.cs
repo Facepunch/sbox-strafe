@@ -10,6 +10,8 @@ internal partial class ReplayEntity : AnimatedEntity
 	private Replay Replay;
 
 	[Net]
+	public string PlayerName { get; set; }
+	[Net]
 	public long PlayerId { get; set; }
 	[Net]
 	public TimerFrame FinalFrame { get; set; }
@@ -75,7 +77,7 @@ internal partial class ReplayEntity : AnimatedEntity
 		Velocity = frame.Velocity;
 	}
 
-	public static ReplayEntity Play( Replay replay, int loops, TimerStyles style )
+	public static ReplayEntity Play( Replay replay, int loops, TimerStyles style, string playerName = null )
 	{
 		//Host.AssertServer();
 
@@ -83,7 +85,8 @@ internal partial class ReplayEntity : AnimatedEntity
 		{
 			Replay = replay,
 			NumberOfLoops = loops,
-			Style = style
+			Style = style,
+			PlayerName = playerName
 		};
 	}
 

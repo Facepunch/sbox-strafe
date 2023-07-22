@@ -17,6 +17,11 @@ internal partial class Backend
 	private static List<GameMessage> Responses = new();
 	private static JsonSerializerOptions JsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
+	public static async Task<string> Get( string controller )
+	{
+		return await Sandbox.Http.RequestStringAsync( $"{Endpoint}/{controller}" );
+	}
+
 	public static async Task<T> Get<T>( string controller )
 	{
 		var response = await Sandbox.Http.RequestStringAsync( $"{Endpoint}/{controller}" );

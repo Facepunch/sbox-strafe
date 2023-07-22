@@ -87,7 +87,7 @@ internal class SpectatorList : Panel
 			return pl.Client.Name;
 
 		if ( specTarget is ReplayEntity rep )
-			return new Friend( rep.PlayerId ).Name + " (replay)";
+			return rep.PlayerName + " (replay)";
 
 		return "Unknown";
 	}

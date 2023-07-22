@@ -28,7 +28,10 @@
         if (Replay == null) 
             return;
 
-        var friend = new Friend(Replay.PlayerId).Name;
+        var friend = Replay.PlayerName;
+        if (string.IsNullOrEmpty(friend))
+            friend = new Friend(Replay.PlayerId).Name;
+
         BotName = $"{friend} - {Replay.FinalFrame.Time.ToTime()} - {Replay.Style}";
     }
 }

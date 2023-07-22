@@ -80,11 +80,13 @@ internal partial class StrafeGame
 			var replay = await Backend.FetchReplay( Game.Server.MapIdent, 0, 1, style );
 			if ( replay == null ) continue;
 
-			SetWrReplay( replay, style );
+			var playerName = await Backend.FetchPlayerName( replay.PlayerId );
+
+			SetWrReplay( replay, style, playerName );
 		}
 	}
 
-	public void SetWrReplay( Replay replay, TimerStyles style )
+	public void SetWrReplay( Replay replay, TimerStyles style, string playerName = null )
 	{
 		if ( WrReplays.ContainsKey( style ) && WrReplays[style].IsValid() )
 		{
@@ -92,7 +94,7 @@ internal partial class StrafeGame
 			WrReplays.Remove( style );
 		}
 
-		WrReplays[style] = ReplayEntity.Play( replay, -1, style );
+		WrReplays[style] = ReplayEntity.Play( replay, -1, style, playerName );
 	}
 
 }
