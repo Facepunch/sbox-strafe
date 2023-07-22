@@ -254,6 +254,12 @@
           "Name": "Chat",
           "KeyboardCode": "enter",
           "GroupName": "Other"
+        },
+        {
+          "Name": "Noclip",
+          "KeyboardCode": "N",
+          "GamepadCode": "RightJoystickButton",
+          "GroupName": "Movement"
         }
       ]
     },

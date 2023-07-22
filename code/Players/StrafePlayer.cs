@@ -172,7 +172,7 @@ internal partial class StrafePlayer : AnimatedEntity
 			GoBack();
 		}
 
-		if ( Input.Pressed( "Slot8" ) || WantsNoclip )
+		if ( Input.Pressed( "Noclip" ) || WantsNoclip )
 		{
 			WantsNoclip = false;
 			StrafeGame.Current.DoPlayerNoclip( Client );
