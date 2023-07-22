@@ -71,6 +71,14 @@ internal class MapInfo
 				result.Type = MapTypes.Bunnyhop;
 				result.Difficulty = MapDifficulties.Moderate;
 				break;
+			case "bigpog.bhop_easy":
+				result.Type = MapTypes.Bunnyhop;
+				result.Difficulty = MapDifficulties.Easy;
+				break;
+			case "sensta.bhop_hot":
+				result.Type = MapTypes.Bunnyhop;
+				result.Difficulty = MapDifficulties.Moderate;
+				break;
 			default:
 				result.Undefined = true;
 				result.Difficulty = 0;
