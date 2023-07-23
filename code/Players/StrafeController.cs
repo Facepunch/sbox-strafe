@@ -319,7 +319,7 @@ partial class StrafeController : WalkController
 
 		foreach ( var ent in Entity.All )
 		{
-			if ( ent is not StrafeTrigger t ) continue;
+			if ( ent is not StrafeTrigger t || t.PhysicsBody == null ) continue;
 
 			var closestPoint = t.PhysicsBody.FindClosestPoint( Position );
 			if ( !me.Contains( closestPoint ) ) continue;
