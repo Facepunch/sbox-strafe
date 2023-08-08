@@ -9,6 +9,10 @@ internal partial class ReplayEntity : AnimatedEntity
 	private int CurrentFrame;
 	private Replay Replay;
 
+	private float ReplayStartTime;
+	private bool ReplayFinished;
+	private float ReplayFinishTime;
+
 	[Net]
 	public string PlayerName { get; set; }
 	[Net]
@@ -30,6 +34,7 @@ internal partial class ReplayEntity : AnimatedEntity
 		EnableAllCollisions = false;
 
 		Transmit = TransmitType.Always;
+		ReplayStartTime = Time.Now + 2.0f;
 	}
 
 	[GameEvent.Tick.Server]
@@ -41,13 +46,15 @@ internal partial class ReplayEntity : AnimatedEntity
 		PlayerId = Replay.PlayerId;
 		FinalFrame = Replay.Frames[^1];
 
-		ApplyFrame( Replay.Frames[CurrentFrame] );
-		Frame = Replay.Frames[CurrentFrame];
 
-		CurrentFrame++;
-
-		if ( CurrentFrame >= Replay.Frames.Count )
+		if ( ReplayFinished )
 		{
+			if ( Time.Now <= ReplayFinishTime )
+			{
+				return;
+			}
+			ReplayStartTime = Time.Now + 2.0f;
+			ReplayFinished = false;
 			CurrentFrame = 0;
 			CurrentLoop++;
 			ResetInterpolation();
@@ -56,6 +63,24 @@ internal partial class ReplayEntity : AnimatedEntity
 			{
 				Delete();
 			}
+
+			return;
+		}
+
+		ApplyFrame( Replay.Frames[CurrentFrame] );
+		Frame = Replay.Frames[CurrentFrame];
+
+		if ( CurrentFrame == 0 && Time.Now < ReplayStartTime )
+		{
+			return;
+		}
+
+		CurrentFrame++;
+		if ( CurrentFrame >= Replay.Frames.Count )
+		{
+			ReplayFinishTime = Time.Now + 2.0f;
+
+			ReplayFinished = true;
 		}
 	}
 
