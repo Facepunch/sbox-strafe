@@ -70,7 +70,7 @@ internal partial class ReplayEntity : AnimatedEntity
 		ApplyFrame( Replay.Frames[CurrentFrame] );
 		Frame = Replay.Frames[CurrentFrame];
 
-		if ( CurrentFrame == 0 && Time.Now < ReplayStartTime )
+		if ( CurrentFrame == 0 && Time.Now <= ReplayStartTime )
 		{
 			return;
 		}
