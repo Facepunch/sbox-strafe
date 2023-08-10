@@ -1,0 +1,78 @@
+{
+  "SupportBrackets": [
+    {
+      "Position": "-2496,2368,2880",
+      "Angles": "45,-22.5,50"
+    },
+    {
+      "Position": "2048,1664,2368",
+      "Angles": "0,0,-50",
+      "Id": 1
+    },
+    {
+      "Position": "-832,1984,2368",
+      "Angles": "0,0,50",
+      "Id": 7
+    },
+    {
+      "Position": "768,1664,2368",
+      "Angles": "0,0,-55",
+      "Id": 10
+    }
+  ],
+  "BracketAttachments": [
+    {
+      "TangentScale": 0.5,
+      "Min": -256,
+      "Max": 256,
+      "Id": 2
+    },
+    {
+      "BracketId": 7,
+      "TangentScale": 0.5,
+      "Min": -256,
+      "Max": 256,
+      "Id": 3
+    },
+    {
+      "BracketId": 1,
+      "TangentScale": 0.5,
+      "Min": -256,
+      "Max": 256,
+      "Id": 11
+    },
+    {
+      "BracketId": 10,
+      "TangentScale": 0.5,
+      "Min": -256,
+      "Max": 256,
+      "Id": 14
+    }
+  ],
+  "TrackSections": [
+    {
+      "StartId": 2,
+      "EndId": 3,
+      "Material": "materials/surf/track_default.vmat",
+      "Id": 4
+    },
+    {
+      "StartId": 14,
+      "EndId": 11,
+      "Material": "materials/surf/track_default.vmat",
+      "Id": 12
+    }
+  ],
+  "SpawnPlatforms": [
+    {
+      "Position": "-3264,2048,3904",
+      "Id": 5
+    }
+  ],
+  "Checkpoints": [
+    {
+      "Position": "3584,2048,2368",
+      "Id": 6
+    }
+  ]
+}

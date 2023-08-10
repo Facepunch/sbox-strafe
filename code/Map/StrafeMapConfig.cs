@@ -27,6 +27,12 @@ internal partial class StrafeMapConfig : Entity
 	[Property, Net]
 	public bool ClampStartSpeed { get; set; } = true;
 
+	/// <summary>
+	/// If true, this map is just an empty arena to spawn geometry in procedurally.
+	/// </summary>
+	[Property, Net]
+	public bool ProceduralArena { get; set; }
+
 	public override void Spawn()
 	{
 		base.Spawn();

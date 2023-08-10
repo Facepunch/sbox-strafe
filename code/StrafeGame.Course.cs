@@ -23,6 +23,17 @@ internal partial class StrafeGame
 	{
 		if ( !Game.IsServer ) return;
 
+		var config = All.OfType<StrafeMapConfig>().FirstOrDefault();
+
+		if ( config is { ProceduralArena: true } )
+		{
+			SetupProcSurfCourse();
+		}
+		else
+		{
+			ClearProcSurfCourse();
+		}
+
 		var stageStarts = All.OfType<StageStart>();
 		if( !stageStarts.Any() )
 		{
