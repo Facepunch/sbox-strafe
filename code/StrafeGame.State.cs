@@ -153,6 +153,8 @@ internal partial class StrafeGame
 
 		maps.RemoveAll( x => MapBlacklist.Contains( x.ToLower() ) );
 
+		maps.Add( "facepunch.procsurfmap" );
+
 		return maps;
 	}
 

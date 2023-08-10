@@ -79,6 +79,10 @@ internal class MapInfo
 				result.Type = MapTypes.Bunnyhop;
 				result.Difficulty = MapDifficulties.Moderate;
 				break;
+			case "facepunch.procsurfmap":
+				result.Type = MapTypes.Surf;
+				result.Difficulty = MapDifficulties.Easy;
+				break;
 			default:
 				result.Undefined = true;
 				result.Difficulty = 0;
