@@ -223,9 +223,11 @@ internal partial class StrafePlayer : AnimatedEntity
 			Camera.FirstPersonViewer = this;
 		}
 
+		var isProcSurf = StrafeGame.Current.ProcSurfMap != null;
+
 		Camera.FieldOfView = Screen.CreateVerticalFieldOfView( Game.Preferences.FieldOfView );
 		Camera.ZNear = 1f;
-		Camera.ZFar = 10000.0f;
+		Camera.ZFar = isProcSurf ? 32768.0f : 10000.0f;
 	}
 
 	[ClientRpc]
