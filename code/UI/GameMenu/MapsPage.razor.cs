@@ -1,5 +1,31 @@
 ﻿
+using Sandbox.Surf;
+
 namespace Strafe.UI;
+
+public record struct MapReference( Package Package, SurfMapAsset Asset )
+{
+	public static implicit operator MapReference( Package package )
+	{
+		return new MapReference( package, null );
+	}
+
+	public static implicit operator MapReference( SurfMapAsset asset )
+	{
+		return new MapReference( null, asset );
+	}
+
+	public string FullIdent => Package?.FullIdent ?? $"asset#{Asset.ResourceId}";
+	public string Title => Package?.Title ?? Asset?.Title;
+	public string Description => Package?.Description ?? Asset?.Description;
+	public string Thumb => Package?.Thumb ?? "";
+	public string Author => Package?.Org.Title ?? Asset?.Author;
+
+	public DateTimeOffset Created => Package?.Created ?? Asset?.Created ?? DateTimeOffset.UnixEpoch;
+	public Package.PackageUsageStats Usage => Package?.Usage ?? default;
+
+	public bool IsNull => Package == null && Asset == null;
+}
 
 public partial class MapsPage : Panel
 {
@@ -13,7 +39,7 @@ public partial class MapsPage : Panel
 		Oldest
 	}
 
-	List<Package> Maps = new();
+	List<MapReference> Maps = new();
 	DropDown MapTypeDropDown;
 
 	MapTypes MapTypeFilter { get; set; } = MapTypes.None;
@@ -40,9 +66,14 @@ public partial class MapsPage : Panel
 			if ( pkg == null ) continue;
 			Maps.Add( pkg );
 		}
+
+		foreach ( var surfMap in ResourceLibrary.GetAll<SurfMapAsset>() )
+		{
+			Maps.Add( surfMap );
+		}
 	}
 
-	IEnumerable<Package> Sort( List<Package> stuff )
+	IEnumerable<MapReference> Sort( List<MapReference> stuff )
 	{
 		if ( SortModeFilter == SortMode.None )
 			return stuff;
@@ -62,9 +93,9 @@ public partial class MapsPage : Panel
 		return stuff;
 	}
 
-	bool Filter( Package pkg )
+	bool Filter( MapReference mapRef )
 	{
-		var mapinfo = MapInfo.Get( pkg.FullIdent );
+		var mapinfo = MapInfo.Get( mapRef );
 
 		if ( MapTypeFilter != MapTypes.None && mapinfo.Type != MapTypeFilter )
 			return false;

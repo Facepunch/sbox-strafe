@@ -270,6 +270,16 @@
       "https://strafereplays.blob.core.windows.net",
       "wss://strafedb.com/"
     ],
-    "TickRate": 100
+    "TickRate": 100,
+    "PackageSettings": [
+      {
+        "Choices": [],
+        "ConVarName": "strafe_map_asset",
+        "DisplayName": "Map Asset",
+        "DefaultValue": "",
+        "Description": "Map asset resource path",
+        "Group": ""
+      }
+    ]
   }
 }

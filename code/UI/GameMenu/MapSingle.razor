@@ -1,8 +1,10 @@
+@using System.Collections.Immutable
+@using Sandbox.Surf
 @inherits Panel
 @attribute [NavigatorTarget("/maps/{ident}")]
 @attribute [StyleSheet]
 
-@if (Map == null)
+@if (Map.IsNull)
 {
     <Spinner />
     return;
@@ -28,11 +30,11 @@
                 </div>
                 <div class="info-row">
                     <label>Difficulty</label>
-                    <label class="bold">@(MapInfo.Get(Map.FullIdent).Difficulty)</label>
+                    <label class="bold">@(MapInfo.Get(Map).Difficulty)</label>
                 </div>
                 <div class="info-row">
                     <label>Author</label>
-                    <label class="bold">@Map.Org.Title</label>
+                    <label class="bold">@Map.Author</label>
                 </div>
                 <div class="info-row">
                     <label>Unique Players</label>
@@ -89,22 +91,36 @@
 @code {
     public string Ident { get; set; }
 
-    Package Map;
+    MapReference Map;
 
     protected override async Task OnParametersSetAsync()
     {
         if (string.IsNullOrEmpty(Ident))
             return;
 
-        Map = await Package.FetchAsync(Ident, false);
+        if ( Ident.StartsWith( "asset#" ) )
+        {
+            Map = ResourceLibrary.Get<SurfMapAsset>( int.Parse( Ident.Substring( "asset#".Length ) ) );
+        }
+        else
+        {
+            Map = await Package.FetchAsync(Ident, false);
+        }
     }
 
     async void CreateGame()
     {
         await Game.Menu.CreateLobbyAsync();
-        Game.Menu.Lobby.Map = Map.FullIdent;
+        Game.Menu.Lobby.Map = Map.Asset != null ? "facepunch.procsurfmap" : Map.FullIdent;
         Game.Menu.Lobby.MaxMembers = 24;
         Game.Menu.Lobby.Title = "My Lobby";
+
+        if ( Map.Asset != null )
+        {
+            Game.Menu.Lobby.SetData( "convar.strafe_map_asset", Map.Asset?.ResourcePath );
+
+            await Task.Delay( 1000 );
+        }
 
         await Game.Menu.Lobby.LaunchGameAsync();
     }

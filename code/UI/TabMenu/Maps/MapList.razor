@@ -1,16 +1,17 @@
 ﻿
 @using System.Linq;
+@using Sandbox.Surf
 @inherits Panel
 
 <root>
 	@foreach(var map in Maps)
 	{
-		<MapListEntry Map=@map />
+		<StrafeMapListEntry Map=@map />
 	}
 </root>
 
 @code {
-	List<Package> Maps = new();
+	List<MapReference> Maps = new();
 
 	protected override async Task OnParametersSetAsync()
 	{
@@ -21,6 +22,11 @@
 			var pkg = await Package.Fetch( ident, true );
 			if (pkg == null) continue;
 			Maps.Add(pkg);
+		}
+
+		foreach ( var surfMap in ResourceLibrary.GetAll<SurfMapAsset>() )
+		{
+			Maps.Add( surfMap );
 		}
 	}
 }

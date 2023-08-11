@@ -8,11 +8,11 @@ internal class MapInfo
 	public MapTypes Type { get; set; }
 	public MapDifficulties Difficulty { get; set; }
 	public bool Undefined { get; set; }
+	public string AssetPath { get; set; }
 
-	public static MapInfo Get ( string fullIdent )
+	public static MapInfo Get( string fullIdent )
 	{
-		var result = new MapInfo();
-		result.FullIdent = fullIdent;
+		var result = new MapInfo { FullIdent = fullIdent };
 
 		// this should come from the api or map data
 		// but it's ok for now to manually go through submitted maps
@@ -79,10 +79,6 @@ internal class MapInfo
 				result.Type = MapTypes.Bunnyhop;
 				result.Difficulty = MapDifficulties.Moderate;
 				break;
-			case "facepunch.procsurfmap":
-				result.Type = MapTypes.Surf;
-				result.Difficulty = MapDifficulties.Easy;
-				break;
 			default:
 				result.Undefined = true;
 				result.Difficulty = 0;
@@ -93,4 +89,19 @@ internal class MapInfo
 		return result;
 	}
 
+	public static MapInfo Get( MapReference mapRef )
+	{
+		if ( mapRef.Package != null )
+		{
+			return Get( mapRef.Package.FullIdent );
+		}
+
+		return new MapInfo
+		{
+			FullIdent = "facepunch.procsurfmap",
+			AssetPath = mapRef.Asset.ResourcePath,
+			Type = MapTypes.Surf,
+			Difficulty = MapDifficulties.Easy
+		};
+	}
 }

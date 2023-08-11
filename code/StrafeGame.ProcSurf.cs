@@ -9,6 +9,9 @@ namespace Strafe;
 
 partial class StrafeGame
 {
+	[ConVar.Replicated]
+	public static string strafe_map_asset { get; set; }
+
 	[Net]
 	public SurfMapAsset ProcSurfMapAsset { get; set; }
 
@@ -26,7 +29,8 @@ partial class StrafeGame
 
 	private void SetupProcSurfCourse()
 	{
-		ProcSurfMapAsset = ResourceLibrary.Get<SurfMapAsset>( "procsurf/example.surf" );
+		Log.Info( $"Asset Path: {strafe_map_asset}" );
+		ProcSurfMapAsset = ResourceLibrary.Get<SurfMapAsset>( strafe_map_asset );
 
 		foreach ( var spawn in All.OfType<SpawnPoint>().ToArray() )
 		{

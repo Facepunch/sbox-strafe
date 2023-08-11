@@ -1,7 +1,7 @@
 
 @inherits Panel
 
-@if (Map == null)
+@if (Map.IsNull)
     return;
 
 <style>
@@ -14,12 +14,12 @@
     <div class="thumb"></div>
     <div class="info">
         <label class="title" text=@Map.Title />
-        <label class="author" text=@Map.Org.Title />
+        <label class="author" text=@Map.Author />
     </div>
 </root>
 
 @code {
-    public Package Map { get; set; }
+    public MapReference Map { get; set; }
 
 
     protected override void OnMouseDown(MousePanelEvent e)

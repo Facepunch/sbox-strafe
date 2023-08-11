@@ -62,7 +62,7 @@ internal partial class StrafeGame
 			}
 		}
 
-		if( stageStarts.Count() == 1 )
+		if( stageStarts.Count() == 1 && All.OfType<LinearCheckpoint>().Any() )
 		{
 			CourseType = CourseTypes.Linear;
 			StageCount = All.OfType<LinearCheckpoint>().Count();
