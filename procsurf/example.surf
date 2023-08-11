@@ -3,7 +3,7 @@
   "Description": "Example map created in the surf map editor",
   "Author": "Ziks",
   "Created": "2023-08-11T14:26:34.5351674\u002B00:00",
-  "Modified": "2023-08-11T14:26:34.5351677\u002B00:00",
+  "Modified": "2023-08-11T15:42:44.4717264\u002B00:00",
   "SupportBrackets": [
     {
       "Position": "-3776,4992,2816",
@@ -25,14 +25,24 @@
       "Id": 17
     },
     {
-      "Position": "6208,-2240,1792",
-      "Angles": "0,-90,-50",
+      "Position": "6720,1152,1792",
+      "Angles": "0,-90,55",
       "Id": 20
     },
     {
       "Position": "6016,3840,3136",
       "Angles": "45,-90,-50",
       "Id": 23
+    },
+    {
+      "Position": "6720,-1472,1792",
+      "Angles": "0,-90,50",
+      "Id": 24
+    },
+    {
+      "Position": "6016,2752,2432",
+      "Angles": "20,-90,-50",
+      "Id": 27
     }
   ],
   "BracketAttachments": [
@@ -64,7 +74,7 @@
       "Id": 14
     },
     {
-      "BracketId": 20,
+      "BracketId": 24,
       "TangentScale": 0.5,
       "Min": -256,
       "Max": 256,
@@ -76,6 +86,20 @@
       "Min": -256,
       "Max": 256,
       "Id": 21
+    },
+    {
+      "BracketId": 27,
+      "TangentScale": 0.5,
+      "Min": -256,
+      "Max": 256,
+      "Id": 25
+    },
+    {
+      "BracketId": 20,
+      "TangentScale": 0.5,
+      "Min": -256,
+      "Max": 256,
+      "Id": 31
     }
   ],
   "TrackSections": [
@@ -93,9 +117,15 @@
     },
     {
       "StartId": 21,
-      "EndId": 18,
+      "EndId": 25,
       "Material": "materials/surf/track_default.vmat",
       "Id": 22
+    },
+    {
+      "StartId": 31,
+      "EndId": 18,
+      "Material": "materials/surf/track_default.vmat",
+      "Id": 26
     }
   ],
   "SpawnPlatforms": [
@@ -118,7 +148,7 @@
       "Id": 6
     },
     {
-      "Position": "6720,-3968,2368",
+      "Position": "6144,-2944,2112",
       "Angles": "0,-90,0",
       "Stage": 2,
       "Id": 16
