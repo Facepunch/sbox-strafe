@@ -1,23 +1,33 @@
 {
   "SupportBrackets": [
     {
-      "Position": "-2496,2368,2880",
-      "Angles": "45,-22.5,50"
+      "Position": "-3776,4992,2816",
+      "Angles": "45,0,50"
     },
     {
-      "Position": "2048,1664,2368",
-      "Angles": "0,0,-50",
-      "Id": 1
-    },
-    {
-      "Position": "-832,1984,2368",
+      "Position": "-896,4736,2368",
       "Angles": "0,0,50",
       "Id": 7
     },
     {
-      "Position": "768,1664,2368",
+      "Position": "1152,4352,2368",
       "Angles": "0,0,-55",
       "Id": 10
+    },
+    {
+      "Position": "3136,4352,2368",
+      "Angles": "0,0,-50",
+      "Id": 17
+    },
+    {
+      "Position": "6208,-2240,1792",
+      "Angles": "0,-90,-50",
+      "Id": 20
+    },
+    {
+      "Position": "6016,3840,3136",
+      "Angles": "45,-90,-50",
+      "Id": 23
     }
   ],
   "BracketAttachments": [
@@ -35,7 +45,7 @@
       "Id": 3
     },
     {
-      "BracketId": 1,
+      "BracketId": 17,
       "TangentScale": 0.5,
       "Min": -256,
       "Max": 256,
@@ -47,6 +57,20 @@
       "Min": -256,
       "Max": 256,
       "Id": 14
+    },
+    {
+      "BracketId": 20,
+      "TangentScale": 0.5,
+      "Min": -256,
+      "Max": 256,
+      "Id": 18
+    },
+    {
+      "BracketId": 23,
+      "TangentScale": 0.5,
+      "Min": -256,
+      "Max": 256,
+      "Id": 21
     }
   ],
   "TrackSections": [
@@ -61,18 +85,38 @@
       "EndId": 11,
       "Material": "materials/surf/track_default.vmat",
       "Id": 12
+    },
+    {
+      "StartId": 21,
+      "EndId": 18,
+      "Material": "materials/surf/track_default.vmat",
+      "Id": 22
     }
   ],
   "SpawnPlatforms": [
     {
-      "Position": "-3264,2048,3904",
+      "Position": "-4672,4992,3904",
+      "Stage": 1,
       "Id": 5
+    },
+    {
+      "Position": "6208,4672,3904",
+      "Yaw": -90,
+      "Stage": 2,
+      "Id": 15
     }
   ],
   "Checkpoints": [
     {
-      "Position": "3584,2048,2368",
+      "Position": "5120,4544,2368",
+      "Stage": 1,
       "Id": 6
+    },
+    {
+      "Position": "6720,-3968,2368",
+      "Angles": "0,-90,0",
+      "Stage": 2,
+      "Id": 16
     }
   ]
 }

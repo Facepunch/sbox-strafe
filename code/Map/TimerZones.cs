@@ -103,9 +103,12 @@ internal partial class StageEnd : BaseZone
 			{
 				pl.Stage( 0 ).Complete();
 			}
+			else if ( StrafeGame.Current.ProcSurfMap != null )
+			{
+				pl.Stage( Stage + 1 ).SetCurrent();
+			}
 		}
 	}
-
 }
 
 [Display( Name = "Checkpoint" )]

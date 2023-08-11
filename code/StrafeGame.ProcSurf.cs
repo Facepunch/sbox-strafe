@@ -37,20 +37,24 @@ partial class StrafeGame
 		{
 			var rotation = Rotation.FromYaw( platform.Yaw );
 
-			for ( var i = 0; i < 4; ++i )
-			for ( var j = 0; j < 4; ++j )
+			if ( platform.Stage == 1 )
 			{
-				_ = new SpawnPoint
+				for ( var i = 0; i < 4; ++i )
+				for ( var j = 0; j < 4; ++j )
 				{
-					Position = platform.Position + Vector3.Up * 64f + rotation.Right * (i - 1.5f) * 64f + rotation.Forward * (j - 1.5f) * 64f,
-					Rotation = rotation
-				};
+					_ = new SpawnPoint
+					{
+						Position = platform.Position + Vector3.Up * 64f + rotation.Right * (i - 1.5f) * 64f + rotation.Forward * (j - 1.5f) * 64f,
+						Rotation = rotation
+					};
+				}
 			}
 
 			var start = new StageStart
 			{
 				Position = platform.Position,
-				Rotation = rotation
+				Rotation = rotation,
+				Stage = platform.Stage
 			};
 
 			start.SetupPhysicsFromAABB( PhysicsMotionType.Static, new Vector3( -256f, -256f, 0f ),
@@ -59,11 +63,25 @@ partial class StrafeGame
 
 		foreach ( var checkpoint in ProcSurfMapAsset.Checkpoints )
 		{
-			var finish = new StageEnd { Position = checkpoint.Position, Rotation = Rotation.From( checkpoint.Angles ) };
+			var finish = new StageEnd
+			{
+				Position = checkpoint.Position,
+				Rotation = Rotation.From( checkpoint.Angles ),
+				Stage = checkpoint.Stage
+			};
 
 			finish.SetupPhysicsFromOBB( PhysicsMotionType.Static, new Vector3( -8f, -256f, -256f ),
 				new Vector3( 8f, 256f, 256f ) );
 		}
+
+		var respawn = new StrafeTriggerTeleportProgress
+		{
+			Position = Vector3.Zero,
+			SetViewAngles = true
+		};
+
+		respawn.SetupPhysicsFromAABB( PhysicsMotionType.Static, new Vector3( -16384f, -16384f, 0f ),
+			new Vector3( 16384f, 16384f, 512f ) );
 	}
 
 	[GameEvent.Tick.Server, GameEvent.Tick.Client]
@@ -73,8 +91,6 @@ partial class StrafeGame
 		{
 			return;
 		}
-
-		Log.Info( $"Tick!" );
 
 		if ( ProcSurfMap == null )
 		{
