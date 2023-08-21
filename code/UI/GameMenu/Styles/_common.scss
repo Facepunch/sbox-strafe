@@ -99,6 +99,16 @@
     flex-shrink: 0;
 }
 
+button, nav, dropdown, checkbox, MapEntry {
+    &:hover {
+        sound-in: button-hover;
+    }
+
+    &:active {
+        sound-in: button-click;
+    }
+}
+
 button {
     padding: 0px 20px;
     align-items: center;
