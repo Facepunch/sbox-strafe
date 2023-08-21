@@ -79,6 +79,10 @@ internal class MapInfo
 				result.Type = MapTypes.Bunnyhop;
 				result.Difficulty = MapDifficulties.Moderate;
 				break;
+			case "mostudio.bhop_heaven":
+				result.Type = MapTypes.Bunnyhop;
+				result.Difficulty = MapDifficulties.Intense;
+				break;
 			default:
 				result.Undefined = true;
 				result.Difficulty = 0;
