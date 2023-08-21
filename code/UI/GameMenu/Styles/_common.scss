@@ -99,7 +99,7 @@
     flex-shrink: 0;
 }
 
-button, nav, dropdown, checkbox, MapEntry {
+button, nav, dropdown, checkbox, MapEntry, ServerEntry {
     &:hover {
         sound-in: button-hover;
     }
