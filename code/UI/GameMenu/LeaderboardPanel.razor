@@ -3,7 +3,16 @@
 @attribute [StyleSheet]
 
 @if (Entries == null)
+{
+    <Spinner />
     return;
+}
+
+@if(Entries.Count == 0)
+{
+    <label text="Nobody has completed this map yet.  Be the first?" />
+    return;
+}
 
 <root class="columns">
     @foreach(var entry in Entries)
