@@ -1,0 +1,33 @@
+
+@inherits Panel
+@attribute [StyleSheet]
+
+@if (Entries == null)
+    return;
+
+<root class="columns">
+    @foreach(var entry in Entries)
+    {
+        <div class="entry @($"rank-{entry.Rank}")">
+            <div class="name-and-rank">
+                <label class="rank" text=@entry.Rank />
+                <label class="name" text=@entry.PlayerName />
+            </div>
+            <label class="time">@entry.Time.ToTime()</label>
+        </div>
+    }
+</root>
+
+@code {
+    public string Map { get; set; }
+
+    List<PersonalBestEntry> Entries;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrEmpty(Map))
+            return;
+
+        Entries = await Backend.FetchPersonalBests(Map, 0, 20, 0);
+    }
+}

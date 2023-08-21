@@ -1,0 +1,31 @@
+
+@import "../Styles/_vars.scss";
+
+LeaderboardPanel {
+    flex-direction: column;
+    gap: 4px;
+
+    .entry {
+        justify-content: space-between;
+
+        &.rank-1 {
+            font-size: 24px;
+        }
+
+        &.rank-2 {
+            font-size: 20px;
+        }
+
+        &.rank-3 {
+            font-size: 18px;
+        }
+
+        .name-and-rank {
+            gap: 4px;
+
+            .rank {
+                font-weight: heavy;
+            }
+        }
+    }
+}

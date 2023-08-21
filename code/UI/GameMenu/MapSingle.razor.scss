@@ -10,6 +10,7 @@
     aspect-ratio: 1;
     background-position: center;
     background-size: cover;
+    border-radius: $radius;
 }
 
 .map-info {
@@ -27,12 +28,9 @@
 }
 
 .info-row {
-    background-color: $bg-dark;
-    padding: 12px;
     margin-bottom: 8px;
-    border-radius: 4px;
+    padding: 4px;
     justify-content: space-between;
     font-size: 18px;
-    text-transform: uppercase;
     flex-shrink: 0;
 }

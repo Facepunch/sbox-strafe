@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div class="player-info columns">
+            <div class="player-info columns hidden">
                 <label class="heading">Your Stats</label>
                 <div class="info-row">
                     <label>Best Time</label>
@@ -82,7 +82,9 @@
 
     <div class="sidebar columns map-leaderboard">
         <label class="heading">Leaderboard</label>
-        Sidebar
+        <LeaderboardPanel Map="@Ident" />
+        <div class="grow"></div>
+        <label text="Play on a ranked server to participate in leaderboards." />
     </div>
 </root>
 
