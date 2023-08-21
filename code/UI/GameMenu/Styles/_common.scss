@@ -112,13 +112,15 @@ button {
     padding: 10px 20px;
     border-radius: 4px;
     background-color: $bg-dark;
+    flex-direction: row;
+    gap: 10px;
 
     &:hover:not(.disabled) {
         border-color: $lightaccent;
         background-color: rgba($lightaccent, .1);
     }
 
-    &.active, &:active {
+    &.active {
         background-color: $lightaccent;
         color: $bg-dark;
     }
@@ -133,12 +135,11 @@ button {
 
         &:hover {
             background-color: $lightaccent;
-            color: $bg-dark;
         }
     }
 
     &.disabled {
-        opacity: .5;
+        opacity: .35;
         cursor: default;
         pointer-events: none;
     }

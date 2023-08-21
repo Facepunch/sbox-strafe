@@ -8,43 +8,47 @@
 .server-list {
     flex-direction: column;
     overflow-y: scroll;
+    gap: 10px;
 }
 
 ServerEntry {
-    padding: 10px;
+    padding: 15px;
     flex-shrink: 0;
-    font-size: 16px;
-    border-bottom: 1px solid rgba($bg-dark, .35);
-    color: $foreground;
     cursor: pointer;
+    background-color: $bg-dark;
+    border-radius: $radius;
 
     &:hover {
         background-color: $bg-dark-hover;
     }
 
     &.active {
-        background-color: $bg-dark;
+        background-color: $bg-dark-active;
     }
 
     .title {
-        font-weight: heavy;
         font-size: 20px;
         margin-bottom: 4px;
     }
 
     .map {
         color: $foreground-faded;
+        align-items: center;
+    }
+
+    .name {
+        flex-direction: column;
     }
 
     .meta {
         flex-direction: row;
         gap: 8px;
+        align-items: center;
 
         .tag {
             padding: 4px 12px;
             background-color: rgba( $foreground-faded, .15 );
             border-radius: $radius;
-            align-self: flex-start;
             font-size: 15px;
 
             &.success {

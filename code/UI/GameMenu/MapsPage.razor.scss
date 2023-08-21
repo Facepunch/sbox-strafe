@@ -8,7 +8,6 @@ MapsPage {
         width: 100%;
         mask-image: linear-gradient( to bottom, white 0%, white 93%, grey 98%, black 100% );
         justify-content: center;
-        margin-top: 50px;
     }
 
     .form-row {
@@ -23,7 +22,6 @@ MapEntry {
     margin-bottom: 20px;
     cursor: pointer;
     flex-direction: column;
-    box-shadow: 2px 2px 2px rgba(black, 1);
 
     &:last-child {
         margin-bottom: 100px;
@@ -35,30 +33,45 @@ MapEntry {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
+        box-shadow: 4px 4px 8px rgba(black, .5);
+        border-radius: $radius;
+        flex-shrink: 0;
     }
 
     &:hover {
-        .info {
-            background-color: $lightaccent;
+        color: white;
+
+        .thumb {
+            filter: contrast(1.02);
         }
     }
 
     .info {
         padding: 8px;
         flex-grow: 1;
-        border-top: 1px solid rgba(black .8);
-        background-color: rgba(black .8);
         flex-direction: column;
-        align-items: center;
         text-shadow: 1px 1px 1px black;
+        position: absolute;
+        bottom: 0;
+        background-color: rgba(black, .75);
+        width: 100%;
 
         .title {
-            font-weight: heavy;
             margin-bottom: 4px;
+            color: white;
         }
 
-        .author {
-            color: $foreground-faded;
+        .author-bar {
+            align-items: center;
+            gap: 5px;
+        }
+
+        .author-icon {
+            width: 22px;
+            height: 22px;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            border-radius: 50%;
         }
     }
 }

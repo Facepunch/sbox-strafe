@@ -2,7 +2,7 @@
 @import "Styles/_vars.scss";
 
 .scroll-y {
-    mask-image: linear-gradient( to top, white 0%, white 93%, grey 98%, black 100% );
+    mask-image: linear-gradient( to bottom, white 0%, white 93%, grey 98%, black 100% );
 }
 
 .thumbnail {

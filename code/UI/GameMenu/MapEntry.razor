@@ -14,12 +14,20 @@
     <div class="thumb"></div>
     <div class="info">
         <label class="title" text=@Map.Title />
-        <label class="author" text=@Map.Org.Title />
+        <div class="author-bar">
+            @if(hasThumb)
+            {
+                <div class="author-icon" style="background-image: url(@Map.Org.Thumb)"></div>
+            }
+            <label class="author" text=@Map.Org.Title />
+        </div>
     </div>
 </root>
 
 @code {
     public Package Map { get; set; }
+
+    bool hasThumb => Map?.Org?.Thumb != null && !string.IsNullOrEmpty(Map.Org.Thumb);
 
 
     protected override void OnMouseDown(MousePanelEvent e)

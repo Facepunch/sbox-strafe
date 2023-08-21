@@ -2,14 +2,12 @@
 @inherits Panel
 
 <root>
-    <div class="columns name">
+    <div class="name">
         <label class="title" text=@Entry.Name />
-        <label class="map" text=@($"{Entry.Map}\n{mi.Type} {mi.Difficulty}") />
+        <label class="map" text=@($"{Entry.Map}") />
     </div>
     <div class="grow" />
     <div class="meta">
-        <label class="tag" text="@($"{Entry.Players} players")" />
-        <label class="tag" text="@($"{Entry.Ping}ms")" />
         @if (Ranked)
         {
             <label class="tag success" text="Ranked" />
@@ -18,6 +16,8 @@
         {
             <label class="tag warning" text="Outdated" />
         }
+        <label class="tag" text="@($"{Entry.Players} players")" />
+        <label class="tag" text="@($"{Entry.Ping}ms")" />
     </div>
 </root>
 

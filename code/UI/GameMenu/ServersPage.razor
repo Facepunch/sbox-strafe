@@ -17,9 +17,9 @@
     </div>
     <div class="body columns">
         <div class="server-header">
-            <button @ref="ConnectButton" onmousedown=@JoinSelected text="Connect" />
+            <button class="primary" @ref="ConnectButton" onmousedown=@JoinSelected text="Connect" />
             <div class="grow"></div>
-            <button onmousedown=@Refresh text="Refresh" />
+            <button class="primary" onmousedown=@Refresh text="Refresh" />
         </div>
         <div class="server-list">
             @if (List == null || List.Count == 0)

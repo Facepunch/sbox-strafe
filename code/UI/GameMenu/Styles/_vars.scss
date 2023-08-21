@@ -1,7 +1,9 @@
 ﻿
-$bg-dark: #0f212e;
-$bg-light: #1f3340;
-$bg-dark-hover: lighten($bg-light, 55%);
+$bg-dark: #39424a;
+$bg-dark-darker: darken( $bg-dark, 25% );
+$bg-light: #585b62;
+$bg-dark-hover: lighten($bg-dark, 45%);
+$bg-dark-active: lighten($bg-dark, 65%);
 
 $bg: #45515d;
 $lightbg: #454545;
@@ -10,15 +12,15 @@ $orange: #e9b437;
 $yellow: #f6f25a;
 $green: #37e956; 
 $red: #e93737;
-$lightaccent: #1d8fe1;
+$lightaccent: #17c7ab;
 $darkaccent: darken($lightaccent, 10%);
 $purple: #c741cc;
-$foreground: #e1e1e1;
-$foreground-faded: #aaaaaa;
+$foreground: #c8d0d6;
+$foreground-faded: #a3a3a3;
 
 $largeradius: 5px;
 $smallradius: 1px;
-$radius: 2px;
+$radius: 4px;
 $paddingsmall: 8px;
 $paddingmedium: 15px;
 

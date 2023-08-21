@@ -4,13 +4,13 @@
 <root>
     <div class="navbar">
         <div class="logo">Strafe</div>
-        <nav href="/menu/servers">Servers</nav>
-        <nav href="/menu/maps">Maps</nav>
+        <nav href="/menu/maps">Create Game</nav>
+        <nav href="/menu/servers">Find Game</nav>
         <nav href="/menu/ranks">Ranks</nav>
         <nav href="/menu/settings">Settings</nav>
         @if (Game.InGame)
         {
-            <button class="warning" onmousedown=@LeaveGame text="Disconnect" />
+            <button class="disconnect primary" onmousedown=@LeaveGame text="Disconnect" />
         }
     </div>
 
