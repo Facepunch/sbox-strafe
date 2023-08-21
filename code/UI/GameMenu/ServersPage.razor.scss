@@ -50,6 +50,10 @@ ServerEntry {
             &.success {
                 background-color: rgba( $green, .15 );
             }
+
+            &.warning {
+                background-color: rgba($yellow, .15);
+            }
         }
     }
 }

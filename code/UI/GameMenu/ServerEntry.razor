@@ -14,6 +14,10 @@
         {
             <label class="tag success" text="Ranked" />
         }
+        @if (outdated)
+        {
+            <label class="tag warning" text="Outdated" />
+        }
     </div>
 </root>
 
@@ -21,6 +25,7 @@
     public ServerList.Entry Entry { get; set; }
     public bool Ranked { get; set; }
 
+    bool outdated;
     TimeSince timeSinceMouseDown;
     MapInfo mi => MapInfo.Get(Entry.Map);
     static ServerEntry active;
@@ -43,6 +48,11 @@
     {
         await base.OnParametersSetAsync();
         Ranked = await Backend.Get<bool>($"server/is_whitelisted?steamid={Entry.SteamId}");
+
+        if(Game.Menu != null && Game.Menu.Package?.Revision != null)
+        {
+            outdated = Entry.GameVersion != Game.Menu.Package.Revision.VersionId;
+        }
     }
 
     void Join()
