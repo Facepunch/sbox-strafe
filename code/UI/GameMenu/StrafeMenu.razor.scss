@@ -12,6 +12,8 @@ StrafeMainMenu {
     font-size: 16px;
     background-image: url(ui/menu-background.jpg);
     background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: center center;
     background-tint: rgba($lightaccent .1);
 
     &.ingame {
