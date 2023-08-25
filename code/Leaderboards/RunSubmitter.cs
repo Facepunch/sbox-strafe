@@ -14,6 +14,37 @@ namespace Strafe.Leaderboards;
 internal class RunSubmitter : Entity
 {
 
+	//[GameEvent.Tick.Client]
+	//public void onTick()
+	//{
+	//	if ( Input.Pressed( InputButton.Jump ) )
+	//	{
+	//		TestResultMessage();
+	//	}
+	//}
+
+	//[ConCmd.Server]
+	//public static void TestResultMessage()
+	//{
+	//	var ent = Entity.All.OfType<RunSubmitter>().FirstOrDefault();
+	//	if ( !ent.IsValid() ) return;
+
+	//	var client = Game.Clients.FirstOrDefault();
+
+	//	var result = new CompletionSubmitResult()
+	//	{
+	//		Credits = 100,
+	//		Group = 1,
+	//		NewRank = 32,
+	//		OldRank = 64,
+	//		NewTime = 13.52f,
+	//		OldTime = 21.55f,
+	//		Points = 372
+	//	};
+
+	//	ent.PrintResult( client, 0, TimerStyles.Normal, default, default, result );
+	//}
+
 	public override void Spawn()
 	{
 		base.Spawn();
@@ -103,7 +134,7 @@ internal class RunSubmitter : Entity
 
 		if ( ( result?.Credits ?? 0 ) > 0 )
 		{
-			Chatbox.AddChatEntry( To.Single( client ), "Shop", $"You earned {result.Credits} \U0001fa99 for that run!", "store" );
+			//Chatbox.AddChatEntry( To.Single( client ), "Shop", $"You earned {result.Credits} \U0001fa99 for that run!", "store" );
 
 			if ( client.Pawn is StrafePlayer pl )
 			{
@@ -126,17 +157,21 @@ internal class RunSubmitter : Entity
 			completionMsg += " | WR " + diff.Time.ToTime( true );
 		}
 
+		completionMsg += " | Rank " + result.NewRank;
+
 		if ( result.NewRank == 1 )
 		{
 			Chatbox.AddChatEntry( To.Everyone, timerName, "**WORLD RECORD**", "important" );
 		}
-		else if ( result.NewRank <= 5 )
+		else if ( result.NewRank <= 10 )
 		{
-			Chatbox.AddChatEntry( To.Everyone, timerName, "Top 5", "important" );
+			Chatbox.AddChatEntry( To.Everyone, timerName, "Top 10", "important" );
 		}
 
+		var group = result.Group == 0 ? "Top 10" : "Group " + result.Group.ToString();
+
 		Chatbox.AddChatEntry( To.Everyone, timerName, completionMsg, "timer" );
-		Chatbox.AddChatEntry( To.Everyone, timerName, $"New rank: {result.NewRank}, Old rank: {result.OldRank}", "timer" );
+		Chatbox.AddChatEntry( To.Single( client ), timerName, $"{group} | +{result.Points} points", "timer" );
 	}
 
 	private bool CanSubmit()
