@@ -6,7 +6,7 @@ RanksPage {
     flex-grow: 1;
 
     .page-heading {
-        width: 550px;
+        width: 750px;
         align-self: center;
         background-color: darken( $bg-dark, 15% );
     }
@@ -15,7 +15,7 @@ RanksPage {
         overflow-y: scroll;
         flex-direction: column;
         gap: 10px;
-        width: 550px;
+        width: 750px;
         align-self: center;
     }
 
