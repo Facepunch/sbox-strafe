@@ -1,0 +1,56 @@
+
+@import "Styles/_vars.scss";
+
+RanksPage {
+    flex-direction: column;
+    flex-grow: 1;
+
+    .page-heading {
+        width: 550px;
+        align-self: center;
+        background-color: darken( $bg-dark, 15% );
+    }
+
+    .player-list {
+        overflow-y: scroll;
+        flex-direction: column;
+        gap: 10px;
+        width: 550px;
+        align-self: center;
+    }
+
+    .player-list-entry {
+        flex-shrink: 0;
+        padding: $paddingmedium;
+        border-radius: $radius;
+        text-shadow: 2px 2px 2px black;
+
+        &:hover {
+            background-color: $bg-dark-hover;
+        }
+
+        .rank {
+            min-width: 100px;
+            align-items: center;
+        }
+
+        .name {
+            min-width: 200px;
+            font-weight: heavy;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+
+            .avatar {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+        .points {
+            justify-content: flex-end;
+            flex-grow: 1;
+            align-items: center;
+        }
+    }
+}

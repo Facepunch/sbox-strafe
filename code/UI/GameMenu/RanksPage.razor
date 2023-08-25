@@ -1,0 +1,46 @@
+@using Sandbox.UI;
+@namespace Strafe.UI
+@inherits Panel
+@attribute [NavigatorTarget("/menu/ranks")]
+@attribute [StyleSheet]
+
+@if(Players == null)
+{
+    <Spinner />
+    return;
+}
+
+<div class="page">
+    <div class="page-heading">
+        <div class="title">Global top 50 players by points</div>
+        <div class="subtitle">Points are awarded for completing maps.  Better times give more points.</div>
+    </div>
+
+    <div class="player-list">
+        @{
+            int rank = 0;
+        }
+        @foreach(var player in Players)
+        {
+            <div class="player-list-entry">
+                <div class="rank">Rank @(++rank)</div>
+                <div class="name">
+                    <img class="avatar" src=@($"avatar:{@player.SteamId}") />
+                    <label text=@player.Name />
+                </div>
+                <div class="points">@player.Points points</div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    List<PlayerData> Players;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        Players = await Backend.FetchRankLeaderboard(50, 0);
+
+        StateHasChanged();
+    }
+}
