@@ -19,23 +19,23 @@ internal partial class TimerEntity : Entity
 		Complete
 	}
 
-	[Net, Predicted]
+	[Net]
 	public States State { get; set; }
-	[Net, Predicted]
+	[Net]
 	public int Stage { get; set; }
-	[Net, Predicted]
+	[Net]
 	public float Timer { get; set; }
-	[Net, Predicted]
+	[Net]
 	public bool Current { get; set; }
-	[Net, Predicted]
+	[Net]
 	public int Jumps { get; set; }
-	[Net, Predicted]
+	[Net]
 	public int Strafes { get; set; }
-	[Net, Predicted]
+	[Net]
 	public bool EnforceGroundState { get; set; }
-	[Net, Predicted]
+	[Net]
 	public int TotalSync { get; set; }
-	[Net, Predicted]
+	[Net]
 	public int GoodSync { get; set; }
 
 	public TimerFrame Snapshot { get; private set; }
