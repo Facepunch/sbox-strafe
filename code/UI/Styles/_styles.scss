@@ -129,6 +129,10 @@ HudTimer {
             width: 100%;
             justify-content: center;
 
+            label {
+                text-align: center;
+            }
+
             .diff {
                 position: absolute;
                 left: 100%;

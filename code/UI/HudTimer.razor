@@ -8,8 +8,7 @@
             <label class="diff" @ref="TimeDiff" />
         </div>
         <div class="row">
-            <label style="margin-right: 4px;" text=@Speed />
-            <label>u/s</label>
+            <label style="margin-right: 4px;" text=@($"{Speed} u/s") />
             <label class="diff" @ref="SpeedDiff" />
         </div>
         <div class="row">
@@ -21,10 +20,7 @@
             <label class="diff" @ref="StrafeDiff" />
         </div>
         <div class="row">
-            <label text=@TimerStyle />
-        </div>
-        <div class="row">
-            <label style="margin-top: 16px;" text=@Location />
+            <label text=@($"{TimerStyle}\n\n{Location}") />
         </div>
     </div>
 </root>
