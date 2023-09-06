@@ -8,7 +8,7 @@
   "HasAssets": true,
   "AssetsPath": "",
   "Resources": null,
-  "MenuResources": "/ui/gamemenu/*\n/ui/menu-background.jpg\n/fonts/*\n/sounds/button-click.sound\n/sounds/button-hover.sound\n/sounds/button-click.wav\n/sounds/button-hover.wav",
+  "MenuResources": "/ui/gamemenu/*\n/ui/menu-background.jpg\n/fonts/*\n/sounds/*",
   "HasCode": true,
   "CodePath": "/code/",
   "PackageReferences": [
